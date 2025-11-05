@@ -1,5 +1,7 @@
+import * as H from './HomePage.styles';
+
 const HomePage = () => {
-  return <>HomePage</>;
+  return <H.HomePage className="h1-bold">HomePage</H.HomePage>;
 };
 
 export default HomePage;

@@ -1,5 +1,7 @@
+import * as M from './MyPage.styles';
+
 const MyPage = () => {
-  return <>MyPage</>;
+  return <M.MyPage>MyPage</M.MyPage>;
 };
 
 export default MyPage;

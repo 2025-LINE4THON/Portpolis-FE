@@ -1,5 +1,7 @@
+import * as P from './PortfolioPage.styles';
+
 const PortfolioPage = () => {
-  return <>PortfolioPage</>;
+  return <P.PortfolioPage>PortfolioPage</P.PortfolioPage>;
 };
 
 export default PortfolioPage;
