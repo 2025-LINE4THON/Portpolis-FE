@@ -1,4 +1,5 @@
 import * as L from './LoginPage.styles';
+import Button from './components/Button/Button';
 import InputBox from './components/InputBox/InputBox';
 import PwdIcon from '@assets/onBoarding/icon-pwd-shown.svg';
 import { useState } from 'react';
@@ -18,6 +19,13 @@ const LoginPage = () => {
             <img src={PwdIcon} />
           </L.PwdBtn>
         }
+      />
+      <Button
+        text="로그인"
+        isFilled={true}
+        onClick={() => {
+          console.log('로그인');
+        }}
       />
     </L.LoginPage>
   );
