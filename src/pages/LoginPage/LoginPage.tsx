@@ -10,17 +10,27 @@ import { useNavigate } from 'react-router-dom';
 const LoginPage = () => {
   const navigate = useNavigate();
   const [showPwd, setShowPwd] = useState(true);
+  const [id, setId] = useState('');
+  const [pwd, setPwd] = useState('');
 
   return (
     <L.LoginPage>
       <L.LoginBox>
         <Header text="로그인" />
         <L.InputContainer>
-          <InputBox text="아이디" isPwd={false} placeholder="아이디를 입력해주세요." />
+          <InputBox
+            text="아이디"
+            isPwd={false}
+            value={id}
+            placeholder="아이디를 입력해주세요."
+            onChange={(e) => setId(e.target.value)}
+          />
           <InputBox
             text="비밀번호"
             isPwd={showPwd}
+            value={pwd}
             placeholder="비밀번호를 입력해주세요."
+            onChange={(e) => setPwd(e.target.value)}
             content={
               <L.PwdBtn onClick={() => setShowPwd(!showPwd)}>
                 <PwdIcon
@@ -35,10 +45,10 @@ const LoginPage = () => {
         <L.ButtonContainer>
           <Button
             text="로그인"
-            isFilled={true}
             onClick={() => {
               console.log('로그인');
             }}
+            disabled={!id || !pwd}
           />
           <L.Text>
             아직 계정이 없으신가요?
