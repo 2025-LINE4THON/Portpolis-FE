@@ -37,7 +37,7 @@ const LoginPage = () => {
           <L.Text>
             아직 계정이 없으신가요?
             <span
-              style={{ color: palette.primary.primary500, textDecoration: 'underline' }}
+              style={{ color: palette.primary.primary500, textDecoration: 'underline', cursor: 'pointer' }}
               onClick={() => {
                 console.log('회원가입');
               }}>

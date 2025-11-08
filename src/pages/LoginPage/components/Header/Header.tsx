@@ -11,7 +11,7 @@ const Hedaer = ({ text }: HeaderProps) => {
 
   return (
     <H.Header>
-      <img src={GoBack} style={{ width: '12px' }} onClick={() => navigate(-1)} />
+      <img src={GoBack} style={{ width: '12px', cursor: 'pointer' }} onClick={() => navigate(-1)} />
       <H.Text>{text}</H.Text>
       <div style={{ width: '12px' }}></div>
     </H.Header>
