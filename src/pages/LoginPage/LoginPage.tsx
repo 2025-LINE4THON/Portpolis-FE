@@ -5,8 +5,10 @@ import InputBox from './components/InputBox/InputBox';
 import PwdIcon from '@assets/onBoarding/icon-pwd-shown.svg';
 import palette from '@/styles/theme';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [showPwd, setShowPwd] = useState(true);
 
   return (
@@ -39,7 +41,7 @@ const LoginPage = () => {
             <span
               style={{ color: palette.primary.primary500, textDecoration: 'underline', cursor: 'pointer' }}
               onClick={() => {
-                console.log('회원가입');
+                navigate('/signup');
               }}>
               회원가입하기
             </span>
