@@ -1,5 +1,5 @@
 import * as L from './LoginPage.styles';
-import InputBox from './components/InputBox';
+import InputBox from './components/InputBox/InputBox';
 import PwdIcon from '@assets/onBoarding/icon-pwd-shown.svg';
 import { useState } from 'react';
 
