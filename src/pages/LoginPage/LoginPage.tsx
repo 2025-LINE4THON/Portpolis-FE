@@ -2,7 +2,7 @@ import * as L from './LoginPage.styles';
 import Header from './components/Header/Header';
 import Button from './components/Button/Button';
 import InputBox from './components/InputBox/InputBox';
-import PwdIcon from '@assets/onBoarding/icon-pwd-shown.svg';
+import PwdIcon from '@assets/onBoarding/icon-pwd-shown.svg?react';
 import palette from '@/styles/theme';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +23,11 @@ const LoginPage = () => {
             placeholder="비밀번호를 입력해주세요."
             content={
               <L.PwdBtn onClick={() => setShowPwd(!showPwd)}>
-                <img src={PwdIcon} />
+                <PwdIcon
+                  style={{
+                    color: showPwd ? palette.neutral.neutral950 : palette.neutral.neutral300,
+                  }}
+                />
               </L.PwdBtn>
             }
           />
