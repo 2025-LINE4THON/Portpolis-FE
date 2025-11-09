@@ -41,11 +41,26 @@ export const List = styled.ul`
 
 export const Menu = styled(NavLink)`
   padding: 0 10px;
+  border-radius: 11px;
+
+  transition: background-color 300ms ease-in-out;
+
+  :hover {
+    font-weight: 700;
+  }
 
   &.active {
     background-color: ${palette.primary.primary500};
-    border-radius: 11px;
     color: #fff;
+
+    :hover {
+      background-color: ${palette.primary.primary600};
+      font-weight: 700;
+    }
+
+    &:active {
+      background-color: ${palette.primary.primary700};
+    }
   }
 `;
 
