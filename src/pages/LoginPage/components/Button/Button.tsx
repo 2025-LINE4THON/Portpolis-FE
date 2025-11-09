@@ -6,7 +6,7 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-const InputBox = ({ text, onClick, disabled }: ButtonProps) => {
+const Button = ({ text, onClick, disabled }: ButtonProps) => {
   return (
     <B.Button type="submit" onClick={onClick} disabled={disabled}>
       {text}
@@ -14,4 +14,4 @@ const InputBox = ({ text, onClick, disabled }: ButtonProps) => {
   );
 };
 
-export default InputBox;
+export default Button;
