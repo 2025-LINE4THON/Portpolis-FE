@@ -2,32 +2,31 @@ import * as P from './PageBlock.styles';
 import edit from '@assets/mypage/icon-edit.svg';
 
 interface PageBlockProps {
-  text: string;
+  width: string;
+  text?: string;
   middleContent?: React.ReactNode;
-  editable: boolean;
   onClick?: () => void;
   content?: React.ReactNode;
 }
 
-const PageBlock = ({ text, middleContent, editable, onClick, content }: PageBlockProps) => {
+const PageBlock = ({ width, text, middleContent, onClick, content }: PageBlockProps) => {
   return (
-    <P.PageBlock>
-      <P.BlockHeader>
-        <div>
-          <P.Text>{text}</P.Text>
-          {middleContent}
-        </div>
-        {editable ? (
+    <P.PageBlock style={{ width }}>
+      {(text || middleContent || onClick) && (
+        <P.BlockHeader>
+          <P.BlockTitle>
+            <P.Text>{text}</P.Text>
+            {middleContent}
+          </P.BlockTitle>
+
           <button onClick={onClick}>
             <img src={edit} />
           </button>
-        ) : (
-          <></>
-        )}
-      </P.BlockHeader>
+        </P.BlockHeader>
+      )}
+
       {content}
     </P.PageBlock>
   );
 };
-
 export default PageBlock;
