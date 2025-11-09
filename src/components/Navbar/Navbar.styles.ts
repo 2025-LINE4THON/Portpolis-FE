@@ -3,6 +3,9 @@ import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
 
 export const Navbar = styled.nav`
+  position: fixed;
+  inset: 0;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
