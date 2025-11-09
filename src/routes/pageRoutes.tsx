@@ -36,7 +36,6 @@ export const routes: RouteObject[] = [
         path: 'portfolio/create',
         element: <lazyRoutes.PortfolioCreatePage />,
       },
-
       {
         path: 'portfolio/:id',
         element: <lazyRoutes.PortfolioPage />,
