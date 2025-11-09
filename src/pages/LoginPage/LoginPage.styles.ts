@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import palette from '@/styles/theme';
 
 export const LoginPage = styled.div`
+  height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,7 +18,7 @@ export const LoginBox = styled.div`
   box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
 
   width: 90%;
-  max-width: 560px;
+  max-width: 484px;
 `;
 
 export const InputContainer = styled.div`
