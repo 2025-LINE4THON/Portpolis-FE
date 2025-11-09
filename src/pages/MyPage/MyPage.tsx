@@ -1,6 +1,6 @@
 import * as M from './MyPage.styles';
-import PageBlock from './components/PageBlock/PageBlock';
-import ProjectItem from './components/ProjectItem/ProjectItem';
+import PageBlock from '@components/PageBlock/PageBlock';
+import ProjectItem from '@components/ProjectItem/ProjectItem';
 
 const MyPage = () => {
   return (
