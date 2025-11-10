@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 export const Navbar = styled.nav`
   position: fixed;
   inset: 0;
+  z-index: 10;
 
   display: flex;
   align-items: center;
@@ -19,7 +20,7 @@ export const Logo = styled.h1`
   width: 100%;
   padding: 0 48px;
 
-  color: #333;
+  color: ${palette.gray.grary333};
 
   font-size: 25.821px;
   font-weight: 600;
@@ -51,7 +52,7 @@ export const Menu = styled(NavLink)`
 
   &.active {
     background-color: ${palette.primary.primary500};
-    color: #fff;
+    color: ${palette.white};
 
     :hover {
       background-color: ${palette.primary.primary600};
