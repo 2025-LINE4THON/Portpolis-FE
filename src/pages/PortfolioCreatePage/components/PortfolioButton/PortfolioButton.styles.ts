@@ -1,8 +1,8 @@
 import palette from '@/styles/theme';
 import styled from '@emotion/styled';
 
-export const PortfolioButton = styled.button<{ $disabled: boolean | undefined }>`
-  max-width: 379px;
+export const PortfolioButton = styled.button<{ $disabled: boolean | undefined; $maxWidth: number | undefined }>`
+  max-width: ${({ $maxWidth }) => `${$maxWidth}px`};
   width: 100%;
   height: 60px;
 

@@ -54,7 +54,12 @@ const Template = ({ setLevel }: TemplateProps) => {
       </T.CardLayout>
 
       <T.ButtonWrapper>
-        <PortfolioButton text="다음 단계로" disabled={selected === null} onClick={() => setLevel('element')} />
+        <PortfolioButton
+          text="다음 단계로"
+          disabled={selected === null}
+          onClick={() => setLevel('element')}
+          maxWidth={379}
+        />
       </T.ButtonWrapper>
     </T.Template>
   );
