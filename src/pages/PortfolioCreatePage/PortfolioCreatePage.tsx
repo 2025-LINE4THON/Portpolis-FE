@@ -1,8 +1,8 @@
 import Template from './components/Template/Template';
 import * as P from './PortfolioCreatePage.styles';
 import Element from './components/Element/Element';
-import Publish from './components/Publish/Publish';
 import { usePortfolio } from '@/context/PortfolioContext';
+import Edit from './components/Edit/Edit';
 
 const PortfolioCreatePage = () => {
   const { level, setLevel } = usePortfolio();
@@ -18,7 +18,7 @@ const PortfolioCreatePage = () => {
         {level === 'element' && <Element setLevel={setLevel} />}
 
         {/* 소개 문구 수정 */}
-        {level === 'publish' && <Publish />}
+        {level === 'edit' && <Edit />}
       </P.PortfolioCreatePage>
     </>
   );

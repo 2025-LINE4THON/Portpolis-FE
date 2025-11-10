@@ -1,6 +1,5 @@
 import { type SetStateAction } from 'react';
 import * as E from './Element.styles';
-import type { PortfolioStep } from '../../PortfolioCreatePage';
 import StackList from '../StackList/StackList';
 import ElementCard from '../ElementCard/ElementCard';
 import CareerList from '../CareerList/CareerList';
@@ -8,7 +7,7 @@ import ProjectList from '../ProjectList/ProjectList';
 import PortfolioButton from '../PortfolioButton/PortfolioButton';
 import ArrowIcon from '@assets/PortfolioCreatePage/icon-arrow-right.svg?react';
 import ElementBox from '../ElementBox/ElementBox';
-import { usePortfolio } from '@/context/PortfolioContext';
+import { usePortfolio, type PortfolioStep } from '@/context/PortfolioContext';
 
 interface ElementProps {
   setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
@@ -33,7 +32,7 @@ const Element = ({ setLevel }: ElementProps) => {
               <ArrowIcon />
             </E.Button>
           }
-          onClick={() => setLevel('publish')}
+          onClick={() => setLevel('edit')}
           maxWidth={214}
           fontSize={14}
           disabled={selectedProjects.length === 0}
