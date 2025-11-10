@@ -39,7 +39,7 @@ export const TextBox = styled.div`
   gap: 10px;
 `;
 
-export const Title = styled.p`
+export const Title = styled.div`
   color: ${palette.neutral.neutral700};
   font-size: 14px;
   font-weight: 600;
