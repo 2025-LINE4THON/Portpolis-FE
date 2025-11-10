@@ -3,7 +3,10 @@ import styled from '@emotion/styled';
 
 export const MyPage = styled.div`
   overflow: hidden;
-  padding: 93px 144px 30px;
+  min-width: 930px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 63px 0 30px;
 
   display: flex;
   flex-direction: column;
@@ -12,6 +15,7 @@ export const MyPage = styled.div`
 
 export const Header = styled.div`
   margin-bottom: 7px;
+  padding: 0 144px;
 `;
 
 export const H3 = styled.div`
@@ -59,6 +63,7 @@ export const MyInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 28px;
+  padding: 0 144px;
 `;
 
 export const ProfileModal = styled.div`
@@ -89,4 +94,30 @@ export const Textarea = styled.textarea`
   ::placeholder {
     color: ${palette.neutral.neutral300};
   }
+`;
+
+export const LinkContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 35px;
+`;
+
+export const PortfolioList = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  padding: 0 60px;
+`;
+
+export const Portfolios = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 20px;
+  width: 100%;
+`;
+
+export const ArrowButton = styled.button`
+  opacity: ${(props) => (props.disabled ? 0.3 : 1)};
 `;
