@@ -22,6 +22,7 @@ const palette = {
     primary200: '#A2EDD7',
     primary100: '#D0F7EA',
     primary050: '#F1FCF8',
+    primaryMain: '#27B999',
   },
   danger: {
     default: '#EC221F',
@@ -35,6 +36,11 @@ const palette = {
     default: '#E8B931',
     hover: '#E5A000',
   },
+  gray: {
+    grary333: '#333',
+    gray777: '#777',
+  },
+  white: '#fff',
 };
 
 export default palette;
