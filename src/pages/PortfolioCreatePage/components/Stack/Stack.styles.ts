@@ -7,7 +7,6 @@ export const Stack = styled.div`
   justify-content: space-between;
   gap: 50px;
 
-  max-width: 274px;
   width: 100%;
 
   position: relative;

@@ -13,6 +13,7 @@ const Stack = ({ stack, level, selected, onToggle }: StackProps) => {
   return (
     <S.Stack>
       <S.Overlay $selected={selected} />
+
       <S.Box>
         <S.StackChip>{stack}</S.StackChip>
 

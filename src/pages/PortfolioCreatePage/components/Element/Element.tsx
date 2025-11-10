@@ -3,6 +3,7 @@ import * as E from './Element.styles';
 import type { PortfolioStep } from '../../PortfolioCreatePage';
 import StackList from '../StackList/StackList';
 import ElementCard from '../ElementCard/ElementCard';
+import CareerList from '../CareerList/CareerList';
 
 interface ElementProps {
   setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
@@ -11,8 +12,10 @@ interface ElementProps {
 const Element = ({ setLevel }: ElementProps) => {
   console.log(setLevel);
 
-  const [selectedStacks, setSelectedStacks] = useState<{ id: number; stack: string; level: number }[]>([]);
+  const [selectedStacks, setSelectedStacks] = useState<{ id: number; stack: string; level: number }[]>([]); // 내 기술 스택
+  const [selectedCareers, setSelectedCareers] = useState<{ id: number; date: string; career: string }[]>([]); // 내 경력
 
+  // 내 기술 스택 선택
   const toggleStack = (stackId: number, stack: string, level: number) => {
     setSelectedStacks((prev) => {
       const exists = prev.find((s) => s.id === stackId);
@@ -24,6 +27,19 @@ const Element = ({ setLevel }: ElementProps) => {
       if (prev.length >= 4) return prev;
 
       return [...prev, { id: stackId, stack, level }];
+    });
+  };
+
+  // 내 경력 선택
+  const toggleCareer = (careerId: number, date: string, career: string) => {
+    setSelectedCareers((prev) => {
+      const exists = prev.find((c) => c.id === careerId);
+
+      if (exists) {
+        return prev.filter((c) => c.id !== careerId);
+      }
+
+      return [...prev, { id: careerId, date, career }];
     });
   };
 
@@ -39,6 +55,15 @@ const Element = ({ setLevel }: ElementProps) => {
           <StackList
             selectedStacks={selectedStacks}
             toggleStack={(id, stack, level) => toggleStack(id, stack, level)}
+          />
+        }
+      />
+
+      <ElementCard
+        content={
+          <CareerList
+            selectedCareers={selectedCareers}
+            toggleCareer={(id, date, career) => toggleCareer(id, date, career)}
           />
         }
       />

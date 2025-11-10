@@ -7,7 +7,8 @@ export const ElementCard = styled.div`
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 
   max-width: 333px;
-  min-height: 454px;
+  max-height: 454px;
+  overflow-y: auto;
 
-  padding: 30px 23px;
+  padding: 40px 30px;
 `;
