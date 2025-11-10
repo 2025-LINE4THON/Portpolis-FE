@@ -4,6 +4,7 @@ import type { PortfolioStep } from '../../PortfolioCreatePage';
 import StackList from '../StackList/StackList';
 import ElementCard from '../ElementCard/ElementCard';
 import CareerList from '../CareerList/CareerList';
+import ProjectList from '../ProjectList/ProjectList';
 
 interface ElementProps {
   setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
@@ -14,6 +15,7 @@ const Element = ({ setLevel }: ElementProps) => {
 
   const [selectedStacks, setSelectedStacks] = useState<{ id: number; stack: string; level: number }[]>([]); // 내 기술 스택
   const [selectedCareers, setSelectedCareers] = useState<{ id: number; date: string; career: string }[]>([]); // 내 경력
+  const [selectedProjects, setSelectedProjects] = useState<{ id: number; date: string; project: string }[]>([]); // 내 프로젝트
 
   // 내 기술 스택 선택
   const toggleStack = (stackId: number, stack: string, level: number) => {
@@ -43,6 +45,21 @@ const Element = ({ setLevel }: ElementProps) => {
     });
   };
 
+  // 내 프로젝트 선택
+  const toggleProject = (projectId: number, date: string, project: string) => {
+    setSelectedProjects((prev) => {
+      const exists = prev.find((p) => p.id === projectId);
+
+      if (exists) {
+        return prev.filter((p) => p.id !== projectId);
+      }
+
+      if (prev.length >= 6) return prev;
+
+      return [...prev, { id: projectId, date, project }];
+    });
+  };
+
   return (
     <E.Element>
       <section>
@@ -64,6 +81,15 @@ const Element = ({ setLevel }: ElementProps) => {
           <CareerList
             selectedCareers={selectedCareers}
             toggleCareer={(id, date, career) => toggleCareer(id, date, career)}
+          />
+        }
+      />
+
+      <ElementCard
+        content={
+          <ProjectList
+            selectedProjects={selectedProjects}
+            toggleProject={(id, date, project) => toggleProject(id, date, project)}
           />
         }
       />
