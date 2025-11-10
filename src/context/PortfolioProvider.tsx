@@ -2,6 +2,8 @@ import { useState, type ReactNode } from 'react';
 import { PortfolioContext, type CareerItem, type ProjectItem, type StackItem } from './PortfolioContext';
 
 export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
+  const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null); // 템플릿 선택
+
   const [selectedStacks, setSelectedStacks] = useState<StackItem[]>([]); // 내 기술 스택
   const [selectedCareers, setSelectedCareers] = useState<CareerItem[]>([]); // 내 경력
   const [selectedProjects, setSelectedProjects] = useState<ProjectItem[]>([]); // 내 프로젝트
@@ -52,6 +54,8 @@ export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
   return (
     <PortfolioContext.Provider
       value={{
+        selectedTemplate,
+        setSelectedTemplate,
         selectedStacks,
         setSelectedStacks,
         setSelectedCareers,

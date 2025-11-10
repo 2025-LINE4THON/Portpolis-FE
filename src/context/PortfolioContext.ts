@@ -5,6 +5,9 @@ export type CareerItem = { id: number; date: string; career: string };
 export type ProjectItem = { id: number; date: string; project: string };
 
 interface IPortfolio {
+  selectedTemplate: number | null;
+  setSelectedTemplate: React.Dispatch<SetStateAction<number | null>>;
+
   selectedStacks: StackItem[];
   setSelectedStacks: React.Dispatch<SetStateAction<StackItem[]>>;
 

@@ -1,8 +1,9 @@
-import { useState, type SetStateAction } from 'react';
+import { type SetStateAction } from 'react';
 import PortfolioButton from '../PortfolioButton/PortfolioButton';
 import PortfolioCard from '../PortfolioCard/PortfolioCard';
 import * as T from './Template.styles';
 import type { PortfolioStep } from '../../PortfolioCreatePage';
+import { usePortfolio } from '@/context/PortfolioContext';
 
 interface TemplateProps {
   setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
@@ -32,7 +33,7 @@ const Template = ({ setLevel }: TemplateProps) => {
     },
   ];
 
-  const [selected, setSelected] = useState<number | null>(null);
+  const { selectedTemplate, setSelectedTemplate } = usePortfolio();
 
   return (
     <T.Template>
@@ -47,8 +48,8 @@ const Template = ({ setLevel }: TemplateProps) => {
             key={card.id}
             title={card.title}
             content={card.content}
-            selected={selected === card.id}
-            onClick={() => setSelected(card.id)}
+            selected={selectedTemplate === card.id}
+            onClick={() => setSelectedTemplate(card.id)}
           />
         ))}
       </T.CardLayout>
@@ -56,7 +57,7 @@ const Template = ({ setLevel }: TemplateProps) => {
       <T.ButtonWrapper>
         <PortfolioButton
           text="다음 단계로"
-          disabled={selected === null}
+          disabled={selectedTemplate === null}
           onClick={() => setLevel('element')}
           maxWidth={379}
           fontSize={20}
