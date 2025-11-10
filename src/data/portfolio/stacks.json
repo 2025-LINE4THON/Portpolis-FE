@@ -1,0 +1,9 @@
+[
+  { "id": 1, "stack": "JAVA", "level": 0 },
+  { "id": 2, "stack": "C", "level": 3 },
+  { "id": 3, "stack": "PHP", "level": 1 },
+  { "id": 4, "stack": "Android", "level": 3 },
+  { "id": 5, "stack": "Android", "level": 4 },
+  { "id": 6, "stack": "Android", "level": 5 },
+  { "id": 7, "stack": "Android", "level": 0 }
+]
