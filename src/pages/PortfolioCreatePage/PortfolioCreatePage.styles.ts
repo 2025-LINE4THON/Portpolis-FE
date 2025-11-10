@@ -4,6 +4,9 @@ import BackGround from '@assets/PortfolioCreatePage/background-ellipse.svg?react
 export const PortfolioCreatePage = styled.div`
   position: relative;
   z-index: 8;
+
+  display: flex;
+  justify-content: center;
 `;
 
 export const BackGroundIcon = styled(BackGround)`

@@ -6,17 +6,21 @@ export const Template = styled.div`
   flex-direction: column;
   gap: 80px;
 
-  padding: 0 81px;
-  margin-top: 143px;
+  padding: 0 20px;
+  margin-top: 63px;
 
   p {
     color: ${palette.gray.gray777};
   }
+
+  max-width: 1096px;
+  width: 100%;
 `;
 
 export const CardLayout = styled.div`
   display: flex;
   gap: 50px;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: nowrap;
 
