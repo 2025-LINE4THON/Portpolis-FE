@@ -16,7 +16,7 @@ export const ModalOverlay = styled.div`
 
 export const EditModal = styled.div`
   z-index: 2000;
-  width: 80%;
+  width: 70%;
   max-width: 969px;
   padding: 47px 34px;
   display: flex;

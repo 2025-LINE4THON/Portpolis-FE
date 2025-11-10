@@ -4,10 +4,12 @@ import ProjectItem from '@components/ProjectItem/ProjectItem';
 import EditModal from '@components/EditModal/EditModal';
 import palette from '@/styles/theme';
 import { useState } from 'react';
+import EditInputBox from '@/components/EditInputBox/EditInputBox';
 
 const MyPage = () => {
-  const [profileModal, setProfileModal] = useState(false);
-  const [linkModal, setLinkeModal] = useState(false);
+  const [profileModal, setProfileModal] = useState(true);
+  const [linkModal, setLinkModal] = useState(false);
+  const [name, setName] = useState('');
 
   return (
     <>
@@ -41,11 +43,11 @@ const MyPage = () => {
             }}
           />
           <PageBlock
-            width="271px"
+            width="320px"
             text="내 링크"
             content={<M.MyInfo></M.MyInfo>}
             onClick={() => {
-              setLinkeModal(true);
+              setLinkModal(true);
             }}
           />
         </M.MyInfoContainer>
@@ -82,6 +84,29 @@ const MyPage = () => {
           text="내 프로필 수정"
           onClickX={() => {
             setProfileModal(false);
+          }}
+          content={
+            <div>
+              <EditInputBox
+                title="이름"
+                value={name}
+                placeholder="이름"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+            </div>
+          }
+          onClickSave={() => {
+            console.log('저장');
+          }}
+        />
+      )}
+      {linkModal && (
+        <EditModal
+          text="내 링크 관리"
+          onClickX={() => {
+            setLinkModal(false);
           }}
           content={<div>dd</div>}
           onClickSave={() => {

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 export const MyPage = styled.div`
   overflow: hidden;
-  padding: 93px 148px 0 140px;
+  padding: 93px 144px 30px;
 
   display: flex;
   flex-direction: column;
