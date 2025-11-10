@@ -22,4 +22,6 @@ export const PortfolioButton = styled.button<{
   line-height: 175%;
 
   background-color: ${({ $disabled }) => ($disabled ? palette.neutral.neutral200 : palette.primary.primaryMain)};
+
+  transition: background-color 500ms ease-in-out;
 `;

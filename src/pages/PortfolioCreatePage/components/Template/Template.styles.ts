@@ -13,7 +13,7 @@ export const Template = styled.div`
     color: ${palette.gray.gray777};
   }
 
-  max-width: 1096px;
+  max-width: 1116px;
   width: 100%;
 `;
 
