@@ -3,9 +3,6 @@ import styled from '@emotion/styled';
 import Divider from '@assets/PortfolioCreatePage/icon-divider-neutral300.svg?react';
 
 export const EditIntroduce = styled.div`
-  position: relative;
-  top: 210px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
