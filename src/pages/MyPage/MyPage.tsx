@@ -10,6 +10,10 @@ const MyPage = () => {
   const [profileModal, setProfileModal] = useState(true);
   const [linkModal, setLinkModal] = useState(false);
   const [name, setName] = useState('');
+  const [job, setJob] = useState('');
+  const [phoneNum, setPhoneNum] = useState('');
+  const [email, setEmail] = useState('');
+  const [introduction, setIntroduction] = useState('');
 
   return (
     <>
@@ -86,16 +90,55 @@ const MyPage = () => {
             setProfileModal(false);
           }}
           content={
-            <div>
-              <EditInputBox
-                title="이름"
-                value={name}
-                placeholder="이름"
+            <M.ProfileModal>
+              <M.ProfileRowContainer>
+                <EditInputBox
+                  width="200px"
+                  title="이름"
+                  value={name}
+                  placeholder="이름"
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                />
+                <EditInputBox
+                  width="100%"
+                  title="직무 / 직군"
+                  value={job}
+                  placeholder="UXUI 디자이너"
+                  onChange={(e) => {
+                    setJob(e.target.value);
+                  }}
+                />
+              </M.ProfileRowContainer>
+              <M.ProfileRowContainer>
+                <EditInputBox
+                  width="100%"
+                  title="연락처"
+                  value={phoneNum}
+                  placeholder="010-1234-5678"
+                  onChange={(e) => {
+                    setPhoneNum(e.target.value);
+                  }}
+                />
+                <EditInputBox
+                  width="100%"
+                  title="이메일"
+                  value={email}
+                  placeholder="email@example.com"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+              </M.ProfileRowContainer>
+              <M.Textarea
+                value={introduction}
+                placeholder="사용자 중심의 디자인을 지향하며, 실용적이고 아름다운 인터페이스를 만드는 것을 좋아합니다."
                 onChange={(e) => {
-                  setName(e.target.value);
+                  setIntroduction(e.target.value);
                 }}
               />
-            </div>
+            </M.ProfileModal>
           }
           onClickSave={() => {
             console.log('저장');

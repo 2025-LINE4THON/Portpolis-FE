@@ -60,3 +60,33 @@ export const MyInfoContainer = styled.div`
   flex-direction: row;
   gap: 28px;
 `;
+
+export const ProfileModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const ProfileRowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+`;
+
+export const Textarea = styled.textarea`
+  margin-top: 22px;
+  resize: none;
+  padding: 32px 34px;
+  border-radius: 22px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+  border: none;
+  outline: none;
+
+  color: black;
+  font-size: 14px;
+  font-weight: 500;
+
+  ::placeholder {
+    color: ${palette.neutral.neutral300};
+  }
+`;
