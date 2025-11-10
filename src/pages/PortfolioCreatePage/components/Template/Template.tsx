@@ -59,6 +59,7 @@ const Template = ({ setLevel }: TemplateProps) => {
           disabled={selected === null}
           onClick={() => setLevel('element')}
           maxWidth={379}
+          fontSize={20}
         />
       </T.ButtonWrapper>
     </T.Template>

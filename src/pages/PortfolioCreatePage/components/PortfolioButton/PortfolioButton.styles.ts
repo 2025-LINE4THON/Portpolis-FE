@@ -1,10 +1,13 @@
 import palette from '@/styles/theme';
 import styled from '@emotion/styled';
 
-export const PortfolioButton = styled.button<{ $disabled: boolean | undefined; $maxWidth: number | undefined }>`
+export const PortfolioButton = styled.button<{
+  $disabled: boolean | undefined;
+  $maxWidth: number | undefined;
+  $fontSize: number | undefined;
+}>`
   max-width: ${({ $maxWidth }) => `${$maxWidth}px`};
   width: 100%;
-  height: 60px;
 
   border-radius: 11px;
   padding: 12px 0;
@@ -14,7 +17,7 @@ export const PortfolioButton = styled.button<{ $disabled: boolean | undefined; $
   align-items: center;
 
   color: ${palette.white};
-  font-size: 20px;
+  font-size: ${({ $fontSize }) => `${$fontSize}px`};
   font-weight: 700;
   line-height: 175%;
 
