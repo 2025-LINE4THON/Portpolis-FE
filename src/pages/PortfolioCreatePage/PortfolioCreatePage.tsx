@@ -1,12 +1,11 @@
-import { useState } from 'react';
 import Template from './components/Template/Template';
 import * as P from './PortfolioCreatePage.styles';
 import Element from './components/Element/Element';
-
-export type PortfolioStep = 'template' | 'element' | 'edit' | 'publish';
+import Publish from './components/Publish/Publish';
+import { usePortfolio } from '@/context/PortfolioContext';
 
 const PortfolioCreatePage = () => {
-  const [level, setLevel] = useState<PortfolioStep>('template');
+  const { level, setLevel } = usePortfolio();
 
   return (
     <>
@@ -17,6 +16,9 @@ const PortfolioCreatePage = () => {
 
         {/* 요소 선택 */}
         {level === 'element' && <Element setLevel={setLevel} />}
+
+        {/* 소개 문구 수정 */}
+        {level === 'publish' && <Publish />}
       </P.PortfolioCreatePage>
     </>
   );

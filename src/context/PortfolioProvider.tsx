@@ -1,7 +1,15 @@
 import { useState, type ReactNode } from 'react';
-import { PortfolioContext, type CareerItem, type ProjectItem, type StackItem } from './PortfolioContext';
+import {
+  PortfolioContext,
+  type CareerItem,
+  type PortfolioStep,
+  type ProjectItem,
+  type StackItem,
+} from './PortfolioContext';
 
 export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
+  const [level, setLevel] = useState<PortfolioStep>('template'); // 포트폴리오 생성 단계 설정
+
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null); // 템플릿 선택
 
   const [selectedStacks, setSelectedStacks] = useState<StackItem[]>([]); // 내 기술 스택
@@ -54,6 +62,8 @@ export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
   return (
     <PortfolioContext.Provider
       value={{
+        level,
+        setLevel,
         selectedTemplate,
         setSelectedTemplate,
         selectedStacks,

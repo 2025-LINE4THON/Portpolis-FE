@@ -1,10 +1,15 @@
 import { createContext, useContext, type SetStateAction } from 'react';
 
+export type PortfolioStep = 'template' | 'element' | 'edit' | 'publish';
+
 export type StackItem = { id: number; stack: string; level: number };
 export type CareerItem = { id: number; date: string; career: string };
 export type ProjectItem = { id: number; date: string; project: string };
 
 interface IPortfolio {
+  level: PortfolioStep;
+  setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
+
   selectedTemplate: number | null;
   setSelectedTemplate: React.Dispatch<SetStateAction<number | null>>;
 
