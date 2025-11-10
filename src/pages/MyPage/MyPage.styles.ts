@@ -107,7 +107,7 @@ export const PortfolioList = styled.div`
   display: flex;
   flex-direction: row;
   gap: 15px;
-  padding: 0 60px;
+  padding: 0 50px;
 `;
 
 export const Portfolios = styled.div`

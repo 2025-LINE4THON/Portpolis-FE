@@ -59,6 +59,7 @@ const MyPage = () => {
     const handleResize = () => {
       if (window.innerWidth < 1280) setVisibleCount(2);
       else setVisibleCount(3);
+      setCurrentIndex(0);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
