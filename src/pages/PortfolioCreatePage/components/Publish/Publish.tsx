@@ -3,10 +3,18 @@ import EditHeader from '../EditHeader/EditHeader';
 import * as P from './Publish.styles';
 import useImageUpload from '@/hooks/useImageUpload';
 import CommonPortfolioCard from '@/components/CommonPortfolioCard/CommonPortfolioCard';
+import { useState } from 'react';
+import CheckedIcon from '@assets/PortfolioCreatePage/icon-checked.svg?react';
+import NotCheckedIcon from '@assets/PortfolioCreatePage/icon-not-checked.svg?react';
+import PortfolioButton from '../PortfolioButton/PortfolioButton';
+import { useNavigate } from 'react-router-dom';
 
 const Publish = () => {
   const { setLevel } = usePortfolio();
   const { selectedImage, handleUpload } = useImageUpload();
+  const [title, setTitle] = useState('');
+  const [selected, setSelected] = useState<'all' | 'link' | 'secret' | null>(null);
+  const navigate = useNavigate();
 
   return (
     <P.Publish>
@@ -35,6 +43,64 @@ const Publish = () => {
           />
         </P.Thumbnail>
       </P.FlexBox>
+      <P.TitleBox>
+        <p>제목</p>
+        <input
+          placeholder="포트폴리오의 제목을 입력해주세요."
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </P.TitleBox>
+
+      <P.RangeBox>
+        <p className="b1">공개 범위</p>
+
+        <label htmlFor={'all'} onClick={() => setSelected('all')}>
+          <P.Item>
+            <div>
+              {selected === 'all' ? <CheckedIcon /> : <NotCheckedIcon />}
+              <P.Input type="checkbox" className="b1" id="all" checked={selected === 'all'} />
+              <p className="b1">전체 공개</p>
+            </div>
+
+            <p className="b1">누구나 볼 수 있습니다</p>
+          </P.Item>
+        </label>
+
+        <label htmlFor="link" onClick={() => setSelected('link')}>
+          <P.Item>
+            <div>
+              {selected === 'link' ? <CheckedIcon /> : <NotCheckedIcon />}
+              <P.Input type="checkbox" className="b1" id="link" checked={selected === 'link'} />
+              <p className="b1">링크 공개</p>
+            </div>
+
+            <p className="b1">링크를 가진 사람만 볼 수 있습니다</p>
+          </P.Item>
+        </label>
+
+        <label htmlFor="secret" onClick={() => setSelected('secret')}>
+          <P.Item>
+            <div>
+              {selected === 'secret' ? <CheckedIcon /> : <NotCheckedIcon />}
+              <P.Input type="checkbox" className="b1" id="secret" checked={selected === 'secret'} />
+              <p className="b1">비공개</p>
+            </div>
+
+            <p className="b1">나만 볼 수 있습니다</p>
+          </P.Item>
+        </label>
+      </P.RangeBox>
+
+      <P.ButtonWrapper>
+        <PortfolioButton
+          text="발행하기"
+          disabled={selected === null || title === ''}
+          onClick={() => navigate('/')}
+          maxWidth={379}
+          fontSize={20}
+        />
+      </P.ButtonWrapper>
     </P.Publish>
   );
 };
