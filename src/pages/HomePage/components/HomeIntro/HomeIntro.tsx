@@ -19,10 +19,12 @@ const HomeIntro = () => {
         </H.Title>
 
         <H.CardsIcon />
+        <H.EllipseIcon />
+
+        <H.ArrowIcon />
       </H.HomeIntro>
 
       <H.BGIcon />
-      <H.EllipseIcon />
     </>
   );
 };

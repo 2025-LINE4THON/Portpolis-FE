@@ -3,8 +3,10 @@ import styled from '@emotion/styled';
 import BG from '@assets/common/background-gradient-circle.svg?react';
 import Ellipse from '@assets/common/icon-gradient-ellipse.svg?react';
 import Cards from '@assets/HomePage/icon-cards.svg?react';
+import Arrow from '@assets/HomePage/icon-arrow-down.svg?react';
 
 import palette from '@/styles/theme';
+import { keyframes } from '@emotion/react';
 
 export const HomeIntro = styled.div`
   position: relative;
@@ -28,10 +30,21 @@ export const BGIcon = styled(BG)`
 export const EllipseIcon = styled(Ellipse)`
   position: absolute;
   bottom: 0;
-  z-index: 5;
+  z-index: -1;
 
   width: 100%;
   object-fit: contain;
+`;
+
+export const cardAnimation = keyframes`
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
 `;
 
 export const Title = styled.div`
@@ -67,6 +80,8 @@ export const Title = styled.div`
     font-weight: 500;
     line-height: 175%;
   }
+
+  animation: ${cardAnimation} 1000ms ease-in-out;
 `;
 
 export const CardsIcon = styled(Cards)`
@@ -74,4 +89,36 @@ export const CardsIcon = styled(Cards)`
   width: 100%;
   display: flex;
   justify-content: center;
+
+  position: relative;
+
+  animation: ${cardAnimation} 1000ms ease-in-out;
+`;
+
+const animation = keyframes`
+  0% {
+    opacity: 0;
+  }
+  30%{
+    transform: translateX(-50%) translateY(-20px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(-50%) translateY(0px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(20px);
+    opacity: 0;
+  }
+`;
+
+export const ArrowIcon = styled(Arrow)`
+  animation: ${animation} 1500ms ease-in-out infinite;
+
+  position: absolute;
+  z-index: -1;
+  bottom: 43px;
+  left: 50%;
+  transform: translateX(-50%);
 `;
