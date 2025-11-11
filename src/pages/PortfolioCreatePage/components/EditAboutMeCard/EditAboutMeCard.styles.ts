@@ -14,6 +14,9 @@ export const EditAboutMeCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
+
+  position: relative;
+  z-index: 4;
 `;
 
 export const Title = styled.p`

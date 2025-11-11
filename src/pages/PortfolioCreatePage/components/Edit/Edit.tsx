@@ -1,4 +1,5 @@
 import EditAboutMe from '../EditAboutMe/EditAboutMe';
+import EditCareer from '../EditCareer/EditCareer';
 import EditHeader from '../EditHeader/EditHeader';
 import EditImage from '../EditImage/EditImage';
 import EditIntroduce from '../EditIntroduce/EditIntroduce';
@@ -15,6 +16,9 @@ const Edit = () => {
 
       {/* Abount Me */}
       <EditAboutMe />
+
+      {/* 경력 */}
+      <EditCareer />
     </E.Publish>
   );
 };

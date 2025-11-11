@@ -32,6 +32,8 @@ const EditAboutMe = () => {
         {DATAS.map((data) => (
           <EditAboutMeCard key={data.id} title={data.title} content={data.content} />
         ))}
+
+        <E.DividerIcon />
       </E.CardWrapper>
     </E.EditAboutMe>
   );
