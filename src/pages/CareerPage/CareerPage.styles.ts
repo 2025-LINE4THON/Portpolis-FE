@@ -30,13 +30,30 @@ export const SecondHeader = styled.div`
   justify-content: space-between;
 `;
 
-export const AddButton = styled.div``;
+export const AddButton = styled.div`
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 175%;
 
-export const ModalContent = styled.div``;
+  border-radius: 11px;
+  background: ${palette.primary.primary500};
+
+  display: flex;
+  width: 105px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ModalContent = styled.div`
+  overflow: hidden;
+  max-width: 1280px;
+  padding: 5px;
+`;
 
 export const ModalHeader = styled.div`
   display: flex;
-  gap: calc(50% - 49px);
 `;
 
 export const InputContent = styled.div`
@@ -49,6 +66,7 @@ export const InputContent = styled.div`
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
+
   gap: 30px;
   margin-top: 12px;
 `;

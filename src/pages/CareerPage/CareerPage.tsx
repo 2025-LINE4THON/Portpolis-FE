@@ -61,29 +61,44 @@ const CareerPage = () => {
     },
   ];
 
-  interface Skill {
-    name: string;
-    level: string;
+  interface InputItem {
+    [key: string]: string;
+    field1: string;
+    field2: string;
+  }
+  interface extendedInputItem extends InputItem {
+    field3: string;
   }
 
-  const [skills, setSkills] = useState<Skill[]>([
-    { name: '', level: '' },
-    { name: '', level: '' },
-    { name: '', level: '' },
-    { name: '', level: '' },
-    { name: '', level: '' },
-  ]);
+  const [experiences, setExperiences] = useState<extendedInputItem[]>(
+    Array.from({ length: 5 }, () => ({ field1: '', field2: '', field3: '' })),
+  );
+  const [skills, setSkills] = useState<InputItem[]>(Array.from({ length: 5 }, () => ({ field1: '', field2: '' })));
+  const [qualifications, setQualifications] = useState<extendedInputItem[]>(
+    Array.from({ length: 5 }, () => ({ field1: '', field2: '', field3: '' })),
+  );
 
-  const handleChange = (index: number, field: keyof Skill, value: string) => {
-    const updated = [...skills];
-    updated[index][field] = value;
-    setSkills(updated);
+  const handleChange = <T extends Record<string, string>>(
+    index: number,
+    field: keyof T,
+    value: string,
+    list: T[],
+    setter: React.Dispatch<React.SetStateAction<T[]>>,
+  ) => {
+    const updated = [...list];
+    (updated[index][field] as unknown as string) = value;
+    setter(updated);
   };
 
-  const handleDelete = (index: number) => {
-    const updated = skills.filter((_, i) => i !== index);
-    updated.push({ name: '', level: '' });
-    setSkills(updated);
+  const handleDelete = <T extends Record<string, string>>(
+    index: number,
+    list: T[],
+    setter: React.Dispatch<React.SetStateAction<T[]>>,
+  ) => {
+    const updated = list.filter((_, i) => i !== index);
+    const emptyItem = Object.keys(list[0]).reduce((acc, key) => ({ ...acc, [key]: '' }), {}) as T;
+    updated.push(emptyItem);
+    setter(updated);
   };
 
   return (
@@ -152,32 +167,41 @@ const CareerPage = () => {
           }}
           content={
             <C.ModalContent>
-              <C.ModalHeader>
+              <C.ModalHeader style={{ gap: 'calc(30% - 20px)' }}>
                 <C.InputContent>
-                  기술 스택<span style={{ color: palette.danger.default }}>*</span>
+                  내용<span style={{ color: palette.danger.default }}>*</span>
                 </C.InputContent>
                 <C.InputContent>
-                  숙련 정도<span style={{ color: palette.danger.default }}>*</span>
+                  시작일<span style={{ color: palette.danger.default }}>*</span>
+                </C.InputContent>
+                <C.InputContent>
+                  종료일<span style={{ color: palette.danger.default }}>*</span>
                 </C.InputContent>
               </C.ModalHeader>
-
-              {skills.map((skill, index) => (
+              {experiences.map((exp, index) => (
                 <C.Row key={index}>
                   <EditInputBox
-                    width="50%"
-                    name="name"
-                    placeholder="이름을 입력해주세요."
-                    value={skill.name}
-                    onChange={(e) => handleChange(index, 'name', e.target.value)}
+                    width="30%"
+                    name="field1"
+                    placeholder="활동 내용을 입력해주세요."
+                    value={exp.field1}
+                    onChange={(e) => handleChange(index, 'field1', e.target.value, experiences, setExperiences)}
                   />
                   <EditInputBox
-                    width="40%"
-                    name="level"
-                    placeholder="0-100"
-                    value={skill.level}
-                    onChange={(e) => handleChange(index, 'level', e.target.value)}
+                    width="30%"
+                    name="field2"
+                    placeholder="YYYY-MM-DD"
+                    value={exp.field2}
+                    onChange={(e) => handleChange(index, 'field2', e.target.value, experiences, setExperiences)}
                   />
-                  <C.DeleteBtn onClick={() => handleDelete(index)}>
+                  <EditInputBox
+                    width="30%"
+                    name="field3"
+                    placeholder="YYYY-MM-DD"
+                    value={exp.field3}
+                    onChange={(e) => handleChange(index, 'field3', e.target.value, experiences, setExperiences)}
+                  />
+                  <C.DeleteBtn onClick={() => handleDelete(index, experiences, setExperiences)}>
                     <img src={trash} />
                   </C.DeleteBtn>
                 </C.Row>
@@ -197,7 +221,7 @@ const CareerPage = () => {
           }}
           content={
             <C.ModalContent>
-              <C.ModalHeader>
+              <C.ModalHeader style={{ gap: 'calc(50% - 49px)' }}>
                 <C.InputContent>
                   기술 스택<span style={{ color: palette.danger.default }}>*</span>
                 </C.InputContent>
@@ -209,20 +233,20 @@ const CareerPage = () => {
               {skills.map((skill, index) => (
                 <C.Row key={index}>
                   <EditInputBox
-                    width="50%"
-                    name="name"
-                    placeholder="이름을 입력해주세요."
-                    value={skill.name}
-                    onChange={(e) => handleChange(index, 'name', e.target.value)}
+                    width="45%"
+                    name="field1"
+                    placeholder="기술명을 입력해주세요."
+                    value={skill.field1}
+                    onChange={(e) => handleChange(index, 'field1', e.target.value, skills, setSkills)}
                   />
                   <EditInputBox
                     width="40%"
-                    name="level"
-                    placeholder="0-100"
-                    value={skill.level}
-                    onChange={(e) => handleChange(index, 'level', e.target.value)}
+                    name="field2"
+                    placeholder="0~100"
+                    value={skill.field2}
+                    onChange={(e) => handleChange(index, 'field2', e.target.value, skills, setSkills)}
                   />
-                  <C.DeleteBtn onClick={() => handleDelete(index)}>
+                  <C.DeleteBtn onClick={() => handleDelete(index, skills, setSkills)}>
                     <img src={trash} />
                   </C.DeleteBtn>
                 </C.Row>
@@ -240,7 +264,49 @@ const CareerPage = () => {
           onClickX={() => {
             setQualificationsModal(false);
           }}
-          content={<></>}
+          content={
+            <C.ModalContent>
+              <C.ModalHeader style={{ gap: 'calc(30% - 40px)' }}>
+                <C.InputContent>
+                  자격증명<span style={{ color: palette.danger.default }}>*</span>
+                </C.InputContent>
+                <C.InputContent>
+                  취득일<span style={{ color: palette.danger.default }}>*</span>
+                </C.InputContent>
+                <C.InputContent style={{ marginLeft: '5px' }}>
+                  종료일<span style={{ color: palette.danger.default }}>*</span>
+                </C.InputContent>
+              </C.ModalHeader>
+              {qualifications.map((cert, index) => (
+                <C.Row key={index}>
+                  <EditInputBox
+                    width="30%"
+                    name="field1"
+                    placeholder="자격증명을 입력해주세요."
+                    value={cert.field1}
+                    onChange={(e) => handleChange(index, 'field1', e.target.value, qualifications, setQualifications)}
+                  />
+                  <EditInputBox
+                    width="30%"
+                    name="field2"
+                    placeholder="YYYY-MM-DD"
+                    value={cert.field2}
+                    onChange={(e) => handleChange(index, 'field2', e.target.value, qualifications, setQualifications)}
+                  />
+                  <EditInputBox
+                    width="30%"
+                    name="field3"
+                    placeholder="YYYY-MM-DD"
+                    value={cert.field3}
+                    onChange={(e) => handleChange(index, 'field3', e.target.value, qualifications, setQualifications)}
+                  />
+                  <C.DeleteBtn onClick={() => handleDelete(index, qualifications, setQualifications)}>
+                    <img src={trash} />
+                  </C.DeleteBtn>
+                </C.Row>
+              ))}
+            </C.ModalContent>
+          }
           onClickSave={() => {
             console.log('저장');
           }}
