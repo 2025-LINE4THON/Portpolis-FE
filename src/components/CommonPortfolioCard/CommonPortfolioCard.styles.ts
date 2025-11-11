@@ -8,7 +8,8 @@ export const CommonPortfolioCard = styled.div`
   border-radius: 18px;
   overflow: hidden;
 
-  width: 100%;
+  width: 441px;
+  height: 291px;
   flex: 1;
 `;
 
@@ -32,6 +33,14 @@ export const Card = styled.div`
     inset: 0;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #000 100%);
   }
+
+  &:hover::after {
+    background: linear-gradient(180deg, rgba(162, 237, 215, 0.2) 0%, ${palette.primary.primary700} 100%);
+  }
+
+  transition: background-color 500ms ease-in-out;
+
+  cursor: pointer;
 `;
 
 export const Title = styled.p`
