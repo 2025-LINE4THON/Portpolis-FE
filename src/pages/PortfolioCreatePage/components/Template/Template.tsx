@@ -2,8 +2,7 @@ import { type SetStateAction } from 'react';
 import PortfolioButton from '../PortfolioButton/PortfolioButton';
 import PortfolioCard from '../PortfolioCard/PortfolioCard';
 import * as T from './Template.styles';
-import type { PortfolioStep } from '../../PortfolioCreatePage';
-import { usePortfolio } from '@/context/PortfolioContext';
+import { usePortfolio, type PortfolioStep } from '@/context/PortfolioContext';
 
 interface TemplateProps {
   setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
