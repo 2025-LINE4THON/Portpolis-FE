@@ -2,7 +2,7 @@ import { createContext, useContext, type SetStateAction } from 'react';
 
 export type PortfolioStep = 'template' | 'element' | 'edit' | 'publish';
 
-export type StackItem = { id: number; stack: string; level: number };
+export type StackItem = { id: number; stack: string; level: number; percent: number };
 export type CareerItem = { id: number; date: string; career: string };
 export type ProjectItem = { id: number; date: string; project: string };
 

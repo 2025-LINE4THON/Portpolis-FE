@@ -3,6 +3,7 @@ import EditCareer from '../EditCareer/EditCareer';
 import EditHeader from '../EditHeader/EditHeader';
 import EditImage from '../EditImage/EditImage';
 import EditIntroduce from '../EditIntroduce/EditIntroduce';
+import EditStack from '../EditStack/EditStack';
 import * as E from './Edit.styles';
 
 const Edit = () => {
@@ -19,6 +20,9 @@ const Edit = () => {
 
       {/* 경력 */}
       <EditCareer />
+
+      {/* 기술 스택 & 자격증 */}
+      <EditStack />
     </E.Publish>
   );
 };
