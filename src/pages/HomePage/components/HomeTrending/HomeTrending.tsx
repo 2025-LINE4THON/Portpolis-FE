@@ -74,7 +74,7 @@ const HomeTrending = () => {
             지금 가장 <span>주목받는</span> 포트폴리오
           </h1>
 
-          <h3>Portpolis를 통해 제작한 포트폴리오~~...</h3>
+          <h3>Portpolis로 완성된 작품들을 만나보세요.</h3>
         </H.Text>
 
         <H.SliderDiv>

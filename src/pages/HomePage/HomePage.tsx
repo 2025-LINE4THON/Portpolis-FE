@@ -6,7 +6,7 @@ import * as H from './HomePage.styles';
 const HomePage = () => {
   return (
     <H.HomePage>
-      {/* 당신만의 포트폴리오~ 부분 */}
+      {/* 나만의 포트폴리오 부분 */}
       <HomeIntro />
 
       {/* 지금 가장 주목받는 포트폴리오 */}
