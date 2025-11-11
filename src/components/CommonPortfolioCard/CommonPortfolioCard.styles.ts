@@ -8,7 +8,8 @@ export const CommonPortfolioCard = styled.div`
   border-radius: 18px;
   overflow: hidden;
 
-  width: 100%;
+  width: 441px;
+  height: 291px;
   flex: 1;
 `;
 

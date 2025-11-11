@@ -28,10 +28,10 @@ export const BGIcon = styled(BG)`
 export const EllipseIcon = styled(Ellipse)`
   position: absolute;
   bottom: 0;
-  z-index: 4;
+  z-index: 5;
 
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 export const Title = styled.div`
