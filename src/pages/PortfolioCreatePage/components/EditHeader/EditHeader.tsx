@@ -1,11 +1,17 @@
+import type { SetStateAction } from 'react';
 import * as E from './EditHeader.styles';
 import ArrowIcon from '@assets/PortfolioCreatePage/icon-arrow-left.svg?react';
 
-const EditHeader = () => {
+interface EditHeaderProps {
+  text: string;
+  setShowModal: React.Dispatch<SetStateAction<boolean>>;
+}
+
+const EditHeader = ({ text, setShowModal }: EditHeaderProps) => {
   return (
     <E.PublishHeader>
-      <ArrowIcon />
-      <h2 className="h3">포트폴리오 생성</h2>
+      <ArrowIcon onClick={() => setShowModal((prev) => !prev)} />
+      <h2 className="h3">{text}</h2>
     </E.PublishHeader>
   );
 };
