@@ -58,6 +58,7 @@ const ActivityCreatePage = () => {
         <A.RowContainer>
           <ActivityInputBox width="60%" text="활동명" isRequired={true} placeholder="프로젝트 이름을 입력하세요" />
           <ActivityInputBox width="30%" text="프로젝트 기간" isRequired={true} content={<></>} />
+          <ActivityInputBox width="10%" isRequired={false} content={<></>} />
         </A.RowContainer>
       </A.BasicInfo>
     </A.ActivityCreatePage>

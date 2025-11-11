@@ -5,6 +5,8 @@ export const ActivityInputBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+  height: 111px;
+  justify-content: end;
 `;
 
 export const Text = styled.div`
@@ -31,5 +33,5 @@ export const Content = styled.div`
   padding: 21px 30px;
   border-radius: 22px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-  height: 70px;
+  height: 71.75px;
 `;
