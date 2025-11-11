@@ -5,6 +5,7 @@ import trash from '@assets/activity/icon-trash.svg';
 import save from '@assets/activity/icon-edit-save.svg';
 import palette from '@/styles/theme';
 import { useState, useRef } from 'react';
+import ActivityInputBox from './components/ActivityInputBox/ActivityInputBox';
 
 const ActivityCreatePage = () => {
   const [file, setFile] = useState<string | null>(null);
@@ -53,7 +54,12 @@ const ActivityCreatePage = () => {
         </A.FileHandleBtns>
       </A.Header>
 
-      <A.Body></A.Body>
+      <A.BasicInfo>
+        <A.RowContainer>
+          <ActivityInputBox width="60%" text="활동명" isRequired={true} placeholder="프로젝트 이름을 입력하세요" />
+          <ActivityInputBox width="30%" text="프로젝트 기간" isRequired={true} content={<></>} />
+        </A.RowContainer>
+      </A.BasicInfo>
     </A.ActivityCreatePage>
   );
 };

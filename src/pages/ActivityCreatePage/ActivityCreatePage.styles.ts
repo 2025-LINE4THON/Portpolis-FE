@@ -1,12 +1,11 @@
 import styled from '@emotion/styled';
 import palette from '@/styles/theme';
 
-export const ActivityCreatePage = styled.div`
-  position: relative;
-  bottom: 100px;
-`;
+export const ActivityCreatePage = styled.div``;
 
 export const Header = styled.div<{ bgimg: string | null }>`
+  position: relative;
+  bottom: 100px;
   display: flex;
   flex-direction: column;
   padding: 24px;
@@ -30,6 +29,11 @@ export const Nav = styled.div`
   align-items: center;
   gap: 18px;
   margin-top: 20px;
+
+  overflow: hidden;
+  min-width: 1100px;
+  max-width: 1280px;
+  margin: 10px auto;
 `;
 
 export const GoBack = styled.img`
@@ -60,6 +64,11 @@ export const FileHandleBtns = styled.div`
   display: flex;
   justify-content: end;
   gap: 10px;
+
+  overflow: visible;
+  min-width: 1100px;
+  max-width: 1280px;
+  margin: 10px auto;
 `;
 
 export const Btn = styled.button`
@@ -72,4 +81,20 @@ export const Btn = styled.button`
   align-items: center;
 `;
 
-export const Body = styled.div``;
+export const BasicInfo = styled.div`
+  padding: 20px 76px 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+
+  overflow: hidden;
+  min-width: 930px;
+  max-width: 1280px;
+  margin: 0 auto;
+`;
+
+export const RowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+`;
