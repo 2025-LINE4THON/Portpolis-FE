@@ -25,8 +25,8 @@ const EditStackCard = () => {
 
             <E.BarWrapper>
               <E.Bar>
-                <E.PercentBar $percent={stack.percent}>
-                  <E.Circle $percent={stack.percent}></E.Circle>
+                <E.PercentBar $percent={stack.percent || 0}>
+                  <E.Circle $percent={stack.percent || 0}></E.Circle>
                 </E.PercentBar>
               </E.Bar>
 
