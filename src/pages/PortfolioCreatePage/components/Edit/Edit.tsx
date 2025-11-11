@@ -1,5 +1,6 @@
 import EditAboutMe from '../EditAboutMe/EditAboutMe';
 import EditCareer from '../EditCareer/EditCareer';
+import EditContact from '../EditContact/EditContact';
 import EditImage from '../EditImage/EditImage';
 import EditIntroduce from '../EditIntroduce/EditIntroduce';
 import EditProject from '../EditProject/EditProject';
@@ -25,6 +26,9 @@ const Edit = () => {
 
       {/* 프로젝트 */}
       {<EditProject />}
+
+      {/* 전화번호 & 이메일 */}
+      <EditContact />
     </E.Edit>
   );
 };
