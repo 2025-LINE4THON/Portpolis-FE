@@ -1,7 +1,9 @@
+import palette from '@/styles/theme';
 import styled from '@emotion/styled';
 
 export const PublishHeader = styled.div`
   display: flex;
+
   gap: 18px;
   align-items: center;
 
@@ -13,5 +15,9 @@ export const PublishHeader = styled.div`
     cursor: pointer;
     width: 25px;
     height: 25px;
+  }
+
+  p {
+    color: ${palette.gray.gray777};
   }
 `;
