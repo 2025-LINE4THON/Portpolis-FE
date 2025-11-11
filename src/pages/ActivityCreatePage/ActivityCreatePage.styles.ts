@@ -30,8 +30,8 @@ export const Nav = styled.div`
   gap: 18px;
   margin-top: 20px;
 
-  overflow: hidden;
-  min-width: 1100px;
+  min-width: 597px;
+  width: 80%;
   max-width: 1280px;
   margin: 10px auto;
 `;
@@ -66,8 +66,8 @@ export const FileHandleBtns = styled.div`
   gap: 10px;
 
   overflow: visible;
-  min-width: 1100px;
-  max-width: 1280px;
+  min-width: 597px;
+  width: 80%;
   margin: 10px auto;
 `;
 
@@ -94,7 +94,27 @@ export const BasicInfo = styled.div`
 `;
 
 export const RowContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
+  gap: 20px;
+`;
+
+export const ExtraInfo = styled.div`
+  padding: 20px 76px 52px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  overflow: hidden;
+  min-width: 930px;
+  max-width: 1280px;
+  margin: 0 auto;
+`;
+
+export const InfomationBlocks = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 `;
