@@ -77,11 +77,13 @@ const HomeTrending = () => {
           <h3>Portpolis를 통해 제작한 포트폴리오~~...</h3>
         </H.Text>
 
-        <E.StyledSlider {...settings} prevArrow={<PrevArrow />} nextArrow={<NextArrow />}>
-          {SLIDES.map((slide) => (
-            <CommonPortfolioCard key={slide.id} img={slide.img} title={slide.text} name={slide.name} />
-          ))}
-        </E.StyledSlider>
+        <H.SliderDiv>
+          <E.StyledSlider {...settings} prevArrow={<PrevArrow />} nextArrow={<NextArrow />}>
+            {SLIDES.map((slide) => (
+              <CommonPortfolioCard key={slide.id} img={slide.img} title={slide.text} name={slide.name} />
+            ))}
+          </E.StyledSlider>
+        </H.SliderDiv>
 
         <H.EllipseIcon />
       </H.HomeTrending>

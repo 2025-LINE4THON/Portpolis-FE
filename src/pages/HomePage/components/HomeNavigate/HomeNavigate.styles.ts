@@ -1,37 +1,26 @@
 import palette from '@/styles/theme';
 import styled from '@emotion/styled';
-import Ellipse from '@assets/common/icon-gradient-ellipse-bottom.svg?react';
+import Background from '@assets/common/background-gradient-circle.svg?react';
 
-export const HomeTrending = styled.div`
+export const HomeNavigate = styled.div`
   position: relative;
   z-index: 11;
   background-color: ${palette.white};
   height: 100dvh;
 
-  width: 100%;
+  overflow: hidden;
+
+  padding: 0 20px;
 
   display: flex;
   flex-direction: column;
 `;
 
-export const EllipseIcon = styled(Ellipse)`
-  position: absolute;
-  top: 0;
-  z-index: -1;
-
-  width: 100%;
-  object-fit: contain;
-`;
-
-export const Text = styled.div`
+export const Title = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
-  padding-top: 110px;
-
-  text-align: center;
+  margin-top: 98px;
   font-style: normal;
 
   h1 {
@@ -57,10 +46,17 @@ export const Text = styled.div`
   }
 `;
 
-export const SliderDiv = styled.div`
+export const CardWrapper = styled.div`
   flex: 1;
-
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 122px;
+  flex-wrap: wrap;
+`;
+
+export const BackgroundIcon = styled(Background)`
+  position: absolute;
+  inset: 0;
+  z-index: -1;
 `;

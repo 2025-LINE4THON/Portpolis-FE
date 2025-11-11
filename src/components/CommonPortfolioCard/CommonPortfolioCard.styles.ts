@@ -33,6 +33,14 @@ export const Card = styled.div`
     inset: 0;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #000 100%);
   }
+
+  &:hover::after {
+    background: linear-gradient(180deg, rgba(162, 237, 215, 0.2) 0%, ${palette.primary.primary700} 100%);
+  }
+
+  transition: background-color 500ms ease-in-out;
+
+  cursor: pointer;
 `;
 
 export const Title = styled.p`
