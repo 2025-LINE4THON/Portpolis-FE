@@ -1,9 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as N from './Navbar.styles';
+import { usePortfolio } from '@/context/PortfolioContext';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { level } = usePortfolio();
 
   const LINKS = [
     { id: 1, label: '내 커리어', to: '/career' },
@@ -16,7 +18,8 @@ const Navbar = () => {
     pathname === '/login' ||
     pathname === '/signup' ||
     pathname.startsWith('/activity') ||
-    (pathname.startsWith(`/portfolio`) && pathname !== '/portfolio/create')
+    (pathname.startsWith(`/portfolio`) && pathname !== '/portfolio/create') ||
+    level === 'edit'
   )
     return null;
 

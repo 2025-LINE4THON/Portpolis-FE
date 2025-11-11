@@ -38,7 +38,9 @@ const palette = {
   },
   gray: {
     grary333: '#333',
+    gray555: '#555',
     gray777: '#777',
+    gray999: '#999',
   },
   white: '#fff',
 };

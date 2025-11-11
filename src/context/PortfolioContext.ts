@@ -1,0 +1,40 @@
+import { createContext, useContext, type SetStateAction } from 'react';
+
+export type PortfolioStep = 'template' | 'element' | 'edit' | 'publish';
+
+export type StackItem = { id: number; stack: string; level: number; percent?: number };
+export type CareerItem = { id: number; date: string; career: string };
+export type ProjectItem = { id: number; date: string; project: string };
+
+interface IPortfolio {
+  level: PortfolioStep;
+  setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
+
+  selectedTemplate: number | null;
+  setSelectedTemplate: React.Dispatch<SetStateAction<number | null>>;
+
+  selectedStacks: StackItem[];
+  setSelectedStacks: React.Dispatch<SetStateAction<StackItem[]>>;
+
+  selectedCareers: CareerItem[];
+  setSelectedCareers: React.Dispatch<SetStateAction<CareerItem[]>>;
+
+  selectedProjects: ProjectItem[];
+  setSelectedProjects: React.Dispatch<SetStateAction<ProjectItem[]>>;
+
+  toggleStack: (item: StackItem) => void;
+  toggleCareer: (item: CareerItem) => void;
+  toggleProject: (item: ProjectItem) => void;
+}
+
+export const PortfolioContext = createContext<IPortfolio | undefined>(undefined);
+
+export const usePortfolio = () => {
+  const context = useContext(PortfolioContext);
+
+  if (!context) {
+    throw new Error('PortfolioContext를 찾을 수 없음');
+  }
+
+  return context;
+};
