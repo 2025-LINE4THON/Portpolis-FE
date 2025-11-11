@@ -1,6 +1,5 @@
 import EditAboutMe from '../EditAboutMe/EditAboutMe';
 import EditCareer from '../EditCareer/EditCareer';
-import EditHeader from '../EditHeader/EditHeader';
 import EditImage from '../EditImage/EditImage';
 import EditIntroduce from '../EditIntroduce/EditIntroduce';
 import EditProject from '../EditProject/EditProject';
@@ -9,8 +8,7 @@ import * as E from './Edit.styles';
 
 const Edit = () => {
   return (
-    <E.Publish>
-      <EditHeader />
+    <E.Edit>
       <EditImage />
 
       {/* 소개말 */}
@@ -27,7 +25,7 @@ const Edit = () => {
 
       {/* 프로젝트 */}
       {<EditProject />}
-    </E.Publish>
+    </E.Edit>
   );
 };
 

@@ -2,14 +2,12 @@ import palette from '@/styles/theme';
 import styled from '@emotion/styled';
 
 export const PublishImage = styled.div`
-  position: fixed;
-  top: 0;
-  z-index: 5;
-
   width: 100%;
 
   border-radius: 0 0 15px 15px;
   overflow: hidden;
+
+  position: relative;
 
   img {
     width: 100%;

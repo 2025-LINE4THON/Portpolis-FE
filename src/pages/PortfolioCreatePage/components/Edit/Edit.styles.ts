@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 
-export const Publish = styled.div`
+export const Edit = styled.div`
   width: 100%;
-
-  position: relative;
-  top: 210px;
+  margin-top: -80px;
 `;

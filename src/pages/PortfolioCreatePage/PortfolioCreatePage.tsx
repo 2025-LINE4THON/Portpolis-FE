@@ -9,7 +9,8 @@ const PortfolioCreatePage = () => {
 
   return (
     <>
-      <P.BackGroundIcon />
+      {level !== 'edit' && <P.BackGroundIcon />}
+
       <P.PortfolioCreatePage>
         {/* 1. 템플릿 선택 */}
         {level === 'template' && <Template setLevel={setLevel} />}

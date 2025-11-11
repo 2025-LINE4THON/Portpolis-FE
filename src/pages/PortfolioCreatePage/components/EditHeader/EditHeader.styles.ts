@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 
 export const PublishHeader = styled.div`
-  position: fixed;
-  top: 36px;
-  z-index: 10;
-
   display: flex;
   gap: 18px;
   align-items: center;
+
+  position: absolute;
+  left: 54px;
+  top: 37px;
 
   svg {
     cursor: pointer;

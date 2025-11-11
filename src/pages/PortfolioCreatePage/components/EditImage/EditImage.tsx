@@ -2,12 +2,15 @@ import useImageUpload from '@/hooks/useImageUpload';
 import * as E from './EditImage.styles';
 import DefaultImage from '@assets/PortfolioCreatePage/ex-representative.png';
 import DownloadImage from '@assets/PortfolioCreatePage/icon-download.svg?react';
+import EditHeader from '../EditHeader/EditHeader';
 
 const EditImage = () => {
   const { selectedImage, handleUpload } = useImageUpload();
 
   return (
     <E.PublishImage>
+      <EditHeader />
+
       <div>
         <input type="file" id="file" onChange={handleUpload} style={{ display: 'none' }} />
         <img src={selectedImage?.thumbnail || DefaultImage} alt={selectedImage?.file.name || '대표이미지'} />
