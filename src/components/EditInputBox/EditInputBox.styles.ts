@@ -4,6 +4,10 @@ export const EditInputBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
+
+  overflow: visible;
+  max-width: 1280px;
+  margin: 0 auto;
 `;
 
 export const Title = styled.div`

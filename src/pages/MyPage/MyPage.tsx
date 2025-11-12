@@ -1,9 +1,8 @@
 import * as M from './MyPage.styles';
 import PageBlock from '@components/PageBlock/PageBlock';
-import ProjectItem from '@components/ProjectItem/ProjectItem';
 import EditModal from '@components/EditModal/EditModal';
 import palette from '@/styles/theme';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import EditInputBox from '@/components/EditInputBox/EditInputBox';
 import github from '@assets/mypage/icon-github.svg';
 import brunch from '@assets/mypage/icon-brunch.svg';
@@ -11,8 +10,7 @@ import notion from '@assets/mypage/icon-notion.svg';
 import insta from '@assets/mypage/icon-instagram.svg';
 import youtube from '@assets/mypage/icon-youtube.svg';
 import extraLink from '@assets/mypage/icon-extra-link.svg';
-import prev from '@assets/mypage/icon-prev.svg';
-import next from '@assets/mypage/icon-next.svg';
+import PortfolioSlider from '@components/ProjectSlider/ProjectSlider';
 
 const MyPage = () => {
   const [profileModal, setProfileModal] = useState(false);
@@ -46,39 +44,47 @@ const MyPage = () => {
   };
 
   const dummyData = [
-    { id: 1, image: 'edit', period: '25.09-25.12', title: '감각적인 브랜드를 만드는1', isPrivate: false },
-    { id: 2, image: 'edit', period: '25.09-25.12', title: '감각적인 브랜드를 만드는2', isPrivate: false },
-    { id: 3, image: 'edit', period: '25.09-25.12', title: '감각적인 브랜드를 만드는3', isPrivate: false },
-    { id: 5, image: 'edit', period: '25.09-25.12', title: '감각적인 브랜드를 만드는4', isPrivate: false },
-    { id: 6, image: 'edit', period: '25.09-25.12', title: '감각적인 브랜드를 만드5 1', isPrivate: false },
+    {
+      id: 1,
+      image: 'edit',
+      type: 'portfolio',
+      period: '25.09-25.12',
+      title: '감각적인 브랜드를 만드는1',
+      isPrivate: false,
+    },
+    {
+      id: 2,
+      image: 'edit',
+      type: 'portfolio',
+      period: '25.09-25.12',
+      title: '감각적인 브랜드를 만드는2',
+      isPrivate: false,
+    },
+    {
+      id: 3,
+      image: 'edit',
+      type: 'portfolio',
+      period: '25.09-25.12',
+      title: '감각적인 브랜드를 만드는3',
+      isPrivate: false,
+    },
+    {
+      id: 5,
+      image: 'edit',
+      type: 'portfolio',
+      period: '25.09-25.12',
+      title: '감각적인 브랜드를 만드는4',
+      isPrivate: false,
+    },
+    {
+      id: 6,
+      image: 'edit',
+      type: 'portfolio',
+      period: '25.09-25.12',
+      title: '감각적인 브랜드를 만드5 1',
+      isPrivate: false,
+    },
   ];
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(3);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1280) setVisibleCount(2);
-      else setVisibleCount(3);
-      setCurrentIndex(0);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const handleNext = () => {
-    if (currentIndex + visibleCount < dummyData.length) {
-      setCurrentIndex((prev) => prev + visibleCount);
-    }
-  };
-
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - visibleCount);
-    }
-  };
-
-  const visibleItems = dummyData.slice(currentIndex, currentIndex + visibleCount);
 
   return (
     <>
@@ -144,29 +150,9 @@ const MyPage = () => {
           <M.B1>발행된 포트폴리오와 임시 저장본을 확인하세요.</M.B1>
         </M.Header>
 
-        <M.PortfolioList>
-          <M.ArrowButton onClick={handlePrev} disabled={currentIndex === 0}>
-            <img src={prev} />
-          </M.ArrowButton>
-          <M.Portfolios>
-            {visibleItems.map((item) => (
-              <ProjectItem
-                key={item.id}
-                type="portfolio"
-                image={item.image}
-                period={item.period}
-                title={item.title}
-                onClick={() => console.log(item.title)}
-                isPrivate={item.isPrivate}
-              />
-            ))}
-          </M.Portfolios>
-
-          <M.ArrowButton onClick={handleNext} disabled={currentIndex + visibleCount >= dummyData.length}>
-            <img src={next} />
-          </M.ArrowButton>
-        </M.PortfolioList>
+        <PortfolioSlider items={dummyData} />
       </M.MyPage>
+
       {profileModal && (
         <EditModal
           text="내 프로필 수정"
