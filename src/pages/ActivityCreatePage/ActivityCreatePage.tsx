@@ -38,6 +38,7 @@ const ActivityCreatePage = () => {
     result: '',
     stacks: [] as string[],
     images: [] as string[],
+    links: [] as { title: string; url: string }[],
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -50,33 +51,45 @@ const ActivityCreatePage = () => {
 
   const [tagInputValue, setTagInputValue] = useState('');
   const [stackInputValue, setStackInputValue] = useState('');
+  const [linkTitle, setLinkTitle] = useState('');
+  const [linkUrl, setLinkUrl] = useState('');
 
   const handleTagKeyUp = (e: React.KeyboardEvent<HTMLInputElement>, type: 'tags' | 'stacks') => {
     if (e.key === 'Enter') {
       e.preventDefault();
       const value = e.currentTarget.value.trim();
       if (value === '') return;
-
       const currentList = project[type];
       const max = type === 'tags' ? 6 : 8;
-
       if (currentList.length >= max) return;
       if (currentList.includes(value)) return;
-
-      setProject((prev) => ({
-        ...prev,
-        [type]: [...prev[type], value],
-      }));
-
+      setProject((prev) => ({ ...prev, [type]: [...prev[type], value] }));
       if (type === 'tags') setTagInputValue('');
       else setStackInputValue('');
     }
   };
 
-  const removeItem = (type: 'tags' | 'stacks', item: string) => {
+  const removeItem = (type: 'tags' | 'stacks' | 'links', item: string | { title: string; url: string }) => {
+    setProject((prev) => {
+      if (type === 'links') {
+        return {
+          ...prev,
+          links: prev.links.filter((link) => link.title !== (item as { title: string }).title),
+        };
+      }
+
+      return {
+        ...prev,
+        [type]: prev[type].filter((el) => el !== item),
+      };
+    });
+  };
+  const addLink = (title: string, url: string) => {
+    if (!title.trim() || !url.trim()) return;
+
     setProject((prev) => ({
       ...prev,
-      [type]: prev[type].filter((el) => el !== item),
+      links: [...prev.links, { title, url }],
     }));
   };
 
@@ -334,7 +347,38 @@ const ActivityCreatePage = () => {
                 </>
               }
             />
-            <PageBlock gap="11px" padding="15px 27px" text="관련 링크" content={<>ㅇㅇ</>} />
+            <PageBlock
+              gap="11px"
+              padding="15px 27px"
+              text="관련 링크"
+              content={
+                <>
+                  <A.RoundedContent>
+                    <A.InvisibleInput
+                      width="100%"
+                      placeholder="링크 제목"
+                      value={linkTitle}
+                      onChange={(e) => setLinkTitle(e.target.value)}
+                    />
+                  </A.RoundedContent>
+                  <A.RoundedContent>
+                    <A.InvisibleInput
+                      width="100%"
+                      placeholder="https://example.com"
+                      value={linkUrl}
+                      onChange={(e) => setLinkUrl(e.target.value)}
+                    />
+                  </A.RoundedContent>
+                  <A.RoundedContent onClick={() => addLink(linkTitle, linkUrl)}>링크 추가</A.RoundedContent>
+                  {project.links.map((link) => (
+                    <A.RowContainer style={{ gap: '5px' }}>
+                      <A.Stack key={link.title}>{link.title}</A.Stack>
+                      <img src={x} onClick={() => removeItem('links', link)} style={{ width: '8px' }} />
+                    </A.RowContainer>
+                  ))}
+                </>
+              }
+            />
           </A.InfomationBlocks>
         </A.RowContainer>
       </A.ExtraInfo>

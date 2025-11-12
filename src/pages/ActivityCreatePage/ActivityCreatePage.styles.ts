@@ -189,6 +189,7 @@ export const Stack = styled.div`
   padding: 6px 7px;
   border-radius: 11px;
   background: ${palette.neutral.neutral100};
+  width: fit-content;
 `;
 
 export const ImageBox = styled.img`
