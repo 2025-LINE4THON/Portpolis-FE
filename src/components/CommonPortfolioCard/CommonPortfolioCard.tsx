@@ -5,11 +5,13 @@ interface PortfolioCardProps {
   img?: string;
   title: string;
   name: string;
+  $width?: number;
+  $height?: number;
 }
 
-const CommonPortfolioCard = ({ img, title, name }: PortfolioCardProps) => {
+const CommonPortfolioCard = ({ img, title, name, $width, $height }: PortfolioCardProps) => {
   return (
-    <P.CommonPortfolioCard>
+    <P.CommonPortfolioCard $width={$width || 441} $height={$height || 291}>
       <P.Card>
         {img && <img src={img} />}
 

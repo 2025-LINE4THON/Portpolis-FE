@@ -1,16 +1,15 @@
 import palette from '@/styles/theme';
 import styled from '@emotion/styled';
 
-export const CommonPortfolioCard = styled.div`
+export const CommonPortfolioCard = styled.div<{ $width: number; $height: number }>`
   display: flex;
   flex-direction: column;
 
   border-radius: 18px;
   overflow: hidden;
 
-  width: 441px;
-  height: 291px;
-  flex: 1;
+  width: ${({ $width }) => (`${$width}` ? `${$width}px` : '441px')};
+  height: ${({ $height }) => (`${$height}` ? `${$height}px` : '291px')};
 `;
 
 export const Card = styled.div`
