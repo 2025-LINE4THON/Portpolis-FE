@@ -152,6 +152,7 @@ const CareerPage = () => {
 
   return (
     <>
+      <C.Background />
       <C.CareerPage>
         <C.Header>
           <C.BoldText>당신만의 포트폴리오</C.BoldText>

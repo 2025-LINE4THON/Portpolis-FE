@@ -6,6 +6,7 @@ export const ProjectItem = styled.div`
   padding: 19px 30px;
   border-radius: 22px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
 `;
 
 export const InfoContainer = styled.div`

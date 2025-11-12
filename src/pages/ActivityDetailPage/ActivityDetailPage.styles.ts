@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
 import palette from '@/styles/theme';
 
-export const ActivityDetailPage = styled.div``;
+export const ActivityDetailPage = styled.div`
+  position: relative;
+  z-index: 5;
+`;
 
 export const BasicInfo = styled.div`
   margin-left: 15%;

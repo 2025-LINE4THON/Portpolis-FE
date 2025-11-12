@@ -1,16 +1,27 @@
 import palette from '@/styles/theme';
 import styled from '@emotion/styled';
+import BackgroundSvg from '@assets/common/background-gradient-circle.svg?react';
+
+export const Background = styled(BackgroundSvg)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+`;
 
 export const MyPage = styled.div`
   overflow: hidden;
   min-width: 930px;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 63px 0 30px;
+  padding: 63px 0;
 
   display: flex;
   flex-direction: column;
   gap: 33px;
+  position: relative;
+  z-index: 5;
 `;
 
 export const Header = styled.div`

@@ -88,6 +88,8 @@ const MyPage = () => {
 
   return (
     <>
+      {' '}
+      <M.Background />
       <M.MyPage>
         <M.Header>
           <M.H3>마이페이지</M.H3>
@@ -152,7 +154,6 @@ const MyPage = () => {
 
         <PortfolioSlider items={dummyData} />
       </M.MyPage>
-
       {profileModal && (
         <EditModal
           text="내 프로필 수정"
