@@ -17,7 +17,7 @@ const Navbar = () => {
   if (
     pathname === '/login' ||
     pathname === '/signup' ||
-    pathname.startsWith('/activity') ||
+    pathname.startsWith('/Activity') ||
     (pathname.startsWith(`/portfolio`) && pathname !== '/portfolio/create') ||
     level === 'edit'
   )
