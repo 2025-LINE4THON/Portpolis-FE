@@ -143,4 +143,56 @@ export const Tag = styled.div`
   border-radius: 11px;
   background: ${palette.primary.primary500};
   width: fit-content;
+  white-space: nowrap;
+`;
+
+export const InvisibleTextarea = styled.textarea`
+  resize: none;
+  border: none;
+  outline: none;
+  height: 80px;
+  overflow: scroll;
+
+  color: black;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 175%;
+
+  ::placeholder {
+    color: ${palette.neutral.neutral300};
+  }
+`;
+
+export const RoundedContent = styled.div`
+  padding: 10px 30px;
+  border-radius: 22px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+
+  color: ${palette.primary.primary500};
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+`;
+
+export const TagWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  row-gap: 15px;
+  margin-bottom: 10px;
+`;
+
+export const Stack = styled.div`
+  color: ${palette.neutral.neutral700};
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 7px;
+  border-radius: 11px;
+  background: ${palette.neutral.neutral100};
+`;
+
+export const ImageBox = styled.img`
+  width: 57px;
+  height: 57px;
+  border-radius: 11px;
 `;

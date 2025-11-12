@@ -3,15 +3,17 @@ import edit from '@assets/mypage/icon-edit.svg';
 
 interface PageBlockProps {
   width?: string;
+  padding?: string;
+  gap?: string;
   text?: string;
   middleContent?: React.ReactNode;
   onClick?: () => void;
   content?: React.ReactNode;
 }
 
-const PageBlock = ({ width, text, middleContent, onClick, content }: PageBlockProps) => {
+const PageBlock = ({ width, padding, gap, text, middleContent, onClick, content }: PageBlockProps) => {
   return (
-    <P.PageBlock style={{ width: width }}>
+    <P.PageBlock style={{ width: width, padding: padding, gap: gap }}>
       {(text || middleContent || onClick) && (
         <P.BlockHeader>
           <P.BlockTitle>
