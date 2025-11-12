@@ -7,6 +7,7 @@ export const ActivityInputBox = styled.div`
   gap: 12px;
   height: 111px;
   justify-content: end;
+  background-color: white;
 `;
 
 export const Text = styled.div`

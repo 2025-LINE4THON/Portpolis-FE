@@ -1,7 +1,20 @@
 import styled from '@emotion/styled';
 import palette from '@/styles/theme';
+import BackgroundSvg from '@assets/common/background-side-gradient-circle.svg?react';
 
-export const ActivityCreatePage = styled.div``;
+export const ActivityCreatePage = styled.div`
+  position: relative;
+  z-index: 5;
+`;
+
+export const Background = styled(BackgroundSvg)`
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100%;
+  z-index: 0;
+  transform: scale(2);
+`;
 
 export const Header = styled.div<{ bgimg: string | null }>`
   position: relative;

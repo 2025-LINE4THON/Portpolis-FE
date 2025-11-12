@@ -1,16 +1,27 @@
 import styled from '@emotion/styled';
 import palette from '@/styles/theme';
+import BackgroundSvg from '@assets/common/background-gradient-circle.svg?react';
+
+export const Background = styled(BackgroundSvg)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+`;
 
 export const CareerPage = styled.div`
+  position: relative;
   overflow: hidden;
   min-width: 930px;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 33px 0 30px;
+  padding: 33px 0 60px;
 
   display: flex;
   flex-direction: column;
   gap: 30px;
+  z-index: 5;
 `;
 
 export const Header = styled.div``;
