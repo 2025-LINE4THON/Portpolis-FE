@@ -61,6 +61,55 @@ const CareerPage = () => {
     },
   ];
 
+  const careerdumData = [
+    {
+      date: '2024.09',
+      content: '컴퓨터그래픽스 운용 기능사',
+    },
+    {
+      date: '2024.09',
+      content: '컴퓨터그래픽스 운용 기능사',
+    },
+    {
+      date: '2024.09',
+      content: '컴퓨터그래픽스 운용 기능사',
+    },
+    {
+      date: '2024.09',
+      content: '컴퓨터그래픽스 운용 기능사',
+    },
+    {
+      date: '2024.09',
+      content: '컴퓨터그래픽스 운용 기능사',
+    },
+    {
+      date: '2024.09',
+      content: '컴퓨터그래픽스 운용 기능사',
+    },
+  ];
+
+  const stackdata = [
+    {
+      skill: 'java',
+      degree: 49,
+    },
+    {
+      skill: 'java',
+      degree: 19,
+    },
+    {
+      skill: 'java',
+      degree: 39,
+    },
+    {
+      skill: 'java',
+      degree: 79,
+    },
+    {
+      skill: 'java',
+      degree: 99,
+    },
+  ];
   interface InputItem {
     [key: string]: string;
     field1: string;
@@ -115,7 +164,15 @@ const CareerPage = () => {
           <PageBlock
             width="100%"
             text="내 경력"
-            content={<></>}
+            content={
+              <>
+                {careerdumData.map((item) => (
+                  <div>
+                    {item.date} | {item.content}
+                  </div>
+                ))}
+              </>
+            }
             onClick={() => {
               setExperienceModal(true);
             }}
@@ -123,7 +180,25 @@ const CareerPage = () => {
           <PageBlock
             width="271px"
             text="내 기술스택"
-            content={<></>}
+            content={
+              <>
+                {stackdata.map((item, idx) => {
+                  const filledCount = Math.min(5, Math.ceil(item.degree / 20));
+                  const totalDots = 5;
+
+                  return (
+                    <C.StackRow key={idx}>
+                      <C.AddButton>{item.skill}</C.AddButton>
+                      <C.DotWrapper>
+                        {Array.from({ length: totalDots }).map((_, i) => (
+                          <C.Dot key={i} filled={i < filledCount} />
+                        ))}
+                      </C.DotWrapper>
+                    </C.StackRow>
+                  );
+                })}
+              </>
+            }
             onClick={() => {
               setStackModal(true);
             }}
@@ -133,7 +208,15 @@ const CareerPage = () => {
           <PageBlock
             width="100%"
             text="내 자격증"
-            content={<></>}
+            content={
+              <>
+                {careerdumData.map((item) => (
+                  <div>
+                    {item.date} | {item.content}
+                  </div>
+                ))}
+              </>
+            }
             onClick={() => {
               setQualificationsModal(true);
             }}
@@ -151,6 +234,7 @@ const CareerPage = () => {
         <C.SecondHeader>
           <C.BoldText>당신만의 포트폴리오</C.BoldText>
           <C.AddButton
+            style={{ cursor: 'pointer' }}
             onClick={() => {
               console.log('프로젝트 추가');
             }}>

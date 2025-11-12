@@ -40,10 +40,10 @@ export const AddButton = styled.div`
   background: ${palette.primary.primary500};
 
   display: flex;
-  width: 105px;
-  height: 30px;
+  width: fit-content;
   justify-content: center;
   align-items: center;
+  padding: 3px 10px;
 `;
 
 export const ModalContent = styled.div`
@@ -72,3 +72,21 @@ export const Row = styled.div`
 `;
 
 export const DeleteBtn = styled.button``;
+
+export const StackRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const DotWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+`;
+
+export const Dot = styled.div<{ filled: boolean }>`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: ${({ filled }) => (filled ? palette.primary.primary500 : palette.neutral.neutral200)};
+`;
