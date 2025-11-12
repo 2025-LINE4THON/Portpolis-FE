@@ -23,6 +23,49 @@ const ActivityCreatePage = () => {
     setFile(URL.createObjectURL(selectedFile));
   };
 
+  const [project, setProject] = useState({
+    name: '',
+    startDate: '',
+    endDate: '',
+    onGoing: false,
+    role: '',
+    tags: [] as string[],
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, type, value, checked } = e.target as HTMLInputElement;
+    setProject((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const [tagInputValue, setTagInputValue] = useState('');
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const value = e.currentTarget.value.trim(); // ← 이걸로 최신 값 보장
+
+      if (value === '') return;
+      if (project.tags.length >= 6) return;
+      if (project.tags.includes(value)) return;
+
+      setProject((prev) => ({
+        ...prev,
+        tags: [...prev.tags, value],
+      }));
+      setTagInputValue('');
+    }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    setProject((prev) => ({
+      ...prev,
+      tags: prev.tags.filter((tag) => tag !== tagToRemove),
+    }));
+  };
+
   return (
     <A.ActivityCreatePage>
       <A.Header bgimg={file}>
@@ -57,18 +100,84 @@ const ActivityCreatePage = () => {
 
       <A.BasicInfo>
         <A.RowContainer>
-          <ActivityInputBox width="60%" text="활동명" isRequired={true} placeholder="프로젝트 이름을 입력하세요" />
-          <ActivityInputBox width="30%" text="프로젝트 기간" isRequired={true} content={<></>} />
-          <ActivityInputBox width="10%" isRequired={false} content={<></>} />
+          <ActivityInputBox
+            width="60%"
+            text="활동명"
+            isRequired={true}
+            name="name"
+            value={project.name}
+            placeholder="프로젝트 이름을 입력하세요"
+            onChange={handleChange}
+          />
+          <ActivityInputBox
+            width="30%"
+            text="프로젝트 기간"
+            isRequired={true}
+            content={
+              <A.RowContainer style={{ gap: '5px', marginTop: '7px' }}>
+                <A.InvisibleInput
+                  width="100%"
+                  name="startDate"
+                  value={project.startDate}
+                  placeholder="YYYY-MM-DD"
+                  onChange={handleChange}
+                />
+                ~
+                {project.onGoing ? (
+                  <A.B2 style={{ width: '100%', whiteSpace: 'nowrap' }}>현재 진행 중</A.B2>
+                ) : (
+                  <A.InvisibleInput
+                    name="endDate"
+                    value={project.endDate}
+                    placeholder="YYYY-MM-DD"
+                    onChange={handleChange}
+                  />
+                )}
+              </A.RowContainer>
+            }
+          />
+          <ActivityInputBox
+            width="14%"
+            isRequired={false}
+            content={
+              <A.Checkbox>
+                <A.B2 style={{ minWidth: '30px', whiteSpace: 'nowrap' }}>진행중</A.B2>
+                <A.InvisibleInput type="checkbox" name="onGoing" onChange={handleChange} style={{ width: '15px' }} />
+              </A.Checkbox>
+            }
+          />
         </A.RowContainer>
         <A.RowContainer>
           <ActivityInputBox
             width="50%"
             text="역할"
             isRequired={true}
+            name="role"
+            value={project.role}
             placeholder="프로젝트에서 맡은 역할을 써주세요."
+            onChange={handleChange}
           />
-          <ActivityInputBox width="50%" text="태그" isRequired={false} content={<></>} />
+          <ActivityInputBox
+            width="50%"
+            text="태그"
+            isRequired={false}
+            content={
+              <A.RowContainer style={{ gap: '5px' }}>
+                {project.tags.map((tag) => (
+                  <A.Tag key={tag} onClick={() => removeTag(tag)}>
+                    #{tag}
+                  </A.Tag>
+                ))}
+                <A.InvisibleInput
+                  type="text"
+                  placeholder="#태그입력 (최대 6개)"
+                  value={tagInputValue}
+                  onChange={(e) => setTagInputValue(e.target.value)}
+                  onKeyUp={handleKeyDown}
+                />
+              </A.RowContainer>
+            }
+          />
         </A.RowContainer>
       </A.BasicInfo>
 

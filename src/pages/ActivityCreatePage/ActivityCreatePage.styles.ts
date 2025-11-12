@@ -82,7 +82,7 @@ export const Btn = styled.button`
 `;
 
 export const BasicInfo = styled.div`
-  padding: 20px 76px 52px;
+  padding: 0 76px 52px;
   display: flex;
   flex-direction: column;
   gap: 11px;
@@ -117,4 +117,30 @@ export const InfomationBlocks = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
+
+export const InvisibleInput = styled.input`
+  width: 100%;
+  outline: none;
+  border: none;
+`;
+
+export const Checkbox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 7px;
+`;
+
+export const Tag = styled.div`
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px;
+  border-radius: 11px;
+  background: ${palette.primary.primary500};
+  width: fit-content;
 `;
