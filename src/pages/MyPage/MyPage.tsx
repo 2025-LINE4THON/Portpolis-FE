@@ -11,8 +11,8 @@ import insta from '@assets/mypage/icon-instagram.svg';
 import youtube from '@assets/mypage/icon-youtube.svg';
 import extraLink from '@assets/mypage/icon-extra-link.svg';
 import PortfolioSlider from '@components/ProjectSlider/ProjectSlider';
-import type { ResponseUserInfoDTO } from '@/types/Mypage/Mypage';
-import { getUserInfo } from '@apis/Mypage/Mypage';
+import type { ResponseUserInfoDTO, RequestEditUserInfoDTO } from '@/types/Mypage/Mypage';
+import { getUserInfo, patchUserInfo } from '@apis/Mypage/Mypage';
 
 const MyPage = () => {
   const [profileModal, setProfileModal] = useState(false);
@@ -100,9 +100,26 @@ const MyPage = () => {
         console.error('마이페이지 조회 실패', error);
       }
     };
-
     getProfile();
   }, []);
+
+  const patchProfile = async () => {
+    try {
+      const requestData: RequestEditUserInfoDTO = {
+        name: profile.name ?? '',
+        email: profile.email ?? '',
+        phoneNumber: profile.phoneNumber ?? '',
+        introduction: profile.introduction ?? '',
+        job: profile.job ?? '',
+      };
+
+      const response = await patchUserInfo(requestData);
+      setProfileModal(false);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -149,14 +166,7 @@ const MyPage = () => {
         </M.MyInfoContainer>
 
         <div style={{ padding: '0 144px' }}>
-          <PageBlock
-            width="100%"
-            content={
-              <M.MyInfo>
-                사용자 중심의 디자인을 지향하며, 실용적이고 아름다운 인터페이스를 만드는 것을 좋아합니다.
-              </M.MyInfo>
-            }
-          />
+          <PageBlock width="100%" content={<M.MyInfo>{profile.introduction}</M.MyInfo>} />
         </div>
         <hr
           style={{
@@ -204,7 +214,7 @@ const MyPage = () => {
                   width="100%"
                   title="연락처"
                   name="phoneNumber"
-                  value={profile.phoneNumber ?? ''}
+                  value={String(profile.phoneNumber ?? '')}
                   placeholder="010-1234-1234"
                   onChange={handleProfileChange}
                 />
@@ -226,7 +236,7 @@ const MyPage = () => {
             </M.ProfileModal>
           }
           onClickSave={() => {
-            console.log('저장');
+            patchProfile();
           }}
         />
       )}

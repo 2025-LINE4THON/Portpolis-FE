@@ -9,3 +9,11 @@ export type ResponseUserInfoDTO = CommonResponse<{
   introduction: string | null;
   job: string | null;
 }>;
+
+export type RequestEditUserInfoDTO = {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  introduction: string;
+  job: string;
+};
