@@ -33,10 +33,12 @@ const CareerList = ({ selectedCareers, toggleCareer }: CareerListProps) => {
               key={career.careerId}
               id={career.careerId}
               startDate={career.startDate}
-              endDate={career.endDate}
+              endDate={career.endDate ?? ''}
               content={career.content ?? ''}
               selected={isSelected}
-              onToggle={() => toggleCareer(career.careerId, career.startDate, career.endDate, career.content ?? '')}
+              onToggle={() =>
+                toggleCareer(career.careerId, career.startDate, career.endDate ?? '', career.content ?? '')
+              }
             />
 
             {idx === selected.length - 1 && selected.length > 0 && notSelected.length > 0 && <S.Divider />}
