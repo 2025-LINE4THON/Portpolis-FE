@@ -36,7 +36,7 @@ const Element = ({ setLevel }: ElementProps) => {
           onClick={() => setLevel('edit')}
           maxWidth={214}
           fontSize={14}
-          disabled={selectedProjects.length === 0}
+          disabled={selectedStacks.length === 0 || selectedCareers.length === 0 || selectedProjects.length === 0}
         />
       </E.Section>
 

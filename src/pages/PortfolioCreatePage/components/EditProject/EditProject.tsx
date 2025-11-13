@@ -19,8 +19,8 @@ const EditProject = () => {
       {selectedTemplate === 1 && (
         <E.StandardList>
           {selectedProjects.map((project, idx) => (
-            <>
-              <E.CardWrapper key={project.projectId} $z={idx} $idx={idx}>
+            <div key={project.projectId}>
+              <E.CardWrapper $z={idx} $idx={idx}>
                 <EditProjectStandardCard
                   img={Image}
                   title={project.title}
@@ -31,7 +31,7 @@ const EditProject = () => {
 
                 {idx === selectedProjects.length - 1 && <E.BookMarkIcon />}
               </E.CardWrapper>
-            </>
+            </div>
           ))}
         </E.StandardList>
       )}
