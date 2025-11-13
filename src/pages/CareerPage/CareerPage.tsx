@@ -171,7 +171,7 @@ const CareerPage = () => {
         />
 
         <C.SecondHeader>
-          <C.BoldText>당신만의 포트폴리오</C.BoldText>
+          <C.BoldText>내 프로젝트</C.BoldText>
           <C.AddButton
             style={{ cursor: 'pointer' }}
             onClick={() => {
