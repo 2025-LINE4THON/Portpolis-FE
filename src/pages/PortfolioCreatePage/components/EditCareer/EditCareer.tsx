@@ -62,7 +62,12 @@ const EditCareer = () => {
 
       <E.StyledSlider {...settings} prevArrow={<PrevArrow />} nextArrow={<NextArrow />}>
         {selectedCareers.map((slide) => (
-          <EditCareerCard key={slide.id} title={slide.career} date={slide.date} />
+          <EditCareerCard
+            key={slide.careerId}
+            title={slide.content}
+            startDate={slide.startDate}
+            endDate={slide.endDate ?? ''}
+          />
         ))}
       </E.StyledSlider>
     </E.EditCareer>

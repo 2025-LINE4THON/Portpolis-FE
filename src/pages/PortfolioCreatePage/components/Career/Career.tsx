@@ -5,20 +5,23 @@ import NotCheckedIcon from '@assets/PortfolioCreatePage/icon-not-checked.svg?rea
 
 interface CareerProps {
   id: number;
-  date: string;
-  career: string;
+  startDate: string;
+  endDate: string;
+  content: string;
   selected: boolean;
   onToggle: () => void;
 }
 
-const Career = ({ id, date, career, selected, onToggle }: CareerProps) => {
+const Career = ({ id, startDate, endDate, content, selected, onToggle }: CareerProps) => {
   return (
     <C.Career>
       <S.Overlay $selected={selected} />
 
       <C.TextBox>
-        <p className="c1">{date}</p>
-        <h3 className="b2">{career}</h3>
+        <p className="c1">
+          {startDate} - {endDate}
+        </p>
+        <h3 className="b2">{content}</h3>
       </C.TextBox>
 
       <S.Input type="checkbox" id={`${id}`} checked={selected} onChange={onToggle} />

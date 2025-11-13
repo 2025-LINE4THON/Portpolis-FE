@@ -4,10 +4,11 @@ import { useRef, useState } from 'react';
 
 interface EditCareerCardProps {
   title: string;
-  date: string;
+  startDate: string;
+  endDate: string;
 }
 
-const EditCareerCard = ({ title, date }: EditCareerCardProps) => {
+const EditCareerCard = ({ title, startDate, endDate }: EditCareerCardProps) => {
   const [input, setInput] = useState('');
   const textRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -33,7 +34,7 @@ const EditCareerCard = ({ title, date }: EditCareerCardProps) => {
         </E.Text>
 
         <E.GrayText $color={`${palette.neutral.neutral300}`} $size={16}>
-          {date}
+          {startDate} - {endDate}
         </E.GrayText>
       </E.TitleWrapper>
 

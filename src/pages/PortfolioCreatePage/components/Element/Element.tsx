@@ -67,7 +67,9 @@ const Element = ({ setLevel }: ElementProps) => {
               content={
                 <CareerList
                   selectedCareers={selectedCareers}
-                  toggleCareer={(id, date, career) => toggleCareer({ id, date, career })}
+                  toggleCareer={(careerId, startDate, endDate, content) =>
+                    toggleCareer({ careerId, startDate, endDate, content })
+                  }
                 />
               }
             />

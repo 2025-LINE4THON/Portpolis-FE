@@ -9,4 +9,14 @@ export type Stack = {
   level: number;
 };
 
-export type ResponseGetMeStacksDto = CommonResponse<Stack>;
+export type ResponseGetMeStacksDto = CommonResponse<Stack[]>;
+
+// 내 경력 조회
+export type Career = {
+  careerId: number;
+  content: string;
+  startDate: string;
+  endDate: string | null;
+};
+
+export type ResponseGetMeCareersDto = CommonResponse<Career[]>;

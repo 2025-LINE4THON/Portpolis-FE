@@ -1,9 +1,44 @@
 [
-  { "id": 1, "date": "2024.09 - 2025.12", "career": "SK 하이닉스 R&D 센터 SW 연구원 근무" },
-  { "id": 2, "date": "2024.09 - 2025.12", "career": "SK 하이닉스 R&D 센터 SW 연구원 근무" },
-  { "id": 3, "date": "2024.09 - 2025.12", "career": "SK 하이닉스 R&D 센터 SW 연구원 근무" },
-  { "id": 4, "date": "2024.09 - 2025.12", "career": "SK 하이닉스 R&D 센터 SW 연구원 근무" },
-  { "id": 5, "date": "2024.09 - 2025.12", "career": "SK 하이닉스 R&D 센터 SW 연구원 근무" },
-  { "id": 6, "date": "2024.09 - 2025.12", "career": "SK 하이닉스 R&D 센터 SW 연구원 근무" },
-  { "id": 7, "date": "2024.09 - 2025.12", "career": "SK 하이닉스 R&D 센터 SW 연구원 근무" }
+  {
+    "careerId": 1,
+    "startDate": "2024-06-01",
+    "endDate": "2025-07-01",
+    "content": "SK 하이닉스 R&D 센터 SW 연구원 근무"
+  },
+  {
+    "careerId": 2,
+    "startDate": "2024-06-01",
+    "endDate": "2025-06-01",
+    "content": "SK 하이닉스 R&D 센터 SW 연구원 근무"
+  },
+  {
+    "careerId": 3,
+    "startDate": "2024-06-01",
+    "endDate": "2025-06-01",
+    "content": "SK 하이닉스 R&D 센터 SW 연구원 근무"
+  },
+  {
+    "careerId": 4,
+    "startDate": "2024-06-01",
+    "endDate": "2025-06-01",
+    "content": "SK 하이닉스 R&D 센터 SW 연구원 근무"
+  },
+  {
+    "careerId": 5,
+    "startDate": "2024-06-01",
+    "endDate": "2025-06-01",
+    "content": "SK 하이닉스 R&D 센터 SW 연구원 근무"
+  },
+  {
+    "careerId": 6,
+    "startDate": "2024-06-01",
+    "endDate": "2025-06-01",
+    "content": "SK 하이닉스 R&D 센터 SW 연구원 근무"
+  },
+  {
+    "careerId": 7,
+    "startDate": "2024-06-01",
+    "endDate": null,
+    "content": "SK 하이닉스 R&D 센터 SW 연구원 근무"
+  }
 ]

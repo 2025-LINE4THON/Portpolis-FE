@@ -34,10 +34,10 @@ export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
   // 내 경력 선택
   const toggleCareer = (item: CareerItem) => {
     setSelectedCareers((prev) => {
-      const exists = prev.find((c) => c.id === item.id);
+      const exists = prev.find((c) => c.careerId === item.careerId);
 
       if (exists) {
-        return prev.filter((c) => c.id !== item.id);
+        return prev.filter((c) => c.careerId !== item.careerId);
       }
 
       return [...prev, item];
