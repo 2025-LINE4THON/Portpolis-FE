@@ -6,7 +6,7 @@ interface PortfolioCardProps {
   title: string;
   name: string;
   views?: number;
-  date: string;
+  date?: string;
   $width?: number;
   $height?: number;
   onClick?: () => void;
@@ -24,7 +24,7 @@ const CommonPortfolioCard = ({ img, title, name, views, date, $width, $height, o
           <P.FlexBox $justify="space-between">
             <P.FlexBox $justify="start">
               <P.SubText $size={10.979}>{name}</P.SubText>
-              <P.SubText $size={9.411}>{date.slice(0, 10)}</P.SubText>
+              <P.SubText $size={9.411}>{date?.slice(0, 10)}</P.SubText>
             </P.FlexBox>
 
             <P.FlexBox $justify="start">
