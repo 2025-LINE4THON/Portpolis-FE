@@ -6,12 +6,43 @@ import PwdIcon from '@assets/onBoarding/icon-pwd-shown.svg?react';
 import palette from '@/styles/theme';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import type { RequestLoginDTO } from '@/types/OnBoarding/auth';
+import { Login } from '@/apis/OnBoarding/auth';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [showPwd, setShowPwd] = useState(true);
-  const [id, setId] = useState('');
-  const [pwd, setPwd] = useState('');
+
+  const [userInfo, setUserInfo] = useState({
+    id: '',
+    pwd: '',
+  });
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserInfo((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleLogin = async () => {
+    try {
+      const requestData: RequestLoginDTO = {
+        username: userInfo.id,
+        password: userInfo.pwd,
+      };
+
+      const response = await Login(requestData);
+
+      if (response.data) {
+        navigate('/login');
+      }
+      localStorage.setItem('accessToken', JSON.stringify(response.data.accessToken));
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+      setErrorMsg('등록된 사용자가 없거나 비밀번호가 틀립니다.');
+    }
+  };
 
   return (
     <>
@@ -24,16 +55,18 @@ const LoginPage = () => {
             <InputBox
               text="아이디"
               isPwd={false}
-              value={id}
+              name="id"
+              value={userInfo.id}
               placeholder="아이디를 입력해주세요."
-              onChange={(e) => setId(e.target.value)}
+              onChange={handleChange}
             />
             <InputBox
               text="비밀번호"
               isPwd={showPwd}
-              value={pwd}
+              name="pwd"
+              value={userInfo.pwd}
               placeholder="비밀번호를 입력해주세요."
-              onChange={(e) => setPwd(e.target.value)}
+              onChange={handleChange}
               content={
                 <L.PwdBtn onClick={() => setShowPwd(!showPwd)}>
                   <PwdIcon
@@ -45,13 +78,14 @@ const LoginPage = () => {
               }
             />
           </L.InputContainer>
+          <L.ErrorMsg style={{ bottom: '50px' }}>{errorMsg}</L.ErrorMsg>
           <L.ButtonContainer>
             <Button
               text="로그인"
               onClick={() => {
-                console.log('로그인');
+                handleLogin();
               }}
-              disabled={!id || !pwd}
+              disabled={!userInfo.id || !userInfo.pwd}
             />
             <L.Text>
               아직 계정이 없으신가요?
