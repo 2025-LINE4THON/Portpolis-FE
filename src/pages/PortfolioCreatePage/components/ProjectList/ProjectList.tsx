@@ -1,8 +1,8 @@
 import Project from '../Project/Project';
 import * as P from './ProjectList.styles';
 import * as S from '../StackList/StackList.styles';
-import PROJECTS from '@data/portfolio/projects.json';
 import type { ProjectItem } from '@/context/PortfolioContext';
+import useGetMeProjects from '@/hooks/queries/PortfolioCreatePage/useGetMeProjects';
 
 interface ProjectListProps {
   selectedProjects: ProjectItem[];
@@ -10,11 +10,16 @@ interface ProjectListProps {
 }
 
 const ProjectList = ({ selectedProjects, toggleProject }: ProjectListProps) => {
+  // 내 활동 조회
+  const { data: projectsData } = useGetMeProjects();
+
   // 선택된 프로젝트
-  const selected = PROJECTS.filter((project) => selectedProjects.some((p) => p.projectId === project.projectId));
+  const selected =
+    projectsData?.data.filter((project) => selectedProjects.some((p) => p.projectId === project.projectId)) || [];
 
   // 선택 안 된 프로젝트
-  const notSelected = PROJECTS.filter((project) => !selectedProjects.some((p) => p.projectId === project.projectId));
+  const notSelected =
+    projectsData?.data.filter((project) => !selectedProjects.some((p) => p.projectId === project.projectId)) || [];
 
   const orderedProjects = [...selected, ...notSelected];
 

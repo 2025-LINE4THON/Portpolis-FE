@@ -1,6 +1,6 @@
+import useGetMeStacks from '@/hooks/queries/PortfolioCreatePage/useGetMeStacks';
 import Stack from '../Stack/Stack';
 import * as S from './StackList.styles';
-import STACKS from '@data/portfolio/stacks.json';
 import type { StackItem } from '@/context/PortfolioContext';
 
 interface StackListProps {
@@ -9,11 +9,15 @@ interface StackListProps {
 }
 
 const StackList = ({ selectedStacks, toggleStack }: StackListProps) => {
+  // 내 스택 조회
+  const { data: stacksData } = useGetMeStacks();
   // 선택된 스택
-  const selected = STACKS.filter((stack) => selectedStacks.some((select) => select.stackId === stack.stackId));
+  const selected =
+    stacksData?.data.filter((stack) => selectedStacks.some((select) => select.stackId === stack.stackId)) || [];
 
   // 선택 안 된 스택
-  const notSelected = STACKS.filter((stack) => !selectedStacks.some((select) => select.stackId === stack.stackId));
+  const notSelected =
+    stacksData?.data.filter((stack) => !selectedStacks.some((select) => select.stackId === stack.stackId)) || [];
 
   const orderedStacks = [...selected, ...notSelected];
 

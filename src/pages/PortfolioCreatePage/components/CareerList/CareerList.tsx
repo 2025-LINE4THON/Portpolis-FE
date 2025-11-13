@@ -1,8 +1,8 @@
 import Career from '../Career/Career';
 import * as C from './CareerList.styles';
 import * as S from '../StackList/StackList.styles';
-import CAREERS from '@data/portfolio/careers.json';
 import type { CareerItem } from '@/context/PortfolioContext';
+import useGetMeCareers from '@/hooks/queries/PortfolioCreatePage/useGetMeCareers';
 
 interface CareerListProps {
   selectedCareers: CareerItem[];
@@ -10,15 +10,18 @@ interface CareerListProps {
 }
 
 const CareerList = ({ selectedCareers, toggleCareer }: CareerListProps) => {
+  // 내 경력 조회
+  const { data: careersData } = useGetMeCareers();
+
   // 선택된 커리어
-  const selected = CAREERS.filter((career) =>
-    selectedCareers.some((selected) => selected.careerId === career.careerId),
-  );
+  const selected =
+    careersData?.data.filter((career) => selectedCareers.some((selected) => selected.careerId === career.careerId)) ||
+    [];
 
   // 선택 안 된 커리어
-  const notSelected = CAREERS.filter(
-    (career) => !selectedCareers.some((selected) => selected.careerId === career.careerId),
-  );
+  const notSelected =
+    careersData?.data.filter((career) => !selectedCareers.some((selected) => selected.careerId === career.careerId)) ||
+    [];
 
   const orderedCareers = [...selected, ...notSelected];
 

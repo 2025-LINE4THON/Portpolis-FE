@@ -15,7 +15,7 @@ const Edit = () => {
       {/* 소개말 */}
       <EditIntroduce />
 
-      {/* Abount Me */}
+      {/* About Me */}
       <EditAboutMe />
 
       {/* 경력 */}
