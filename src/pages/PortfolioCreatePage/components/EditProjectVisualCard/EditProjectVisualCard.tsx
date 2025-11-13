@@ -24,7 +24,12 @@ const EditProjectVisualCard = ({ idx, img, startDate, endDate, title, stack }: E
         <E.Link>
           <GithubIcon />
           <E.Date>
-            {startDate}-{endDate}
+            {!endDate && startDate.slice(0, 10)}
+            {endDate && (
+              <>
+                {startDate.slice(0, 10)} - {endDate.slice(0, 10)}
+              </>
+            )}
           </E.Date>
         </E.Link>
 
