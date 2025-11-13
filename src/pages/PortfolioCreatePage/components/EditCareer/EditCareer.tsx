@@ -64,9 +64,11 @@ const EditCareer = () => {
         {selectedCareers.map((slide) => (
           <EditCareerCard
             key={slide.careerId}
+            id={slide.careerId}
             title={slide.content}
             startDate={slide.startDate}
             endDate={slide.endDate ?? ''}
+            description={slide.description ?? ''}
           />
         ))}
       </E.StyledSlider>

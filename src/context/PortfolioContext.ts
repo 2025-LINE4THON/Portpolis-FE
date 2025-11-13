@@ -4,7 +4,7 @@ import { createContext, useContext, type SetStateAction } from 'react';
 export type PortfolioStep = 'template' | 'element' | 'edit' | 'publish';
 
 export type StackItem = Stack & { percent?: number };
-export type CareerItem = Career;
+export type CareerItem = Career & { description?: string };
 export type ProjectItem = Pick<Project, 'projectId' | 'title' | 'startDate' | 'endDate'>;
 export type AboutMeItem = { title: string; content: string };
 
