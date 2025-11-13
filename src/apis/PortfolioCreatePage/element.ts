@@ -6,6 +6,7 @@ import type {
   ResponseGetMeStacksDto,
 } from '@/types/PortfolioCreatePage/element';
 import { axiosInstance } from '../axios';
+import type { ResponseGetLicensesDto } from '@/types/PortfolioCreatePage/edit';
 
 // 내 스택 조회
 export const getMeStacks = async (): Promise<ResponseGetMeStacksDto> => {
@@ -24,6 +25,13 @@ export const getMeCareers = async (): Promise<ResponseGetMeCareersDto> => {
 // 내 활동 조회
 export const getMeProjects = async (): Promise<ResponseGetMeProjectsDto> => {
   const { data } = await axiosInstance.get('api/users/me/projects');
+
+  return data;
+};
+
+// 내 자격증 목록 조회
+export const getMeLicenses = async (): Promise<ResponseGetLicensesDto> => {
+  const { data } = await axiosInstance.get('/api/users/me/licenses');
 
   return data;
 };

@@ -45,3 +45,14 @@ export type ResponseGetUsersDto = CommonResponse<{
   introduction: string;
   job: string;
 }>;
+
+// 내 자격증 목록 조회
+export type License = {
+  licenseId: number;
+  userId: number;
+  name: string;
+  gotDate: Date;
+  endDate: Date;
+};
+
+export type ResponseGetLicensesDto = CommonResponse<License[]>;
