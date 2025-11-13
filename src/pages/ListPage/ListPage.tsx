@@ -52,7 +52,15 @@ const ListPage = () => {
           {searchedData.length !== 0 && (
             <L.Flex>
               {searchedData.map((data) => (
-                <CommonPortfolioCard key={data.id} img={ExBg} title={data.title} name="" $width={346} $height={229} />
+                <CommonPortfolioCard
+                  key={data.id}
+                  img={ExBg}
+                  title={data.title}
+                  name=""
+                  $width={346}
+                  $height={229}
+                  hasHeart={true}
+                />
               ))}
             </L.Flex>
           )}

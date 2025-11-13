@@ -10,13 +10,25 @@ interface PortfolioCardProps {
   $width?: number;
   $height?: number;
   onClick?: () => void;
+  hasHeart?: boolean;
 }
 
-const CommonPortfolioCard = ({ img, title, name, views, date, $width, $height, onClick }: PortfolioCardProps) => {
+const CommonPortfolioCard = ({
+  img,
+  title,
+  name,
+  views,
+  date,
+  $width,
+  $height,
+  onClick,
+  hasHeart,
+}: PortfolioCardProps) => {
   return (
     <P.CommonPortfolioCard $width={$width || 441} $height={$height || 291} onClick={onClick}>
       <P.Card>
         {img && <img src={img} />}
+        {hasHeart && <P.HeartIcon className="child" />}
 
         <P.InfoWrapper>
           <P.Title>{title}</P.Title>
