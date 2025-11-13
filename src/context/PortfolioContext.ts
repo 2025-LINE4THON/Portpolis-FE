@@ -1,8 +1,9 @@
+import type { Stack } from '@/types/PortfolioCreatePage/element';
 import { createContext, useContext, type SetStateAction } from 'react';
 
 export type PortfolioStep = 'template' | 'element' | 'edit' | 'publish';
 
-export type StackItem = { id: number; stack: string; level: number; percent?: number };
+export type StackItem = Stack & { percent?: number };
 export type CareerItem = { id: number; date: string; career: string };
 export type ProjectItem = { id: number; date: string; project: string };
 

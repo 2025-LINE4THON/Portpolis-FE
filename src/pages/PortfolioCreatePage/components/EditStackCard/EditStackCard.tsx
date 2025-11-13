@@ -1,6 +1,6 @@
+import { useEffect } from 'react';
 import { usePortfolio } from '@/context/PortfolioContext';
 import * as E from './EditStackCard.styles';
-import { useEffect } from 'react';
 
 const EditStackCard = () => {
   const { selectedStacks, setSelectedStacks } = usePortfolio();
@@ -21,7 +21,7 @@ const EditStackCard = () => {
       <E.ItemWrapper>
         {selectedStacks.map((stack) => (
           <E.Item>
-            <E.Stack>{stack.stack}</E.Stack>
+            <E.Stack>{stack.name}</E.Stack>
 
             <E.BarWrapper>
               <E.Bar>

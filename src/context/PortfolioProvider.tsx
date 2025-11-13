@@ -19,10 +19,10 @@ export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
   // 내 기술 스택 선택
   const toggleStack = (item: StackItem) => {
     setSelectedStacks((prev) => {
-      const exists = prev.find((s) => s.id === item.id);
+      const exists = prev.find((s) => s.stackId === item.stackId);
 
       if (exists) {
-        return prev.filter((s) => s.id !== item.id);
+        return prev.filter((s) => s.stackId !== item.stackId);
       }
 
       if (prev.length >= 4) return prev;

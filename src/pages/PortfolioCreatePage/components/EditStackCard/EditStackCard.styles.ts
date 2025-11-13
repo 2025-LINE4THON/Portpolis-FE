@@ -31,11 +31,15 @@ export const Item = styled.div`
   align-items: center;
 `;
 
-export const Stack = styled.p`
+export const Stack = styled.div`
   color: ${palette.neutral.neutral300};
   font-size: 18px;
   font-weight: 500;
   line-height: normal;
+
+  padding: 3px 10px;
+  border-radius: 11px;
+  background-color: ${palette.primary.primary400};
 `;
 
 export const BarWrapper = styled.div`
