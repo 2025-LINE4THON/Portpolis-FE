@@ -1,4 +1,5 @@
 import type { CommonResponse } from '../common';
+import type { RecommendPortfolio } from '../HomePage/recommend';
 
 // 포트폴리오 둘러보기
 export type Portpolio = {
@@ -10,3 +11,13 @@ export type Portpolio = {
 };
 
 export type ResponseAllPortfolioDto = CommonResponse<Portpolio[]>;
+
+// 포트폴리오 검색
+export type order = {
+  keyword?: string;
+  sort?: 'recent' | 'views';
+  template?: 'STANDARD' | 'VISUAL';
+  isPublic?: 'PUBLIC' | 'PRIVATE' | 'LINK';
+};
+
+export type ResponseGetSearchDto = CommonResponse<RecommendPortfolio[]>;

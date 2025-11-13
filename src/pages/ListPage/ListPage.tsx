@@ -5,30 +5,23 @@ import palette from '@/styles/theme';
 import Button from './components/Button/Button';
 import Input from './components/Input/Input';
 import CommonPortfolioCard from '@/components/CommonPortfolioCard/CommonPortfolioCard';
-import DATALIST from '@data/portfolio/portfolio.json';
 
 import ExBg from '@assets/HomePage/slide-img-1.jpg';
 import ResultIcon from '@assets/ListPage/icon-no-result.svg?react';
+import useGetSearchPortfolio from '@/hooks/queries/ListPage/useGetSearchPortfolio';
+import type { RecommendPortfolio } from '@/types/HomePage/recommend';
 
 const ListPage = () => {
   const [search, setSearch] = useState('');
   const [searchRes, setSearchRes] = useState('');
-  const [searchedData, setSearchedData] = useState<{ id: number; title: string }[]>(() => DATALIST);
 
-  const handleSearch = () => {
-    const trimmedSearch = search.trim().toLowerCase();
+  const { data } = useGetSearchPortfolio({ keyword: searchRes });
 
-    if (trimmedSearch === '') {
-      setSearchedData(DATALIST);
-    } else {
-      setSearchedData(DATALIST.filter((data) => data.title.toLowerCase().includes(trimmedSearch)));
-    }
-  };
+  const searchedData: RecommendPortfolio[] = data?.data || [];
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       setSearchRes(search);
-      handleSearch();
     }
   };
 
@@ -53,13 +46,15 @@ const ListPage = () => {
             <L.Flex>
               {searchedData.map((data) => (
                 <CommonPortfolioCard
-                  key={data.id}
+                  key={data.userId}
                   img={ExBg}
                   title={data.title}
-                  name=""
+                  name={'이름 연결'}
                   $width={346}
                   $height={229}
                   hasHeart={true}
+                  views={data.views}
+                  date={data.createdAt}
                 />
               ))}
             </L.Flex>
