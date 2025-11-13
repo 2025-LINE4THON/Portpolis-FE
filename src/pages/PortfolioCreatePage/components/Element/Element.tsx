@@ -89,7 +89,9 @@ const Element = ({ setLevel }: ElementProps) => {
               content={
                 <ProjectList
                   selectedProjects={selectedProjects}
-                  toggleProject={(id, date, project) => toggleProject({ id, date, project })}
+                  toggleProject={(projectId, startDate, endDate, title) =>
+                    toggleProject({ projectId, startDate, endDate, title })
+                  }
                 />
               }
             />

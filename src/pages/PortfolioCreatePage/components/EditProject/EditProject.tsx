@@ -20,8 +20,14 @@ const EditProject = () => {
         <E.StandardList>
           {selectedProjects.map((project, idx) => (
             <>
-              <E.CardWrapper key={project.id} $z={idx} $idx={idx}>
-                <EditProjectStandardCard img={Image} title={project.project} date={project.date} role="FE" />
+              <E.CardWrapper key={project.projectId} $z={idx} $idx={idx}>
+                <EditProjectStandardCard
+                  img={Image}
+                  title={project.title}
+                  startDate={project.startDate}
+                  endDate={project.endDate ?? ''}
+                  role="FE"
+                />
 
                 {idx === selectedProjects.length - 1 && <E.BookMarkIcon />}
               </E.CardWrapper>
@@ -35,11 +41,12 @@ const EditProject = () => {
         <>
           {selectedProjects.map((project, idx) => (
             <EditProjectVisualCard
-              key={project.id}
+              key={project.projectId}
               idx={idx}
               img={Imgae2}
-              date={project.date}
-              title={project.project}
+              startDate={project.startDate}
+              endDate={project.endDate ?? ''}
+              title={project.title}
               stack={['FE', 'JAVA']}
             />
           ))}

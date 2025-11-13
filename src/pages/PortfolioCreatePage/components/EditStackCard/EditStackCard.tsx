@@ -20,7 +20,7 @@ const EditStackCard = () => {
 
       <E.ItemWrapper>
         {selectedStacks.map((stack) => (
-          <E.Item>
+          <E.Item key={stack.stackId}>
             <E.Stack>{stack.name}</E.Stack>
 
             <E.BarWrapper>

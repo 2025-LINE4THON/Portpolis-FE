@@ -20,3 +20,20 @@ export type Career = {
 };
 
 export type ResponseGetMeCareersDto = CommonResponse<Career[]>;
+
+// 내 활동 조회
+export type Project = {
+  projectId: number;
+  title: string;
+  startDate: string;
+  endDate: string | null;
+  role: string;
+  thumbnail: string;
+  tags: string[];
+  stacks: { stackId: number; stackName: string }[];
+  contents: { title: string; content: string }[];
+  images: string[];
+  links: { name: string; url: string }[];
+};
+
+export type ResponseGetMeProjectsDto = CommonResponse<Project[]>;

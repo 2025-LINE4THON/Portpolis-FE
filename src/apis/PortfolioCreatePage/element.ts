@@ -16,3 +16,10 @@ export const getMeCareers = async (): Promise<ResponseGetMeCareersDto> => {
 
   return data;
 };
+
+// 내 활동 조회
+export const getMeProjects = async () => {
+  const { data } = await axiosInstance.get('api/users/me/projects');
+
+  return data;
+};

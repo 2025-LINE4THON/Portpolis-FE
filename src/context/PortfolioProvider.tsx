@@ -47,10 +47,10 @@ export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
   // 내 프로젝트 선택
   const toggleProject = (item: ProjectItem) => {
     setSelectedProjects((prev) => {
-      const exists = prev.find((p) => p.id === item.id);
+      const exists = prev.find((p) => p.projectId === item.projectId);
 
       if (exists) {
-        return prev.filter((p) => p.id !== item.id);
+        return prev.filter((p) => p.projectId !== item.projectId);
       }
 
       if (prev.length >= 6) return prev;

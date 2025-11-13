@@ -3,12 +3,13 @@ import * as E from './EditProjectStandardCard.styles';
 
 interface EditProjectStandardCardProps {
   img: string;
-  date: string;
+  startDate: string;
+  endDate: string;
   title: string;
   role: string;
 }
 
-const EditProjectStandardCard = ({ img, date, title, role }: EditProjectStandardCardProps) => {
+const EditProjectStandardCard = ({ img, startDate, endDate, title, role }: EditProjectStandardCardProps) => {
   return (
     <E.EditProjectStandardCard>
       <E.ImageWrapper>
@@ -18,7 +19,7 @@ const EditProjectStandardCard = ({ img, date, title, role }: EditProjectStandard
       <E.TextWrapper>
         <div>
           <E.Text $color={`${palette.neutral.neutral200}`} $size={12}>
-            {date}
+            {startDate} - {endDate}
           </E.Text>
 
           <E.Text $color={`${palette.neutral.neutral800}`} $size={14}>

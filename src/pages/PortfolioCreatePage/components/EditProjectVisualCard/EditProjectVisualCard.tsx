@@ -4,12 +4,13 @@ import GithubIcon from '@assets/PortfolioCreatePage/icon-github.svg?react';
 interface EditProjectVisualCardProps {
   idx: number;
   img: string;
-  date: string;
+  startDate: string;
+  endDate: string;
   title: string;
   stack: string[];
 }
 
-const EditProjectVisualCard = ({ idx, img, date, title, stack }: EditProjectVisualCardProps) => {
+const EditProjectVisualCard = ({ idx, img, startDate, endDate, title, stack }: EditProjectVisualCardProps) => {
   return (
     <E.EditProjectVisualCard $isImgLeft={idx % 2 === 0}>
       <E.ImgWrapper $isImgLeft={idx % 2 === 0}>
@@ -22,7 +23,9 @@ const EditProjectVisualCard = ({ idx, img, date, title, stack }: EditProjectVisu
 
         <E.Link>
           <GithubIcon />
-          <E.Date>{date}</E.Date>
+          <E.Date>
+            {startDate}-{endDate}
+          </E.Date>
         </E.Link>
 
         <E.ContentBox>
