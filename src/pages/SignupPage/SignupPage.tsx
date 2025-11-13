@@ -7,14 +7,15 @@ import PwdIcon from '@assets/onBoarding/icon-pwd-shown.svg?react';
 import palette from '@/styles/theme';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { RequestCheckIdDTO } from '@/types/OnBoarding/auth';
-import { CheckId } from '@/apis/OnBoarding/auth';
+import type { RequestCheckIdDTO, RequestSignupDTO } from '@/types/OnBoarding/auth';
+import { CheckId, Signup } from '@/apis/OnBoarding/auth';
 
 const SignupPage = () => {
   const navigate = useNavigate();
   const [showPwd, setShowPwd] = useState(true);
   const [checkId, setCheckID] = useState(false);
   const [idMessage, setIdMessage] = useState('');
+  const [pwdMessage, setPwdMessage] = useState('');
 
   const [userInfo, setUserInfo] = useState({
     name: '',
@@ -43,13 +44,30 @@ const SignupPage = () => {
       if (response.statusCode == 200) {
         setCheckID(true);
         setIdMessage('사용 가능한 아이디입니다.');
-      } else {
-        setIdMessage('중복된 아이디입니다.');
+      }
+    } catch (error) {
+      console.error(error);
+      setIdMessage('중복된 아이디입니다.');
+    }
+  };
+
+  const handleSignup = async () => {
+    try {
+      const requestData: RequestSignupDTO = {
+        username: userInfo.id,
+        password: userInfo.pwd,
+        name: userInfo.name,
+      };
+
+      const response = await Signup(requestData);
+
+      if (response.data) {
+        navigate('/login');
       }
       console.log(response);
     } catch (error) {
       console.error(error);
-      setIdMessage('중복된 아이디입니다.');
+      setPwdMessage('영문, 숫자, 특수문자를 조합해 8자 이상 입력하세요.');
     }
   };
 
@@ -107,6 +125,7 @@ const SignupPage = () => {
                 </L.PwdBtn>
               }
             />
+            <L.ErrorMsg>{pwdMessage}</L.ErrorMsg>
           </L.InputContainer>
           <L.ButtonContainer>
             <S.ButtonDiv>
@@ -117,7 +136,7 @@ const SignupPage = () => {
               <Button
                 text="회원가입"
                 onClick={() => {
-                  console.log('회원가입');
+                  handleSignup();
                 }}
                 disabled={!userInfo.id || !userInfo.pwd || !userInfo.name || !checkId}
               />

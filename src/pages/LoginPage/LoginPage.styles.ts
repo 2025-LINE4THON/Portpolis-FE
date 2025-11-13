@@ -65,6 +65,7 @@ export const Text = styled.div`
 `;
 
 export const ErrorMsg = styled.div`
+  color: ${palette.danger.default};
   font-size: 12px;
   font-weight: 500;
   line-height: 175%;
