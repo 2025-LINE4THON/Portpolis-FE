@@ -3,18 +3,74 @@ import * as S from './SignupPage.styles';
 import Header from '@pages/LoginPage/components/Header/Header';
 import InputBox from '@pages/LoginPage/components/InputBox/InputBox';
 import Button from '@pages/LoginPage/components/Button/Button';
-import PwdIcon from '@assets/onBoarding/icon-pwd-shown.svg?react';
+import PwdIcon from '@assets/onBoarding/icon-pwd-not-shown.svg';
+import PwdShownIcon from '@assets/onBoarding/icon-pwd-shown.svg';
 import palette from '@/styles/theme';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import type { RequestCheckIdDTO, RequestSignupDTO } from '@/types/OnBoarding/auth';
+import { CheckId, Signup } from '@/apis/OnBoarding/auth';
 
 const SignupPage = () => {
   const navigate = useNavigate();
   const [showPwd, setShowPwd] = useState(true);
-  const [name, setName] = useState('');
-  const [id, setId] = useState('');
   const [checkId, setCheckID] = useState(false);
-  const [pwd, setPwd] = useState('');
+  const [idMessage, setIdMessage] = useState('');
+  const [pwdMessage, setPwdMessage] = useState('');
+
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    id: '',
+    pwd: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserInfo((prev) => ({ ...prev, [name]: value }));
+
+    if (name == 'id') {
+      setIdMessage('중복 확인을 해주세요.');
+      setCheckID(false);
+    }
+  };
+
+  const handleCheckId = async () => {
+    try {
+      const requestData: RequestCheckIdDTO = {
+        username: userInfo.id,
+      };
+
+      const response = await CheckId(requestData);
+
+      if (response.statusCode == 200) {
+        setCheckID(true);
+        setIdMessage('사용 가능한 아이디입니다.');
+      }
+    } catch (error) {
+      console.error(error);
+      setIdMessage('중복된 아이디입니다.');
+    }
+  };
+
+  const handleSignup = async () => {
+    try {
+      const requestData: RequestSignupDTO = {
+        username: userInfo.id,
+        password: userInfo.pwd,
+        name: userInfo.name,
+      };
+
+      const response = await Signup(requestData);
+
+      if (response.data) {
+        navigate('/login');
+      }
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+      setPwdMessage('영문, 숫자, 특수문자를 조합해 8자 이상 입력하세요.');
+    }
+  };
 
   return (
     <>
@@ -27,43 +83,46 @@ const SignupPage = () => {
             <InputBox
               text="이름"
               isPwd={false}
-              value={name}
+              name="name"
+              value={userInfo.name}
               placeholder="이름을 입력해주세요."
-              onChange={(e) => setName(e.target.value)}
+              onChange={handleChange}
             />
             <InputBox
               text="아이디"
               isPwd={false}
-              value={id}
+              name="id"
+              value={userInfo.id}
               placeholder="아이디를 입력해주세요."
-              onChange={(e) => setId(e.target.value)}
+              onChange={handleChange}
               content={
                 <S.CheckIdBtn
-                  type="submit"
+                  type="button"
                   onClick={() => {
-                    setCheckID(true);
+                    handleCheckId();
                   }}
                   disabled={checkId}>
                   중복확인
                 </S.CheckIdBtn>
               }
             />
+            <L.ErrorMsg style={{ color: checkId ? palette.primary.primary500 : palette.danger.default }}>
+              {idMessage}
+            </L.ErrorMsg>
             <InputBox
               text="비밀번호"
               isPwd={showPwd}
-              value={pwd}
+              name="pwd"
+              value={userInfo.pwd}
               placeholder="비밀번호를 입력해주세요."
-              onChange={(e) => setPwd(e.target.value)}
+              onChange={handleChange}
               content={
                 <L.PwdBtn onClick={() => setShowPwd(!showPwd)}>
-                  <PwdIcon
-                    style={{
-                      color: showPwd ? palette.neutral.neutral950 : palette.neutral.neutral300,
-                    }}
-                  />
+                  <img src={showPwd ? PwdIcon : PwdShownIcon} />
                 </L.PwdBtn>
               }
             />
+            <L.ErrorMsg>{pwdMessage}</L.ErrorMsg>
           </L.InputContainer>
           <L.ButtonContainer>
             <S.ButtonDiv>
@@ -74,9 +133,9 @@ const SignupPage = () => {
               <Button
                 text="회원가입"
                 onClick={() => {
-                  console.log('회원가입');
+                  handleSignup();
                 }}
-                disabled={!id || !pwd || !name}
+                disabled={!userInfo.id || !userInfo.pwd || !userInfo.name || !checkId}
               />
             </S.ButtonDiv>
             <L.Text>
