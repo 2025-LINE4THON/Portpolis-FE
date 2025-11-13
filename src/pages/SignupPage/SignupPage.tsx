@@ -25,6 +25,11 @@ const SignupPage = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserInfo((prev) => ({ ...prev, [name]: value }));
+
+    if (name == 'id') {
+      setIdMessage('중복 확인을 해주세요.');
+      setCheckID(false);
+    }
   };
 
   const handleCheckId = async () => {
@@ -44,6 +49,7 @@ const SignupPage = () => {
       console.log(response);
     } catch (error) {
       console.error(error);
+      setIdMessage('중복된 아이디입니다.');
     }
   };
 
