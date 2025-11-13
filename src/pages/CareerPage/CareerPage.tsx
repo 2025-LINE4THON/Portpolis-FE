@@ -6,7 +6,9 @@ import PortfolioSlider from '@components/ProjectSlider/ProjectSlider';
 import EditModal from '@components/EditModal/EditModal';
 import EditInputBox from '@/components/EditInputBox/EditInputBox';
 import trash from '@assets/mypage/icon-trash.svg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import type { ResponseCareerDTO } from '@/types/Career/Career';
+import { getCareer } from '@/apis/Career/Career';
 
 const CareerPage = () => {
   const [experienceModal, setExperienceModal] = useState(false);
@@ -61,32 +63,7 @@ const CareerPage = () => {
     },
   ];
 
-  const careerdumData = [
-    {
-      date: '2024.09',
-      content: '컴퓨터그래픽스 운용 기능사',
-    },
-    {
-      date: '2024.09',
-      content: '컴퓨터그래픽스 운용 기능사',
-    },
-    {
-      date: '2024.09',
-      content: '컴퓨터그래픽스 운용 기능사',
-    },
-    {
-      date: '2024.09',
-      content: '컴퓨터그래픽스 운용 기능사',
-    },
-    {
-      date: '2024.09',
-      content: '컴퓨터그래픽스 운용 기능사',
-    },
-    {
-      date: '2024.09',
-      content: '컴퓨터그래픽스 운용 기능사',
-    },
-  ];
+  const [career, setCareer] = useState<ResponseCareerDTO['data']>([]);
 
   const stackdata = [
     {
@@ -150,6 +127,19 @@ const CareerPage = () => {
     setter(updated);
   };
 
+  useEffect(() => {
+    const getCareers = async () => {
+      try {
+        const response = await getCareer();
+        setCareer(response.data);
+        console.log(response);
+      } catch (error) {
+        console.error('경력 조회 실패', error);
+      }
+    };
+    getCareers();
+  }, []);
+
   return (
     <>
       <C.Background />
@@ -167,9 +157,9 @@ const CareerPage = () => {
             text="내 경력"
             content={
               <>
-                {careerdumData.map((item) => (
+                {career.map((item) => (
                   <div>
-                    {item.date} | {item.content}
+                    {item.startDate.slice(0, 7)} ~ {item.endDate.slice(0, 7)} | {item.content}
                   </div>
                 ))}
               </>
@@ -211,9 +201,9 @@ const CareerPage = () => {
             text="내 자격증"
             content={
               <>
-                {careerdumData.map((item) => (
+                {career.map((item) => (
                   <div>
-                    {item.date} | {item.content}
+                    {item.startDate.slice(0, 7)} | {item.content}
                   </div>
                 ))}
               </>
