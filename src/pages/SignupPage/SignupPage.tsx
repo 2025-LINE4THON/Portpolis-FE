@@ -7,14 +7,45 @@ import PwdIcon from '@assets/onBoarding/icon-pwd-shown.svg?react';
 import palette from '@/styles/theme';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import type { RequestCheckIdDTO } from '@/types/OnBoarding/auth';
+import { CheckId } from '@/apis/OnBoarding/auth';
 
 const SignupPage = () => {
   const navigate = useNavigate();
   const [showPwd, setShowPwd] = useState(true);
-  const [name, setName] = useState('');
-  const [id, setId] = useState('');
   const [checkId, setCheckID] = useState(false);
-  const [pwd, setPwd] = useState('');
+  const [idMessage, setIdMessage] = useState('');
+
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    id: '',
+    pwd: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserInfo((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckId = async () => {
+    try {
+      const requestData: RequestCheckIdDTO = {
+        username: userInfo.id,
+      };
+
+      const response = await CheckId(requestData);
+
+      if (response.statusCode == 200) {
+        setCheckID(true);
+        setIdMessage('사용 가능한 아이디입니다.');
+      } else {
+        setIdMessage('중복된 아이디입니다.');
+      }
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -27,33 +58,39 @@ const SignupPage = () => {
             <InputBox
               text="이름"
               isPwd={false}
-              value={name}
+              name="name"
+              value={userInfo.name}
               placeholder="이름을 입력해주세요."
-              onChange={(e) => setName(e.target.value)}
+              onChange={handleChange}
             />
             <InputBox
               text="아이디"
               isPwd={false}
-              value={id}
+              name="id"
+              value={userInfo.id}
               placeholder="아이디를 입력해주세요."
-              onChange={(e) => setId(e.target.value)}
+              onChange={handleChange}
               content={
                 <S.CheckIdBtn
-                  type="submit"
+                  type="button"
                   onClick={() => {
-                    setCheckID(true);
+                    handleCheckId();
                   }}
                   disabled={checkId}>
                   중복확인
                 </S.CheckIdBtn>
               }
             />
+            <L.ErrorMsg style={{ color: checkId ? palette.primary.primary500 : palette.danger.default }}>
+              {idMessage}
+            </L.ErrorMsg>
             <InputBox
               text="비밀번호"
               isPwd={showPwd}
-              value={pwd}
+              name="pwd"
+              value={userInfo.pwd}
               placeholder="비밀번호를 입력해주세요."
-              onChange={(e) => setPwd(e.target.value)}
+              onChange={handleChange}
               content={
                 <L.PwdBtn onClick={() => setShowPwd(!showPwd)}>
                   <PwdIcon
@@ -76,7 +113,7 @@ const SignupPage = () => {
                 onClick={() => {
                   console.log('회원가입');
                 }}
-                disabled={!id || !pwd || !name}
+                disabled={!userInfo.id || !userInfo.pwd || !userInfo.name || !checkId}
               />
             </S.ButtonDiv>
             <L.Text>

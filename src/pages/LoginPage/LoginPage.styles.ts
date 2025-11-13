@@ -63,3 +63,11 @@ export const Text = styled.div`
   font-weight: 500;
   color: ${palette.neutral.neutral300};
 `;
+
+export const ErrorMsg = styled.div`
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 175%;
+  position: relative;
+  bottom: 10px;
+`;
