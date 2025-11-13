@@ -37,6 +37,7 @@ export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
   const [selectedProjects, setSelectedProjects] = useState<ProjectItem[]>([]); // 내 프로젝트
 
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null); // 포트폴리오 대표 이미지
+  const [thumbnail, setThumbnail] = useState<ImageData | null>(null); // 포트폴리오 썸네일
 
   const [aboutMe, setAboutMe] = useState<AboutMeItem[]>(DATAS);
 
@@ -103,6 +104,8 @@ export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
         setSelectedImage,
         aboutMe,
         setAboutMe,
+        thumbnail,
+        setThumbnail,
       }}>
       {children}
     </PortfolioContext.Provider>

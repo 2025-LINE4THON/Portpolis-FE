@@ -10,7 +10,7 @@ export type Skill = {
 
 export type Career = {
   id: number;
-  description: string;
+  description: string | undefined;
 };
 
 export type AboutMe = {
@@ -19,15 +19,15 @@ export type AboutMe = {
 };
 
 export type RequestPortfolios = {
-  portpolioTemplate: 'STANDARD' | 'IMAGE';
+  template: 'STANDARD' | 'IMAGE';
   skills: Skill[];
   careers: Career[];
   projectIds: number[];
   title: string;
   greeting: string;
-  Introduction: string;
+  introduction: string | undefined;
   aboutMe: AboutMe[];
-  thumbnail: string;
+  thumbnail: string | undefined;
   isPublic: 'PUBLIC' | 'PRIVATE' | 'LINK';
 };
 

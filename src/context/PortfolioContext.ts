@@ -39,6 +39,9 @@ interface IPortfolio {
 
   selectedImage: ImageData | null;
   setSelectedImage: React.Dispatch<SetStateAction<ImageData | null>>;
+
+  thumbnail: ImageData | null;
+  setThumbnail: React.Dispatch<SetStateAction<ImageData | null>>;
 }
 
 export const PortfolioContext = createContext<IPortfolio | undefined>(undefined);

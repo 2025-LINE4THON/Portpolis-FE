@@ -1,28 +1,23 @@
-import { useEffect, useState } from 'react';
-
-interface ImageData {
-  file: File;
-  thumbnail: string;
-  type: string;
-}
+import { usePortfolio } from '@/context/PortfolioContext';
+import { useEffect } from 'react';
 
 const useLocalImageUpload = () => {
-  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
+  const { thumbnail, setThumbnail } = usePortfolio();
 
   useEffect(() => {
     return () => {
-      if (selectedImage) {
-        URL.revokeObjectURL(selectedImage.thumbnail);
+      if (thumbnail) {
+        URL.revokeObjectURL(thumbnail.thumbnail);
       }
     };
-  }, [selectedImage]);
+  }, [thumbnail]);
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
 
     if (fileList && fileList[0]) {
       const url = URL.createObjectURL(fileList[0]);
-      setSelectedImage({
+      setThumbnail({
         file: fileList[0],
         thumbnail: url,
         type: fileList[0].type.split('/')[0],
@@ -30,7 +25,7 @@ const useLocalImageUpload = () => {
     }
   };
 
-  return { selectedImage, setSelectedImage, handleUpload };
+  return { thumbnail, setThumbnail, handleUpload };
 };
 
 export default useLocalImageUpload;
