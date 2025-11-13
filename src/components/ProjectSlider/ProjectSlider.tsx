@@ -49,33 +49,36 @@ const PortfolioSlider = ({ items }: PortfolioSliderProps) => {
   };
 
   const visibleItems = items.slice(currentIndex, currentIndex + visibleCount);
-
-  return (
-    <P.PortfolioList>
-      <P.ArrowButton onClick={handlePrev} disabled={currentIndex === 0}>
-        <img src={prev} alt="prev" />
-      </P.ArrowButton>
-      <P.Portfolios>
-        {visibleItems.map((item) => (
-          <ProjectItem
-            id={item.id}
-            type={item.type}
-            thumbnail={item.thumbnail}
-            startDate={item.startDate}
-            endDate={item.endDate}
-            title={item.title}
-            onClick={item.onClick ?? (() => console.log(item.title))}
-            isPrivate={item.isPrivate}
-            tags={item.tags}
-            role={item.role}
-          />
-        ))}
-      </P.Portfolios>
-      <P.ArrowButton onClick={handleNext} disabled={currentIndex + visibleCount >= items.length}>
-        <img src={next} alt="next" />
-      </P.ArrowButton>
-    </P.PortfolioList>
-  );
+  if (!items || items.length === 0) {
+    return <div style={{ textAlign: 'center', color: '#999', margin: '40px 0' }}>등록된 프로젝트가 없습니다.</div>;
+  } else {
+    return (
+      <P.PortfolioList>
+        <P.ArrowButton onClick={handlePrev} disabled={currentIndex === 0}>
+          <img src={prev} alt="prev" />
+        </P.ArrowButton>
+        <P.Portfolios>
+          {visibleItems.map((item) => (
+            <ProjectItem
+              id={item.id}
+              type={item.type}
+              thumbnail={item.thumbnail}
+              startDate={item.startDate}
+              endDate={item.endDate}
+              title={item.title}
+              onClick={item.onClick ?? (() => console.log(item.title))}
+              isPrivate={item.isPrivate}
+              tags={item.tags}
+              role={item.role}
+            />
+          ))}
+        </P.Portfolios>
+        <P.ArrowButton onClick={handleNext} disabled={currentIndex + visibleCount >= items.length}>
+          <img src={next} alt="next" />
+        </P.ArrowButton>
+      </P.PortfolioList>
+    );
+  }
 };
 
 export default PortfolioSlider;
