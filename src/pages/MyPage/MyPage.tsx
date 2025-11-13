@@ -2,7 +2,7 @@ import * as M from './MyPage.styles';
 import PageBlock from '@components/PageBlock/PageBlock';
 import EditModal from '@components/EditModal/EditModal';
 import palette from '@/styles/theme';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EditInputBox from '@/components/EditInputBox/EditInputBox';
 import github from '@assets/mypage/icon-github.svg';
 import brunch from '@assets/mypage/icon-brunch.svg';
@@ -11,17 +11,21 @@ import insta from '@assets/mypage/icon-instagram.svg';
 import youtube from '@assets/mypage/icon-youtube.svg';
 import extraLink from '@assets/mypage/icon-extra-link.svg';
 import PortfolioSlider from '@components/ProjectSlider/ProjectSlider';
+import type { ResponseUserInfoDTO } from '@/types/Mypage/Mypage';
+import { getUserInfo } from '@apis/Mypage/Mypage';
 
 const MyPage = () => {
   const [profileModal, setProfileModal] = useState(false);
   const [linkModal, setLinkModal] = useState(false);
 
-  const [profile, setProfile] = useState({
+  const [profile, setProfile] = useState<ResponseUserInfoDTO['data']>({
+    userId: 0,
+    username: '',
     name: '',
-    job: '',
-    phoneNum: '',
     email: '',
+    phoneNumber: '',
     introduction: '',
+    job: '',
   });
 
   const [links, setLinks] = useState({
@@ -86,9 +90,22 @@ const MyPage = () => {
     },
   ];
 
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const response = await getUserInfo();
+        console.log(response);
+        setProfile(response.data);
+      } catch (error) {
+        console.error('마이페이지 조회 실패', error);
+      }
+    };
+
+    getProfile();
+  }, []);
+
   return (
     <>
-      {' '}
       <M.Background />
       <M.MyPage>
         <M.Header>
@@ -98,12 +115,14 @@ const MyPage = () => {
         <M.MyInfoContainer>
           <PageBlock
             width="100%"
-            text="아기사자"
-            middleContent={<M.Job>UI/UX 디자이너</M.Job>}
+            text={profile.name || ''}
+            middleContent={profile.job && <M.Job>{profile.job}</M.Job>}
             content={
               <M.MyInfo>
                 <div>
-                  <div>010-1234-1234 / soye853@gmail.com</div>
+                  <div style={{ display: 'flex' }}>
+                    {profile.phoneNumber} {profile.email && <div> / {profile.email}</div>}
+                  </div>
                   <div>총 프로젝트 개수 / 8개</div>
                 </div>
                 <button
@@ -167,7 +186,7 @@ const MyPage = () => {
                   width="200px"
                   title="이름"
                   name="name"
-                  value={profile.name}
+                  value={profile.name ?? ''}
                   placeholder="이름을 입력해주세요"
                   onChange={handleProfileChange}
                 />
@@ -175,7 +194,7 @@ const MyPage = () => {
                   width="100%"
                   title="직무 / 직군"
                   name="job"
-                  value={profile.job}
+                  value={profile.job ?? ''}
                   placeholder="직무 또는 직군을 입력해주세요"
                   onChange={handleProfileChange}
                 />
@@ -184,8 +203,8 @@ const MyPage = () => {
                 <EditInputBox
                   width="100%"
                   title="연락처"
-                  name="phoneNum"
-                  value={profile.phoneNum}
+                  name="phoneNumber"
+                  value={profile.phoneNumber ?? ''}
                   placeholder="010-1234-1234"
                   onChange={handleProfileChange}
                 />
@@ -193,14 +212,14 @@ const MyPage = () => {
                   width="100%"
                   title="이메일"
                   name="email"
-                  value={profile.email}
+                  value={profile.email ?? ''}
                   placeholder="example@email.com"
                   onChange={handleProfileChange}
                 />
               </M.ProfileRowContainer>
               <M.Textarea
                 name="introduction"
-                value={profile.introduction}
+                value={profile.introduction ?? ''}
                 placeholder="간단한 자기소개를 입력해주세요."
                 onChange={handleProfileChange}
               />
