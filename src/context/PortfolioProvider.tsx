@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react';
 import {
   PortfolioContext,
   type CareerItem,
+  type ImageData,
   type PortfolioStep,
   type ProjectItem,
   type StackItem,
@@ -15,6 +16,8 @@ export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
   const [selectedStacks, setSelectedStacks] = useState<StackItem[]>([]); // 내 기술 스택
   const [selectedCareers, setSelectedCareers] = useState<CareerItem[]>([]); // 내 경력
   const [selectedProjects, setSelectedProjects] = useState<ProjectItem[]>([]); // 내 프로젝트
+
+  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null); // 포트폴리오 대표 이미지
 
   // 내 기술 스택 선택
   const toggleStack = (item: StackItem) => {
@@ -75,6 +78,8 @@ export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
         toggleStack,
         toggleCareer,
         toggleProject,
+        selectedImage,
+        setSelectedImage,
       }}>
       {children}
     </PortfolioContext.Provider>

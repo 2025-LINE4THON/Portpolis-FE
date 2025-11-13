@@ -7,6 +7,12 @@ export type StackItem = Stack & { percent?: number };
 export type CareerItem = Career;
 export type ProjectItem = Pick<Project, 'projectId' | 'title' | 'startDate' | 'endDate'>;
 
+export interface ImageData {
+  file: File;
+  thumbnail: string;
+  type: string;
+}
+
 interface IPortfolio {
   level: PortfolioStep;
   setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
@@ -26,6 +32,9 @@ interface IPortfolio {
   toggleStack: (item: StackItem) => void;
   toggleCareer: (item: CareerItem) => void;
   toggleProject: (item: ProjectItem) => void;
+
+  selectedImage: ImageData | null;
+  setSelectedImage: React.Dispatch<SetStateAction<ImageData | null>>;
 }
 
 export const PortfolioContext = createContext<IPortfolio | undefined>(undefined);

@@ -1,8 +1,13 @@
-import { usePortfolio } from '@/context/PortfolioContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-const useImageUpload = () => {
-  const { selectedImage, setSelectedImage } = usePortfolio();
+interface ImageData {
+  file: File;
+  thumbnail: string;
+  type: string;
+}
+
+const useLocalImageUpload = () => {
+  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
 
   useEffect(() => {
     return () => {
@@ -28,4 +33,4 @@ const useImageUpload = () => {
   return { selectedImage, setSelectedImage, handleUpload };
 };
 
-export default useImageUpload;
+export default useLocalImageUpload;

@@ -1,17 +1,17 @@
 import { usePortfolio } from '@/context/PortfolioContext';
 import EditHeader from '../EditHeader/EditHeader';
 import * as P from './Publish.styles';
-import useImageUpload from '@/hooks/useImageUpload';
 import CommonPortfolioCard from '@/components/CommonPortfolioCard/CommonPortfolioCard';
 import { useState } from 'react';
 import CheckedIcon from '@assets/PortfolioCreatePage/icon-checked.svg?react';
 import NotCheckedIcon from '@assets/PortfolioCreatePage/icon-not-checked.svg?react';
 import PortfolioButton from '../PortfolioButton/PortfolioButton';
 import { useNavigate } from 'react-router-dom';
+import useLocalImageUpload from '@/hooks/useLocalImageUpload';
 
 const Publish = () => {
   const { setLevel } = usePortfolio();
-  const { selectedImage, handleUpload } = useImageUpload();
+  const { selectedImage, handleUpload } = useLocalImageUpload();
   const [title, setTitle] = useState('');
   const [selected, setSelected] = useState<'all' | 'link' | 'secret' | null>(null);
   const navigate = useNavigate();
