@@ -2,7 +2,8 @@ import * as L from './LoginPage.styles';
 import Header from './components/Header/Header';
 import Button from './components/Button/Button';
 import InputBox from './components/InputBox/InputBox';
-import PwdIcon from '@assets/onBoarding/icon-pwd-shown.svg?react';
+import PwdIcon from '@assets/onBoarding/icon-pwd-not-shown.svg';
+import PwdShownIcon from '@assets/onBoarding/icon-pwd-shown.svg';
 import palette from '@/styles/theme';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -69,11 +70,7 @@ const LoginPage = () => {
               onChange={handleChange}
               content={
                 <L.PwdBtn onClick={() => setShowPwd(!showPwd)}>
-                  <PwdIcon
-                    style={{
-                      color: showPwd ? palette.neutral.neutral950 : palette.neutral.neutral300,
-                    }}
-                  />
+                  <img src={showPwd ? PwdIcon : PwdShownIcon} />
                 </L.PwdBtn>
               }
             />
