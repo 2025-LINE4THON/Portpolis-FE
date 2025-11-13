@@ -11,6 +11,7 @@ interface StackListProps {
 const StackList = ({ selectedStacks, toggleStack }: StackListProps) => {
   // 내 스택 조회
   const { data: stacksData } = useGetMeStacks();
+
   // 선택된 스택
   const selected =
     stacksData?.data.filter((stack) => selectedStacks.some((select) => select.stackId === stack.stackId)) || [];

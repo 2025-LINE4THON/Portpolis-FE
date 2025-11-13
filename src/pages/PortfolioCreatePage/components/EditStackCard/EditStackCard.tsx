@@ -9,7 +9,7 @@ const EditStackCard = () => {
     setSelectedStacks((prev) =>
       prev.map((stack) => ({
         ...stack,
-        percent: (stack.level / 5) * 100,
+        percent: stack.level,
       })),
     );
   }, [setSelectedStacks]);
