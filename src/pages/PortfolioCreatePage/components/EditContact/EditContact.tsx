@@ -1,10 +1,14 @@
+import useGetUsers from '@/hooks/queries/PortfolioCreatePage/useGetUsers';
 import * as E from './EditContact.styles';
 
 const EditContact = () => {
+  // 내 정보 조회
+  const { data } = useGetUsers();
+
   return (
     <E.EditContact>
-      <p>010-1234-1234</p>
-      <p> soye853@gmail.com</p>
+      <p>{data?.data.phoneNumber}</p>
+      <p>{data?.data.email}</p>
     </E.EditContact>
   );
 };

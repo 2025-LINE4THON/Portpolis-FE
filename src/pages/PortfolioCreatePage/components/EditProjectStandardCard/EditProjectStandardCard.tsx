@@ -19,7 +19,12 @@ const EditProjectStandardCard = ({ img, startDate, endDate, title, role }: EditP
       <E.TextWrapper>
         <div>
           <E.Text $color={`${palette.neutral.neutral200}`} $size={12}>
-            {startDate} - {endDate}
+            {!endDate && startDate.slice(0, 10)}
+            {endDate && (
+              <>
+                {startDate.slice(0, 10)} - {endDate.slice(0, 10)}
+              </>
+            )}
           </E.Text>
 
           <E.Text $color={`${palette.neutral.neutral800}`} $size={14}>
