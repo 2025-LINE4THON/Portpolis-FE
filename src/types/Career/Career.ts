@@ -19,3 +19,12 @@ export type LicenseDTO = {
   gotDate: string;
   endDate: string;
 };
+
+export type ResponseStackDTO = CommonResponse<StackDTO[]>;
+
+export type StackDTO = {
+  stackId: number;
+  userId: number;
+  name: string;
+  level: string;
+};

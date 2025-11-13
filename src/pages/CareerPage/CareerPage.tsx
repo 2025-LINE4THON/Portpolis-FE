@@ -7,8 +7,8 @@ import EditModal from '@components/EditModal/EditModal';
 import EditInputBox from '@/components/EditInputBox/EditInputBox';
 import trash from '@assets/mypage/icon-trash.svg';
 import { useState, useEffect } from 'react';
-import type { ResponseCareerDTO, ResponseLicenseDTO } from '@/types/Career/Career';
-import { getCareer, getLicense } from '@/apis/Career/Career';
+import type { ResponseCareerDTO, ResponseLicenseDTO, ResponseStackDTO } from '@/types/Career/Career';
+import { getCareer, getLicense, getStack } from '@/apis/Career/Career';
 
 const CareerPage = () => {
   const [experienceModal, setExperienceModal] = useState(false);
@@ -65,28 +65,8 @@ const CareerPage = () => {
 
   const [career, setCareer] = useState<ResponseCareerDTO['data']>([]);
   const [license, setLicense] = useState<ResponseLicenseDTO['data']>([]);
-  const stackdata = [
-    {
-      skill: 'java',
-      degree: 49,
-    },
-    {
-      skill: 'java',
-      degree: 19,
-    },
-    {
-      skill: 'java',
-      degree: 39,
-    },
-    {
-      skill: 'java',
-      degree: 79,
-    },
-    {
-      skill: 'java',
-      degree: 99,
-    },
-  ];
+  const [stack, setStack] = useState<ResponseStackDTO['data']>([]);
+
   interface InputItem {
     [key: string]: string;
     field1: string;
@@ -130,12 +110,13 @@ const CareerPage = () => {
   useEffect(() => {
     const getCareerData = async () => {
       try {
-        const [careerRes, licenseRes] = await Promise.all([getCareer(), getLicense()]);
+        const [careerRes, licenseRes, stackRes] = await Promise.all([getCareer(), getLicense(), getStack()]);
 
         setCareer(careerRes.data);
         setLicense(licenseRes.data);
+        setStack(stackRes.data);
 
-        console.log(careerRes, licenseRes);
+        console.log(careerRes, licenseRes, stackRes);
       } catch (error) {
         console.error('데이터 조회 실패', error);
       }
@@ -176,13 +157,14 @@ const CareerPage = () => {
             text="내 기술스택"
             content={
               <>
-                {stackdata.map((item, idx) => {
-                  const filledCount = Math.min(5, Math.ceil(item.degree / 20));
+                {stack.map((item, idx) => {
+                  const levelNum = Number(item.level);
+                  const filledCount = Math.min(5, Math.ceil(levelNum / 20));
                   const totalDots = 5;
 
                   return (
                     <C.StackRow key={idx}>
-                      <C.AddButton>{item.skill}</C.AddButton>
+                      <C.AddButton>{item.name}</C.AddButton>
                       <C.DotWrapper>
                         {Array.from({ length: totalDots }).map((_, i) => (
                           <C.Dot key={i} filled={i < filledCount} />
