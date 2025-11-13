@@ -26,6 +26,7 @@ const CareerPage = () => {
   const [license, setLicense] = useState<ResponseLicenseDTO['data']>([]);
   const [stack, setStack] = useState<ResponseStackDTO['data']>([]);
   const [project, setProject] = useState<ResponseProjectDTO['data']>([]);
+
   interface InputItem {
     [key: string]: string;
     field1: string;
@@ -80,6 +81,43 @@ const CareerPage = () => {
         setLicense(licenseRes.data);
         setStack(stackRes.data);
         setProject(projectRes.data);
+
+        setExperiences([
+          ...careerRes.data.map((item) => ({
+            field1: item.content || '',
+            field2: item.startDate?.slice(0, 10) || '',
+            field3: item.endDate?.slice(0, 10) || '',
+          })),
+          ...Array.from({ length: Math.max(0, 5 - careerRes.data.length) }, () => ({
+            field1: '',
+            field2: '',
+            field3: '',
+          })),
+        ]);
+
+        setSkills([
+          ...stackRes.data.map((item) => ({
+            field1: item.name || '',
+            field2: item.level?.toString() || '',
+          })),
+          ...Array.from({ length: Math.max(0, 5 - stackRes.data.length) }, () => ({
+            field1: '',
+            field2: '',
+          })),
+        ]);
+
+        setQualifications([
+          ...licenseRes.data.map((item) => ({
+            field1: item.name || '',
+            field2: item.gotDate?.slice(0, 10) || '',
+            field3: item.endDate?.slice(0, 10) || '',
+          })),
+          ...Array.from({ length: Math.max(0, 5 - licenseRes.data.length) }, () => ({
+            field1: '',
+            field2: '',
+            field3: '',
+          })),
+        ]);
 
         console.log(careerRes, licenseRes, stackRes, projectRes);
       } catch (error) {
