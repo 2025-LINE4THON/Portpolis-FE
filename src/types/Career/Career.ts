@@ -9,3 +9,13 @@ export type CareerDTO = {
   startDate: string;
   endDate: string;
 };
+
+export type ResponseLicenseDTO = CommonResponse<LicenseDTO[]>;
+
+export type LicenseDTO = {
+  LicenseId: number;
+  userId: number;
+  name: string;
+  gotDate: string;
+  endDate: string;
+};

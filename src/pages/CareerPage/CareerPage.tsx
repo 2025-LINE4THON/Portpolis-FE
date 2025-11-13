@@ -7,8 +7,8 @@ import EditModal from '@components/EditModal/EditModal';
 import EditInputBox from '@/components/EditInputBox/EditInputBox';
 import trash from '@assets/mypage/icon-trash.svg';
 import { useState, useEffect } from 'react';
-import type { ResponseCareerDTO } from '@/types/Career/Career';
-import { getCareer } from '@/apis/Career/Career';
+import type { ResponseCareerDTO, ResponseLicenseDTO } from '@/types/Career/Career';
+import { getCareer, getLicense } from '@/apis/Career/Career';
 
 const CareerPage = () => {
   const [experienceModal, setExperienceModal] = useState(false);
@@ -64,7 +64,7 @@ const CareerPage = () => {
   ];
 
   const [career, setCareer] = useState<ResponseCareerDTO['data']>([]);
-
+  const [license, setLicense] = useState<ResponseLicenseDTO['data']>([]);
   const stackdata = [
     {
       skill: 'java',
@@ -128,16 +128,19 @@ const CareerPage = () => {
   };
 
   useEffect(() => {
-    const getCareers = async () => {
+    const getCareerData = async () => {
       try {
-        const response = await getCareer();
-        setCareer(response.data);
-        console.log(response);
+        const [careerRes, licenseRes] = await Promise.all([getCareer(), getLicense()]);
+
+        setCareer(careerRes.data);
+        setLicense(licenseRes.data);
+
+        console.log(careerRes, licenseRes);
       } catch (error) {
-        console.error('경력 조회 실패', error);
+        console.error('데이터 조회 실패', error);
       }
     };
-    getCareers();
+    getCareerData();
   }, []);
 
   return (
@@ -201,9 +204,9 @@ const CareerPage = () => {
             text="내 자격증"
             content={
               <>
-                {career.map((item) => (
+                {license.map((item) => (
                   <div>
-                    {item.startDate.slice(0, 7)} | {item.content}
+                    {item.gotDate.slice(0, 7)} | {item.name}
                   </div>
                 ))}
               </>
