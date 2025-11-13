@@ -10,6 +10,7 @@ import ExBg from '@assets/HomePage/slide-img-1.jpg';
 import ResultIcon from '@assets/ListPage/icon-no-result.svg?react';
 import useGetSearchPortfolio from '@/hooks/queries/ListPage/useGetSearchPortfolio';
 import type { RecommendPortfolio } from '@/types/HomePage/recommend';
+import { useNavigate } from 'react-router-dom';
 
 const ListPage = () => {
   const [search, setSearch] = useState('');
@@ -18,6 +19,8 @@ const ListPage = () => {
   const { data } = useGetSearchPortfolio({ keyword: searchRes });
 
   const searchedData: RecommendPortfolio[] = data?.data || [];
+
+  const navigate = useNavigate();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -55,6 +58,7 @@ const ListPage = () => {
                   hasHeart={true}
                   views={data.views}
                   date={data.createdAt}
+                  onClick={() => navigate(`/portfolio/${data.portfolioId}`)}
                 />
               ))}
             </L.Flex>
