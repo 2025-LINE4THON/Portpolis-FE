@@ -1,4 +1,9 @@
-import type { RequestPortfolios, ResponseGetUsersDto, ResponsePortfolios } from '@/types/PortfolioCreatePage/edit';
+import type {
+  RequestPortfolios,
+  ResponseGetPortfolio,
+  ResponseGetUsersDto,
+  ResponsePortfolios,
+} from '@/types/PortfolioCreatePage/edit';
 import { axiosInstance } from '../axios';
 
 // 포트폴리오 생성
@@ -18,6 +23,13 @@ export const patchPortfolios = async (body: RequestPortfolios, portfolioId: numb
 // 내 정보 조회
 export const getUsers = async (): Promise<ResponseGetUsersDto> => {
   const { data } = await axiosInstance.get('api/users/me');
+
+  return data;
+};
+
+// 포트폴리오 상세 조회
+export const getPortfolios = async (portfolioId: number): Promise<ResponseGetPortfolio> => {
+  const { data } = await axiosInstance.get(`/api/portfolios/${portfolioId}`);
 
   return data;
 };

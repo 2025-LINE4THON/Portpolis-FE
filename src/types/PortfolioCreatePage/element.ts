@@ -26,10 +26,10 @@ export type Project = {
   title: string;
   startDate: string;
   endDate: string | null;
-  role: string;
+  role?: string;
   thumbnail: string;
   tags: string[];
-  stacks: { stackId: number; stackName: string }[];
+  stacks?: { stackId: number; stackName: string }[];
   contents: { title: string; content: string }[];
   images: string[];
   links: { name: string; url: string }[];

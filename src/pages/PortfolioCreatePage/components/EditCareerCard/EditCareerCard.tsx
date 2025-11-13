@@ -9,12 +9,21 @@ interface EditCareerCardProps {
   startDate: string;
   endDate: string;
   description: string;
+  editable?: boolean;
 }
 
-const EditCareerCard = ({ id, title, startDate, endDate, description }: EditCareerCardProps) => {
+const EditCareerCard = ({ id, title, startDate, endDate, description, editable }: EditCareerCardProps) => {
   const [input, setInput] = useState(description);
   const textRef = useRef<HTMLTextAreaElement | null>(null);
   const { setSelectedCareers } = usePortfolio();
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = e.target.value;
+    setInput(newValue);
+    setSelectedCareers((prev) =>
+      prev.map((item) => (item.careerId === id ? { ...item, description: newValue } : item)),
+    );
+  };
 
   const handleSubmit = () => {
     setSelectedCareers((prev) => prev.map((item) => (item.careerId === id ? { ...item, description: input } : item)));
@@ -51,10 +60,11 @@ const EditCareerCard = ({ id, title, startDate, endDate, description }: EditCare
       <E.GrayText $color={`${palette.neutral.neutral500}`} $size={16}>
         <E.Textarea
           ref={textRef}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
+          value={editable ? undefined : input}
+          onChange={handleChange}
           placeholder="경력을 입력해주세요."
           onKeyDown={handleKeyDown}
+          readOnly={!editable}
         />
       </E.GrayText>
     </E.EditCareerCard>

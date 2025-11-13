@@ -1,16 +1,19 @@
 import { usePortfolio } from '@/context/PortfolioContext';
-import EditHeader from '../EditHeader/EditHeader';
-import * as P from './Publish.styles';
-import CommonPortfolioCard from '@/components/CommonPortfolioCard/CommonPortfolioCard';
 import { useState } from 'react';
-import CheckedIcon from '@assets/PortfolioCreatePage/icon-checked.svg?react';
-import NotCheckedIcon from '@assets/PortfolioCreatePage/icon-not-checked.svg?react';
-import PortfolioButton from '../PortfolioButton/PortfolioButton';
 import { useNavigate } from 'react-router-dom';
 import useLocalImageUpload from '@/hooks/useLocalImageUpload';
 import useGetUsers from '@/hooks/queries/PortfolioCreatePage/useGetUsers';
+
 import type { RequestPortfolios } from '@/types/PortfolioCreatePage/edit';
 import usePostPortfolios from '@/hooks/mutations/PortfolioCreatePage/usePostPortfolios';
+import { TEMPLATE, VISIBILITY } from '@/constants/key';
+
+import * as P from './Publish.styles';
+import CheckedIcon from '@assets/PortfolioCreatePage/icon-checked.svg?react';
+import NotCheckedIcon from '@assets/PortfolioCreatePage/icon-not-checked.svg?react';
+import PortfolioButton from '../PortfolioButton/PortfolioButton';
+import CommonPortfolioCard from '@/components/CommonPortfolioCard/CommonPortfolioCard';
+import EditHeader from '../EditHeader/EditHeader';
 
 const Publish = () => {
   const { setLevel, selectedTemplate, selectedStacks, selectedCareers, selectedProjects, aboutMe } = usePortfolio();
@@ -24,16 +27,16 @@ const Publish = () => {
 
   const handlePublish = () => {
     const payload: RequestPortfolios = {
-      template: selectedTemplate === 1 ? 'STANDARD' : 'IMAGE',
+      template: selectedTemplate === 1 ? TEMPLATE.STANDARD : TEMPLATE.VISUAL,
       skills: selectedStacks.map((s, idx) => ({ id: s.stackId, rank: idx + 1 })),
-      careers: selectedCareers.map((c) => ({ id: c.careerId, description: c.description })),
+      careers: selectedCareers.map((c) => ({ careerId: c.careerId, description: c.description })),
       projectIds: selectedProjects.map((p) => p.projectId),
       title: title,
       greeting: '',
       introduction: userData?.data.introduction,
       aboutMe: aboutMe,
       thumbnail: thumbnail?.thumbnail,
-      isPublic: selected === 'all' ? 'PUBLIC' : selected === 'link' ? 'LINK' : 'PRIVATE',
+      isPublic: selected === 'all' ? VISIBILITY.PUBLIC : selected === 'link' ? VISIBILITY.LINK : VISIBILITY.PRIVATE,
     };
 
     mutate(payload);

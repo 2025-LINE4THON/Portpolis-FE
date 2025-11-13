@@ -1,6 +1,6 @@
 // 포트폴리오 생성 - 소개 문구 수정
-
 import type { CommonResponse } from '../common';
+import { TEMPLATE, VISIBILITY } from '@/constants/key';
 
 // 포트폴리오 생성 및 수정
 export type Skill = {
@@ -9,7 +9,10 @@ export type Skill = {
 };
 
 export type Career = {
-  id: number;
+  careerId: number;
+  content?: string;
+  startDate?: string;
+  endDate?: string;
   description: string | undefined;
 };
 
@@ -19,7 +22,7 @@ export type AboutMe = {
 };
 
 export type RequestPortfolios = {
-  template: 'STANDARD' | 'IMAGE';
+  template: (typeof TEMPLATE)[keyof typeof TEMPLATE];
   skills: Skill[];
   careers: Career[];
   projectIds: number[];
@@ -28,7 +31,7 @@ export type RequestPortfolios = {
   introduction: string | undefined;
   aboutMe: AboutMe[];
   thumbnail: string | undefined;
-  isPublic: 'PUBLIC' | 'PRIVATE' | 'LINK';
+  isPublic: (typeof VISIBILITY)[keyof typeof VISIBILITY];
 };
 
 export type ResponsePortfolios = CommonResponse<{
@@ -56,3 +59,43 @@ export type License = {
 };
 
 export type ResponseGetLicensesDto = CommonResponse<License[]>;
+
+// 포트폴리오 상세 조회
+export type Stack = {
+  stackId: number;
+  name: string;
+  level: string;
+  rank: number;
+};
+
+export type Project = {
+  projectId: number;
+  title: string;
+  thumbnail: string | null;
+  role: string;
+  startDate: string;
+  endDate: string;
+};
+
+export type Portfolio = {
+  portfolioId: number;
+  userId: number;
+  title: string;
+  thumbnail: string | null;
+  coverImage: string | null;
+  template: (typeof TEMPLATE)[keyof typeof TEMPLATE];
+  views: number;
+  isPublic: string;
+  aboutMe: AboutMe[];
+  createdAt: string;
+  updatedAt: string;
+  stacks: Stack[];
+  careers: Career[];
+  projects: Project[];
+  introduction: string;
+  visibility: (typeof VISIBILITY)[keyof typeof VISIBILITY];
+  userName: string;
+  job: string;
+};
+
+export type ResponseGetPortfolio = CommonResponse<Portfolio>;

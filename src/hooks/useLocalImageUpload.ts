@@ -4,16 +4,12 @@ import { useEffect } from 'react';
 const useLocalImageUpload = () => {
   const { thumbnail, setThumbnail } = usePortfolio();
 
-  useEffect(() => {
-    return () => {
-      if (thumbnail) {
-        URL.revokeObjectURL(thumbnail.thumbnail);
-      }
-    };
-  }, [thumbnail]);
-
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
+
+    if (thumbnail) {
+      URL.revokeObjectURL(thumbnail.thumbnail);
+    }
 
     if (fileList && fileList[0]) {
       const url = URL.createObjectURL(fileList[0]);
@@ -24,6 +20,14 @@ const useLocalImageUpload = () => {
       });
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (thumbnail) {
+        URL.revokeObjectURL(thumbnail.thumbnail);
+      }
+    };
+  }, [thumbnail]);
 
   return { thumbnail, setThumbnail, handleUpload };
 };

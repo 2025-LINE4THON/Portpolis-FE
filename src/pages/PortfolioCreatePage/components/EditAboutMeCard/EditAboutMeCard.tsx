@@ -3,7 +3,7 @@ import * as E from './EditAboutMeCard.styles';
 interface EditAboutMeCardProps {
   title: string;
   content: string;
-  id: number;
+  id?: number;
   onChange: (id: number, field: 'title' | 'content', value: string) => void;
   onSubmit: () => void;
 }
@@ -20,13 +20,17 @@ const EditAboutMeCard = ({ title, content, id, onChange, onSubmit }: EditAboutMe
     <E.EditAboutMeCard>
       <E.TitleInput
         placeholder={title}
-        onChange={(e) => onChange(id, 'title', e.target.value)}
+        value={id ? undefined : title}
+        onChange={(e) => id && onChange(id, 'title', e.target.value)}
         onKeyDown={handleKeyDown}
+        readOnly={!id}
       />
       <E.ContentInput
         placeholder={content}
-        onChange={(e) => onChange(id, 'content', e.target.value)}
+        value={id ? undefined : content}
+        onChange={(e) => id && onChange(id, 'content', e.target.value)}
         onKeyDown={handleKeyDown}
+        readOnly={!id}
       />
     </E.EditAboutMeCard>
   );

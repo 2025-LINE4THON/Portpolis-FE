@@ -1,3 +1,4 @@
+import type { ResponseGetPortfolio } from '@/types/PortfolioCreatePage/edit';
 import EditAboutMe from '../EditAboutMe/EditAboutMe';
 import EditCareer from '../EditCareer/EditCareer';
 import EditContact from '../EditContact/EditContact';
@@ -7,25 +8,30 @@ import EditProject from '../EditProject/EditProject';
 import EditStack from '../EditStack/EditStack';
 import * as E from './Edit.styles';
 
-const Edit = () => {
+interface EditProps {
+  data?: ResponseGetPortfolio;
+  editable?: boolean;
+}
+
+const Edit = ({ data, editable = true }: EditProps) => {
   return (
     <E.Edit>
-      <EditImage />
+      <EditImage data={data} editable={editable} />
 
       {/* 소개말 */}
-      <EditIntroduce />
+      <EditIntroduce data={data} editable={editable} />
 
       {/* About Me */}
-      <EditAboutMe />
+      <EditAboutMe data={data} editable={editable} />
 
       {/* 경력 */}
-      <EditCareer />
+      <EditCareer data={data} editable={editable} />
 
       {/* 기술 스택 & 자격증 */}
-      <EditStack />
+      <EditStack data={data} editable={editable} />
 
       {/* 프로젝트 */}
-      {<EditProject />}
+      {<EditProject data={data} editable={editable} />}
 
       {/* 전화번호 & 이메일 */}
       <EditContact />
