@@ -36,6 +36,8 @@ export const Intro = styled.div`
   color: ${palette.gray.gray555};
 
   margin: 41px 0px;
+
+  max-width: 267px;
 `;
 
 export const Account = styled.div`

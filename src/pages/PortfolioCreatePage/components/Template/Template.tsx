@@ -1,8 +1,11 @@
 import { type SetStateAction } from 'react';
+import { usePortfolio, type PortfolioStep } from '@/context/PortfolioContext';
+
+import * as T from './Template.styles';
 import PortfolioButton from '../PortfolioButton/PortfolioButton';
 import PortfolioCard from '../PortfolioCard/PortfolioCard';
-import * as T from './Template.styles';
-import { usePortfolio, type PortfolioStep } from '@/context/PortfolioContext';
+import Template1 from '@assets/PortfolioCreatePage/template1.png';
+import Template2 from '@assets/PortfolioCreatePage/template2.png';
 
 interface TemplateProps {
   setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
@@ -19,6 +22,7 @@ const Template = ({ setLevel }: TemplateProps) => {
           <br /> 내 프로젝트에서 느낀 점을 풍부하게 보여줍니다.
         </>
       ),
+      url: Template1,
     },
     {
       id: 2,
@@ -29,6 +33,7 @@ const Template = ({ setLevel }: TemplateProps) => {
           <br /> 보이고 싶은 사진만 노출합니다.
         </>
       ),
+      url: Template2,
     },
   ];
 
@@ -49,6 +54,7 @@ const Template = ({ setLevel }: TemplateProps) => {
             content={card.content}
             selected={selectedTemplate === card.id}
             onClick={() => setSelectedTemplate(card.id)}
+            url={card.url}
           />
         ))}
       </T.CardLayout>

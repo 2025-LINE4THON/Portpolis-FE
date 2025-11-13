@@ -24,4 +24,6 @@ export const PortfolioButton = styled.button<{
   background-color: ${({ $disabled }) => ($disabled ? palette.neutral.neutral200 : palette.primary.primaryMain)};
 
   transition: background-color 500ms ease-in-out;
+
+  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'cursor')};
 `;

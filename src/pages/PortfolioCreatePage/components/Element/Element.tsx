@@ -1,4 +1,6 @@
 import { type SetStateAction } from 'react';
+import { usePortfolio, type PortfolioStep } from '@/context/PortfolioContext';
+
 import * as E from './Element.styles';
 import StackList from '../StackList/StackList';
 import ElementCard from '../ElementCard/ElementCard';
@@ -7,7 +9,6 @@ import ProjectList from '../ProjectList/ProjectList';
 import PortfolioButton from '../PortfolioButton/PortfolioButton';
 import ArrowIcon from '@assets/PortfolioCreatePage/icon-arrow-right.svg?react';
 import ElementBox from '../ElementBox/ElementBox';
-import { usePortfolio, type PortfolioStep } from '@/context/PortfolioContext';
 
 interface ElementProps {
   setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
@@ -35,7 +36,7 @@ const Element = ({ setLevel }: ElementProps) => {
           onClick={() => setLevel('edit')}
           maxWidth={214}
           fontSize={14}
-          disabled={selectedProjects.length === 0}
+          // disabled={selectedStacks.length === 0 || selectedCareers.length === 0 || selectedProjects.length === 0}
         />
       </E.Section>
 
@@ -50,7 +51,7 @@ const Element = ({ setLevel }: ElementProps) => {
               content={
                 <StackList
                   selectedStacks={selectedStacks}
-                  toggleStack={(id, stack, level) => toggleStack({ id, stack, level })}
+                  toggleStack={(stackId, name, level) => toggleStack({ stackId, name, level })}
                 />
               }
             />
@@ -66,7 +67,9 @@ const Element = ({ setLevel }: ElementProps) => {
               content={
                 <CareerList
                   selectedCareers={selectedCareers}
-                  toggleCareer={(id, date, career) => toggleCareer({ id, date, career })}
+                  toggleCareer={(careerId, startDate, endDate, content) =>
+                    toggleCareer({ careerId, startDate, endDate, content })
+                  }
                 />
               }
             />
@@ -86,7 +89,9 @@ const Element = ({ setLevel }: ElementProps) => {
               content={
                 <ProjectList
                   selectedProjects={selectedProjects}
-                  toggleProject={(id, date, project) => toggleProject({ id, date, project })}
+                  toggleProject={(projectId, startDate, endDate, title) =>
+                    toggleProject({ projectId, startDate, endDate, title })
+                  }
                 />
               }
             />

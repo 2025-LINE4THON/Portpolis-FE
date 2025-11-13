@@ -1,19 +1,19 @@
 import { usePortfolio } from '@/context/PortfolioContext';
 import { useEffect } from 'react';
 
-const useImageUpload = () => {
-  const { selectedImage, setSelectedImage } = usePortfolio(); // 커버 이미지
+const useLocalImageUpload = () => {
+  const { thumbnail, setThumbnail } = usePortfolio();
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
 
-    if (selectedImage) {
-      URL.revokeObjectURL(selectedImage.thumbnail);
+    if (thumbnail) {
+      URL.revokeObjectURL(thumbnail.thumbnail);
     }
 
     if (fileList && fileList[0]) {
       const url = URL.createObjectURL(fileList[0]);
-      setSelectedImage({
+      setThumbnail({
         file: fileList[0],
         thumbnail: url,
         type: fileList[0].type.split('/')[0],
@@ -23,13 +23,13 @@ const useImageUpload = () => {
 
   useEffect(() => {
     return () => {
-      if (selectedImage) {
-        URL.revokeObjectURL(selectedImage.thumbnail);
+      if (thumbnail) {
+        URL.revokeObjectURL(thumbnail.thumbnail);
       }
     };
-  }, [selectedImage]);
+  }, [thumbnail]);
 
-  return { selectedImage, setSelectedImage, handleUpload };
+  return { thumbnail, setThumbnail, handleUpload };
 };
 
-export default useImageUpload;
+export default useLocalImageUpload;

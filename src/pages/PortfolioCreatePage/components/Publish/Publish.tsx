@@ -1,20 +1,50 @@
 import { usePortfolio } from '@/context/PortfolioContext';
-import EditHeader from '../EditHeader/EditHeader';
-import * as P from './Publish.styles';
-import useImageUpload from '@/hooks/useImageUpload';
-import CommonPortfolioCard from '@/components/CommonPortfolioCard/CommonPortfolioCard';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useLocalImageUpload from '@/hooks/useLocalImageUpload';
+import useGetUsers from '@/hooks/queries/PortfolioCreatePage/useGetUsers';
+
+import type { RequestPortfolios } from '@/types/PortfolioCreatePage/edit';
+import usePostPortfolios from '@/hooks/mutations/PortfolioCreatePage/usePostPortfolios';
+import { TEMPLATE, VISIBILITY } from '@/constants/key';
+
+import * as P from './Publish.styles';
 import CheckedIcon from '@assets/PortfolioCreatePage/icon-checked.svg?react';
 import NotCheckedIcon from '@assets/PortfolioCreatePage/icon-not-checked.svg?react';
 import PortfolioButton from '../PortfolioButton/PortfolioButton';
-import { useNavigate } from 'react-router-dom';
+import CommonPortfolioCard from '@/components/CommonPortfolioCard/CommonPortfolioCard';
+import EditHeader from '../EditHeader/EditHeader';
 
 const Publish = () => {
-  const { setLevel } = usePortfolio();
-  const { selectedImage, handleUpload } = useImageUpload();
+  const { setLevel, selectedTemplate, selectedStacks, selectedCareers, selectedProjects, aboutMe } = usePortfolio();
+  const { thumbnail, handleUpload } = useLocalImageUpload();
   const [title, setTitle] = useState('');
   const [selected, setSelected] = useState<'all' | 'link' | 'secret' | null>(null);
   const navigate = useNavigate();
+  const { data: userData } = useGetUsers();
+
+  const { mutate } = usePostPortfolios();
+
+  const handlePublish = () => {
+    const payload: RequestPortfolios = {
+      template: selectedTemplate === 1 ? TEMPLATE.STANDARD : TEMPLATE.VISUAL,
+      skills: selectedStacks.map((s, idx) => ({ id: s.stackId, rank: idx + 1 })),
+      careers: selectedCareers.map((c) => ({ id: c.careerId, description: c.description })),
+      projectIds: selectedProjects.map((p) => p.projectId),
+      title: title,
+      greeting: '',
+      introduction: userData?.data.introduction,
+      aboutMe: aboutMe,
+      thumbnail: thumbnail?.thumbnail,
+      isPublic: selected === 'all' ? VISIBILITY.PUBLIC : selected === 'link' ? VISIBILITY.LINK : VISIBILITY.PRIVATE,
+    };
+
+    mutate(payload, {
+      onSuccess: (res) => {
+        navigate(`/portfolio/${res.data.portpolioId}`);
+      },
+    });
+  };
 
   return (
     <P.Publish>
@@ -37,9 +67,11 @@ const Publish = () => {
         <P.Thumbnail>
           <p className="b1">썸네일 미리보기</p>
           <CommonPortfolioCard
-            img={selectedImage?.thumbnail}
-            title="감각적인 브랜드를 만드는 나만의 포트폴리오"
-            name="홍길동"
+            $width={345}
+            $height={228}
+            img={thumbnail?.thumbnail}
+            title={title}
+            name={userData?.data.username || ''}
           />
         </P.Thumbnail>
       </P.FlexBox>
@@ -96,7 +128,7 @@ const Publish = () => {
         <PortfolioButton
           text="발행하기"
           disabled={selected === null || title === ''}
-          onClick={() => navigate('/')}
+          onClick={handlePublish}
           maxWidth={379}
           fontSize={20}
         />

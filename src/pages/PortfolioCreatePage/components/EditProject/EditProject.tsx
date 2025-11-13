@@ -5,9 +5,28 @@ import EditProjectStandardCard from '../EditProjectStandardCard/EditProjectStand
 import Image from '@assets/PortfolioCreatePage/ex-card-image.png';
 import Imgae2 from '@assets/PortfolioCreatePage/ex-card-visual-image.png';
 import EditProjectVisualCard from '../EditProjectVisualCard/EditProjectVisualCard';
+import type { ResponseGetPortfolio } from '@/types/PortfolioCreatePage/edit';
+import type { Project } from '@/types/PortfolioCreatePage/element';
+import { TEMPLATE } from '@/constants/key';
 
-const EditProject = () => {
+interface EditProjectProps {
+  data?: ResponseGetPortfolio;
+  editable?: boolean;
+}
+
+const EditProject = ({ data, editable }: EditProjectProps) => {
   const { selectedTemplate, selectedProjects } = usePortfolio();
+
+  const projectTemplate = editable
+    ? selectedTemplate === 1
+      ? TEMPLATE.STANDARD
+      : TEMPLATE.VISUAL
+    : (data?.data.template ?? TEMPLATE.STANDARD);
+
+  const isStandard = projectTemplate === TEMPLATE.STANDARD;
+  const isVisual = projectTemplate === TEMPLATE.VISUAL;
+
+  const projectList = (editable ? selectedProjects : (data?.data.projects ?? [])) as Project[];
 
   return (
     <E.EditProject>
@@ -16,31 +35,38 @@ const EditProject = () => {
       <E.BackgroundImage />
 
       {/* 스탠다드형 */}
-      {selectedTemplate === 1 && (
+      {isStandard && (
         <E.StandardList>
-          {selectedProjects.map((project, idx) => (
-            <>
-              <E.CardWrapper key={project.id} $z={idx} $idx={idx}>
-                <EditProjectStandardCard img={Image} title={project.project} date={project.date} role="FE" />
+          {projectList?.map((project, idx) => (
+            <div key={project.projectId}>
+              <E.CardWrapper $z={idx} $idx={idx}>
+                <EditProjectStandardCard
+                  img={Image}
+                  title={project.title}
+                  startDate={project.startDate}
+                  endDate={project.endDate ?? ''}
+                  role={project.role ?? ''}
+                />
 
                 {idx === selectedProjects.length - 1 && <E.BookMarkIcon />}
               </E.CardWrapper>
-            </>
+            </div>
           ))}
         </E.StandardList>
       )}
 
       {/* 비주얼형 */}
-      {selectedTemplate === 2 && (
+      {isVisual && (
         <>
-          {selectedProjects.map((project, idx) => (
+          {projectList?.map((project, idx) => (
             <EditProjectVisualCard
-              key={project.id}
+              key={project.projectId}
               idx={idx}
               img={Imgae2}
-              date={project.date}
-              title={project.project}
-              stack={['FE', 'JAVA']}
+              startDate={project.startDate}
+              endDate={project.endDate ?? ''}
+              title={project.title}
+              stack={project?.stacks?.map((stack) => stack.stackName) ?? []}
             />
           ))}
         </>
