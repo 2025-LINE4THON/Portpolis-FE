@@ -29,7 +29,7 @@ const Publish = () => {
     const payload: RequestPortfolios = {
       template: selectedTemplate === 1 ? TEMPLATE.STANDARD : TEMPLATE.VISUAL,
       skills: selectedStacks.map((s, idx) => ({ id: s.stackId, rank: idx + 1 })),
-      careers: selectedCareers.map((c) => ({ careerId: c.careerId, description: c.description })),
+      careers: selectedCareers.map((c) => ({ id: c.careerId, description: c.description })),
       projectIds: selectedProjects.map((p) => p.projectId),
       title: title,
       greeting: '',
@@ -39,7 +39,11 @@ const Publish = () => {
       isPublic: selected === 'all' ? VISIBILITY.PUBLIC : selected === 'link' ? VISIBILITY.LINK : VISIBILITY.PRIVATE,
     };
 
-    mutate(payload);
+    mutate(payload, {
+      onSuccess: (res) => {
+        navigate(`/portfolio/${res.data.portpolioId}`);
+      },
+    });
   };
 
   return (
@@ -124,10 +128,7 @@ const Publish = () => {
         <PortfolioButton
           text="발행하기"
           disabled={selected === null || title === ''}
-          onClick={() => {
-            handlePublish();
-            navigate('/');
-          }}
+          onClick={handlePublish}
           maxWidth={379}
           fontSize={20}
         />

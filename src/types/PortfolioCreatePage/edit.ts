@@ -24,7 +24,7 @@ export type AboutMe = {
 export type RequestPortfolios = {
   template: (typeof TEMPLATE)[keyof typeof TEMPLATE];
   skills: Skill[];
-  careers: Career[];
+  careers: { id: number; description?: string }[];
   projectIds: number[];
   title: string;
   greeting: string;
@@ -35,7 +35,7 @@ export type RequestPortfolios = {
 };
 
 export type ResponsePortfolios = CommonResponse<{
-  portfolioId: number;
+  portpolioId: number;
 }>;
 
 // 내 정보 조회

@@ -60,7 +60,7 @@ const EditCareerCard = ({ id, title, startDate, endDate, description, editable }
       <E.GrayText $color={`${palette.neutral.neutral500}`} $size={16}>
         <E.Textarea
           ref={textRef}
-          value={editable ? undefined : input}
+          value={input}
           onChange={handleChange}
           placeholder="경력을 입력해주세요."
           onKeyDown={handleKeyDown}

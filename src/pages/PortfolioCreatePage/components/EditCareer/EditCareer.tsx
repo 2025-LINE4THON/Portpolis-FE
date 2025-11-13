@@ -76,6 +76,7 @@ const EditCareer = ({ data, editable }: EditCareerProps) => {
               startDate={slide.startDate}
               endDate={slide.endDate ?? ''}
               description={slide.description ?? ''}
+              editable={editable}
             />
           ))}
 
