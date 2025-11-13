@@ -6,6 +6,7 @@ export type PortfolioStep = 'template' | 'element' | 'edit' | 'publish';
 export type StackItem = Stack & { percent?: number };
 export type CareerItem = Career;
 export type ProjectItem = Pick<Project, 'projectId' | 'title' | 'startDate' | 'endDate'>;
+export type AboutMeItem = { title: string; content: string };
 
 export interface ImageData {
   file: File;
@@ -28,6 +29,9 @@ interface IPortfolio {
 
   selectedProjects: ProjectItem[];
   setSelectedProjects: React.Dispatch<SetStateAction<ProjectItem[]>>;
+
+  aboutMe: AboutMeItem[];
+  setAboutMe: React.Dispatch<SetStateAction<AboutMeItem[]>>;
 
   toggleStack: (item: StackItem) => void;
   toggleCareer: (item: CareerItem) => void;

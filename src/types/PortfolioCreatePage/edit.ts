@@ -13,6 +13,11 @@ export type Career = {
   description: string;
 };
 
+export type AboutMe = {
+  title: string;
+  content: string;
+};
+
 export type RequestPortfolios = {
   portpolioTemplate: 'STANDARD' | 'IMAGE';
   skills: Skill[];
@@ -21,6 +26,7 @@ export type RequestPortfolios = {
   title: string;
   greeting: string;
   Introduction: string;
+  aboutMe: AboutMe[];
   thumbnail: string;
   isPublic: 'PUBLIC' | 'PRIVATE' | 'LINK';
 };
