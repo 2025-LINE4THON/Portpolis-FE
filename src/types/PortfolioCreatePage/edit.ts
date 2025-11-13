@@ -28,3 +28,14 @@ export type RequestPortfolios = {
 export type ResponsePortfolios = CommonResponse<{
   portfolioId: number;
 }>;
+
+// 내 정보 조회
+export type ResponseGetUsersDto = CommonResponse<{
+  userId: number;
+  username: string;
+  name: string;
+  email: string;
+  phoneNumber: number;
+  introduction: string;
+  job: string;
+}>;
