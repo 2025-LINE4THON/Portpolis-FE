@@ -19,7 +19,12 @@ const Career = ({ id, startDate, endDate, content, selected, onToggle }: CareerP
 
       <C.TextBox>
         <p className="c1">
-          {startDate} - {endDate}
+          {!endDate && startDate.slice(0, 10)}
+          {endDate && (
+            <>
+              {startDate.slice(0, 10)} - {endDate.slice(0, 10)}
+            </>
+          )}
         </p>
         <h3 className="b2">{content}</h3>
       </C.TextBox>
