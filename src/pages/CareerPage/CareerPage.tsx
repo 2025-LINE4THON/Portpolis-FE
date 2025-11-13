@@ -7,66 +7,23 @@ import EditModal from '@components/EditModal/EditModal';
 import EditInputBox from '@/components/EditInputBox/EditInputBox';
 import trash from '@assets/mypage/icon-trash.svg';
 import { useState, useEffect } from 'react';
-import type { ResponseCareerDTO, ResponseLicenseDTO, ResponseStackDTO } from '@/types/Career/Career';
-import { getCareer, getLicense, getStack } from '@/apis/Career/Career';
+import type {
+  ResponseCareerDTO,
+  ResponseLicenseDTO,
+  ResponseStackDTO,
+  ResponseProjectDTO,
+} from '@/types/Career/Career';
+import { getCareer, getLicense, getStack, getProject } from '@/apis/Career/Career';
 
 const CareerPage = () => {
   const [experienceModal, setExperienceModal] = useState(false);
   const [stackModal, setStackModal] = useState(false);
   const [qualificationsModal, setQualificationsModal] = useState(false);
 
-  const dummyData = [
-    {
-      id: 1,
-      image: 'edit',
-      type: 'project',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는1',
-      tags: ['프론트', 'AI'],
-      role: 'PM',
-    },
-    {
-      id: 2,
-      image: 'edit',
-      type: 'project',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는2',
-      tags: ['프론트', 'AI'],
-      role: 'PM',
-    },
-    {
-      id: 3,
-      image: 'edit',
-      type: 'project',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는3',
-      tags: ['프론트', 'AI'],
-      role: 'PM',
-    },
-    {
-      id: 5,
-      image: 'edit',
-      type: 'project',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는4',
-      tags: ['프론트', 'AI'],
-      role: 'PM',
-    },
-    {
-      id: 6,
-      image: 'edit',
-      type: 'project',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드5 1',
-      tags: ['프론트', 'AI'],
-      role: 'PM',
-    },
-  ];
-
   const [career, setCareer] = useState<ResponseCareerDTO['data']>([]);
   const [license, setLicense] = useState<ResponseLicenseDTO['data']>([]);
   const [stack, setStack] = useState<ResponseStackDTO['data']>([]);
-
+  const [project, setProject] = useState<ResponseProjectDTO['data']>([]);
   interface InputItem {
     [key: string]: string;
     field1: string;
@@ -110,13 +67,19 @@ const CareerPage = () => {
   useEffect(() => {
     const getCareerData = async () => {
       try {
-        const [careerRes, licenseRes, stackRes] = await Promise.all([getCareer(), getLicense(), getStack()]);
+        const [careerRes, licenseRes, stackRes, projectRes] = await Promise.all([
+          getCareer(),
+          getLicense(),
+          getStack(),
+          getProject(),
+        ]);
 
         setCareer(careerRes.data);
         setLicense(licenseRes.data);
         setStack(stackRes.data);
+        setProject(projectRes.data);
 
-        console.log(careerRes, licenseRes, stackRes);
+        console.log(careerRes, licenseRes, stackRes, projectRes);
       } catch (error) {
         console.error('데이터 조회 실패', error);
       }
@@ -217,7 +180,17 @@ const CareerPage = () => {
             프로젝트 추가
           </C.AddButton>
         </C.SecondHeader>
-        <PortfolioSlider items={dummyData} />
+        <PortfolioSlider
+          items={project.map((item) => ({
+            id: item.projectId,
+            thumbnail: item.thumbnail,
+            type: 'project',
+            startDate: item.startDate,
+            endDate: item.endDate,
+            title: item.title,
+            role: item.role,
+          }))}
+        />
       </C.CareerPage>
       {experienceModal && (
         <EditModal

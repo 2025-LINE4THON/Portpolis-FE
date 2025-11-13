@@ -28,3 +28,15 @@ export type StackDTO = {
   name: string;
   level: string;
 };
+
+export type ResponseProjectDTO = CommonResponse<ProjectDTO[]>;
+
+export type ProjectDTO = {
+  projectId: number;
+  userId: number;
+  title: string;
+  startDate: string;
+  endDate: string;
+  role: string;
+  thumbnail: string;
+};

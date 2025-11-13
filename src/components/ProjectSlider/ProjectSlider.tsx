@@ -7,8 +7,9 @@ import ProjectItem from '@components/ProjectItem/ProjectItem';
 interface PortfolioItem {
   id: number;
   type: string;
-  image: string;
-  period: string;
+  thumbnail: string;
+  startDate: string;
+  endDate: string;
   title: string;
   onClick?: () => void;
   isPrivate?: boolean;
@@ -57,10 +58,11 @@ const PortfolioSlider = ({ items }: PortfolioSliderProps) => {
       <P.Portfolios>
         {visibleItems.map((item) => (
           <ProjectItem
-            key={item.id}
+            id={item.id}
             type={item.type}
-            image={item.image}
-            period={item.period}
+            thumbnail={item.thumbnail}
+            startDate={item.startDate}
+            endDate={item.endDate}
             title={item.title}
             onClick={item.onClick ?? (() => console.log(item.title))}
             isPrivate={item.isPrivate}
