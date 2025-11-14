@@ -31,11 +31,15 @@ export const Item = styled.div`
   align-items: center;
 `;
 
-export const Stack = styled.p`
+export const Stack = styled.div`
   color: ${palette.neutral.neutral300};
   font-size: 18px;
   font-weight: 500;
   line-height: normal;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const BarWrapper = styled.div`
@@ -54,7 +58,7 @@ export const Bar = styled.div`
   position: relative;
 `;
 
-export const PercentBar = styled.div<{ $percent: number }>`
+export const PercentBar = styled.div<{ $percent: number | string }>`
   position: absolute;
   left: 0;
   width: ${({ $percent }) => `${$percent}%`};
@@ -62,7 +66,7 @@ export const PercentBar = styled.div<{ $percent: number }>`
   background: ${palette.primary.primary500};
 `;
 
-export const Circle = styled.div<{ $percent: number }>`
+export const Circle = styled.div<{ $percent: number | string }>`
   width: 18px;
   height: 18px;
   border-radius: 50%;

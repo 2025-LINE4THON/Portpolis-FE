@@ -14,13 +14,7 @@ const Navbar = () => {
     { id: 4, label: '마이페이지', to: '/mypage' },
   ];
 
-  if (
-    pathname === '/login' ||
-    pathname === '/signup' ||
-    pathname.startsWith('/Activity') ||
-    (pathname.startsWith(`/portfolio`) && pathname !== '/portfolio/create') ||
-    level === 'edit'
-  )
+  if (pathname === '/login' || pathname === '/signup' || pathname.startsWith('/Activity') || level === 'edit')
     return null;
 
   return (

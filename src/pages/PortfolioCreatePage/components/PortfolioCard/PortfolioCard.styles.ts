@@ -1,7 +1,7 @@
 import palette from '@/styles/theme';
 import styled from '@emotion/styled';
 
-export const PortfolioCard = styled.div<{ $selected: boolean | null }>`
+export const PortfolioCard = styled.div<{ $selected: boolean | null; $url: string }>`
   max-width: calc(50% - 50px);
   width: 100%;
   height: 316px;
@@ -21,9 +21,19 @@ export const PortfolioCard = styled.div<{ $selected: boolean | null }>`
 
   :hover {
     border: 1px solid ${palette.primary.primary400};
-    background: linear-gradient(180deg, ${palette.neutral.neutral100} 0%, ${palette.white} 100%);
     box-shadow: 0 0 9px 0 rgba(61, 196, 164, 0.5);
   }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, ${palette.neutral.neutral100} 0%, ${palette.white} 100%);
+    opacity: 0.5;
+    border-radius: 22px;
+  }
+
+  background: url(${({ $url }) => $url}) no-repeat center center / contain;
 `;
 
 export const TextBox = styled.div`

@@ -7,6 +7,7 @@ const EditButton = () => {
   const handleSetLevel = () => {
     setLevel('publish');
   };
+
   return (
     <E.EditButton className="b2" onClick={handleSetLevel}>
       발행하기

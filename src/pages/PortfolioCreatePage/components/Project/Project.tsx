@@ -5,24 +5,32 @@ import NotCheckedIcon from '@assets/PortfolioCreatePage/icon-not-checked.svg?rea
 
 interface ProjectProps {
   id: number;
-  date: string;
-  project: string;
+  startDate: string;
+  endDate: string;
+  title: string;
   selected: boolean;
   onToggle: () => void;
 }
 
-const Project = ({ id, date, project, selected, onToggle }: ProjectProps) => {
+const Project = ({ id, startDate, endDate, title, selected, onToggle }: ProjectProps) => {
   return (
     <C.Career>
       <S.Overlay $selected={selected} />
 
       <C.TextBox>
-        <p className="c1">{date}</p>
-        <h3 className="b2">{project}</h3>
+        <p className="c1">
+          {!endDate && startDate.slice(0, 10)}
+          {endDate && (
+            <>
+              {startDate.slice(0, 10)} - {endDate.slice(0, 10)}
+            </>
+          )}
+        </p>
+        <h3 className="b2">{title}</h3>
       </C.TextBox>
 
-      <S.Input type="checkbox" id={`${id}-${project}`} checked={selected} onChange={onToggle} />
-      <label htmlFor={`${id}-${project}`}>{selected ? <CheckedIcon /> : <NotCheckedIcon />}</label>
+      <S.Input type="checkbox" id={`${id}-${title}`} checked={selected} onChange={onToggle} />
+      <label htmlFor={`${id}-${title}`}>{selected ? <CheckedIcon /> : <NotCheckedIcon />}</label>
     </C.Career>
   );
 };

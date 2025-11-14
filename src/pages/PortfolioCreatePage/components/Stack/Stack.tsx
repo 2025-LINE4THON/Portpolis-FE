@@ -18,9 +18,10 @@ const Stack = ({ stack, level, selected, onToggle }: StackProps) => {
         <S.StackChip>{stack}</S.StackChip>
 
         <S.LevelWrapper>
-          {new Array(5).fill(0).map((_, idx) => (
-            <S.Circle key={idx} $fill={idx < level}></S.Circle>
-          ))}
+          {new Array(5).fill(0).map((_, idx) => {
+            const scoreOutOf5 = Math.round((level / 100) * 5); // level: 1~100 사이
+            return <S.Circle key={idx} $fill={idx < scoreOutOf5 ? true : false}></S.Circle>;
+          })}
         </S.LevelWrapper>
       </S.Box>
 

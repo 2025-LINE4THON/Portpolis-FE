@@ -2,23 +2,17 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import type { Settings } from 'react-slick';
 
+import { useNavigate } from 'react-router-dom';
+
 import * as H from './HomeTrending.styles';
 import * as E from '@pages/PortfolioCreatePage/components/EditCareer/EditCareer.styles';
 
-import SlideImg1 from '@assets/HomePage/slide-img-1.jpg';
-import SlideImg2 from '@assets/HomePage/slide-img-2.jpg';
-import SlideImg3 from '@assets/HomePage/slide-img-3.jpg';
 import PrevIcon from '@assets/PortfolioCreatePage/icon-prev.svg';
 import NextIcon from '@assets/PortfolioCreatePage/icon-next.svg';
 
 import CommonPortfolioCard from '@/components/CommonPortfolioCard/CommonPortfolioCard';
 import { useEffect, useState } from 'react';
-
-const SLIDES = [
-  { id: 1, img: SlideImg1, text: '감각적인 브랜드를 만드는 나만의 포트폴리오', name: '홍길동' },
-  { id: 2, img: SlideImg2, text: '감각적인 브랜드를 만드는 나만의 포트폴리오', name: '홍길동' },
-  { id: 3, img: SlideImg3, text: '감각적인 브랜드를 만드는 나만의 포트폴리오', name: '홍길동' },
-];
+import useGetRecommend from '@/hooks/queries/HomePage/useGetRecommend';
 
 interface CustomArrowProps {
   onClick?: () => void;
@@ -42,6 +36,8 @@ const NextArrow = ({ onClick }: CustomArrowProps) => {
 
 const HomeTrending = () => {
   const [centerPadding, setCenterPadding] = useState<number>(0);
+  const { data: recommendData } = useGetRecommend();
+  const navigate = useNavigate();
 
   const settings: Settings = {
     centerMode: true,
@@ -79,8 +75,16 @@ const HomeTrending = () => {
 
         <H.SliderDiv>
           <E.StyledSlider {...settings} prevArrow={<PrevArrow />} nextArrow={<NextArrow />}>
-            {SLIDES.map((slide) => (
-              <CommonPortfolioCard key={slide.id} img={slide.img} title={slide.text} name={slide.name} />
+            {recommendData?.data.map((slide) => (
+              <CommonPortfolioCard
+                key={slide.portfolioId}
+                img={slide.thumbnail ?? ''}
+                title={slide.title}
+                date={slide.createdAt}
+                views={slide.views}
+                name={'작성자 이름 연결 예정'}
+                onClick={() => navigate(`/portfolio/${slide.portfolioId}`)}
+              />
             ))}
           </E.StyledSlider>
         </H.SliderDiv>
