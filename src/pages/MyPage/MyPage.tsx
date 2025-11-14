@@ -13,8 +13,10 @@ import extraLink from '@assets/mypage/icon-extra-link.svg';
 import PortfolioSlider from '@components/ProjectSlider/ProjectSlider';
 import type { ResponseUserInfoDTO, RequestEditUserInfoDTO, RequestLinkDTO, LinkDTO } from '@/types/Mypage/Mypage';
 import { getUserInfo, patchUserInfo, Logout, getPortfolio, uploadLink, getLink } from '@apis/Mypage/Mypage';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
+  const navigate = useNavigate();
   const [profileModal, setProfileModal] = useState(false);
   const [linkModal, setLinkModal] = useState(false);
 
@@ -99,6 +101,7 @@ const MyPage = () => {
     try {
       const response = await Logout();
       console.log(response);
+      navigate('/login');
     } catch (error) {
       console.error(error);
     }
