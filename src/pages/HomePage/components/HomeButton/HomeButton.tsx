@@ -1,7 +1,6 @@
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import * as H from './HomeButton.styles';
 import { LOCAL_STORAGE_KEY } from '@/constants/key';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface HomeButtonProps {
@@ -12,8 +11,6 @@ interface HomeButtonProps {
 
 const HomeButton = ({ Icon, text, to }: HomeButtonProps) => {
   const { getItem } = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [accessToken, setAccessToken] = useState(getItem());
   const navigate = useNavigate();
 
   return (
@@ -21,10 +18,13 @@ const HomeButton = ({ Icon, text, to }: HomeButtonProps) => {
       <H.StyledLink
         to={to}
         onClick={(e) => {
-          if (to !== '/signup' && !accessToken) {
-            e.preventDefault();
-            alert('로그인이 필요한 서비스입니다.');
-            navigate('/login');
+          if (to !== '/signup') {
+            const token = getItem();
+            if (!token) {
+              e.preventDefault();
+              alert('로그인이 필요한 서비스입니다.');
+              navigate('/login');
+            }
           }
         }}>
         <H.IconWrapper>{Icon}</H.IconWrapper>
