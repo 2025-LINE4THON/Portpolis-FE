@@ -10,6 +10,8 @@ import useGetCheck from '@/hooks/queries/PortfolioCreatePage/useGetCheck';
 import Modal from '@/components/Modal/Modal';
 import { useNavigate } from 'react-router-dom';
 
+import marketImage from '@assets/marketPlaceImage.svg'
+
 interface TemplateProps {
   setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
 }
@@ -37,6 +39,12 @@ const Template = ({ setLevel }: TemplateProps) => {
         </>
       ),
       url: Template2,
+    },
+    {
+      id: 3,
+      title: '마켓 플레이스',
+      content: <>다양한 템플릿을 마켓 플레이스에서 만나보세요</>,
+      url: marketImage,
     },
   ];
 
@@ -108,10 +116,15 @@ const Template = ({ setLevel }: TemplateProps) => {
           text="다음 단계로"
           disabled={selectedTemplate === null}
           onClick={() => {
-            if (content) {
-              setShowModal(true);
+            if (selectedTemplate === 3) {
+              navigate('/marketplace');
+              return;
             } else {
-              setLevel('element');
+              if (content) {
+                setShowModal(true);
+              } else {
+                setLevel('element');
+              }
             }
           }}
           maxWidth={379}
