@@ -1,7 +1,9 @@
+import Likes from '../likes';
 import * as P from './CommonPortfolioCard.styles';
 import EyeIcon from '@assets/PortfolioCreatePage/icon-visibility.svg?react';
 
 interface PortfolioCardProps {
+  portfolioId: number;
   img?: string;
   title: string;
   name: string;
@@ -9,10 +11,24 @@ interface PortfolioCardProps {
   date?: string;
   $width?: number;
   $height?: number;
+  isLiked?: boolean;
+  likeCount?: number;
   onClick?: () => void;
 }
 
-const CommonPortfolioCard = ({ img, title, name, views, date, $width, $height, onClick }: PortfolioCardProps) => {
+const CommonPortfolioCard = ({
+  portfolioId,
+  img,
+  title,
+  name,
+  views,
+  date,
+  $width,
+  $height,
+  isLiked,
+  likeCount,
+  onClick,
+}: PortfolioCardProps) => {
   return (
     <P.CommonPortfolioCard $width={$width || 441} $height={$height || 291} onClick={onClick}>
       <P.Card>
@@ -33,6 +49,7 @@ const CommonPortfolioCard = ({ img, title, name, views, date, $width, $height, o
             </P.FlexBox>
           </P.FlexBox>
         </P.InfoWrapper>
+        <Likes portfolioId={portfolioId} initialIsLiked={isLiked || false} initialLikesCount={likeCount || 0} />
       </P.Card>
     </P.CommonPortfolioCard>
   );

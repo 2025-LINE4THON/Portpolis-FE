@@ -1,3 +1,4 @@
+import MarketPage from '@/pages/MarketPage/MarketPage';
 import React from 'react';
 
 export const lazyRoutes = {
@@ -11,4 +12,5 @@ export const lazyRoutes = {
   PortfolioCreatePage: React.lazy(() => import('../pages/PortfolioCreatePage/PortfolioCreatePage')),
   PortfolioPage: React.lazy(() => import('../pages/PortfolioPage/PortfolioPage')),
   SignupPage: React.lazy(() => import('../pages/SignupPage/SignupPage')),
+  MarketPage: React.lazy(() => import('../pages/MarketPage/MarketPage')),
 };
