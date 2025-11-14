@@ -10,7 +10,7 @@ import useGetCheck from '@/hooks/queries/PortfolioCreatePage/useGetCheck';
 import Modal from '@/components/Modal/Modal';
 import { useNavigate } from 'react-router-dom';
 
-import marketImage from '@assets/marketPlaceImage.svg'
+import marketImage from '@assets/marketPlaceImage.svg';
 
 interface TemplateProps {
   setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
