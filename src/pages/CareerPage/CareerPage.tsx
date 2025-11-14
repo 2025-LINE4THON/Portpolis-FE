@@ -13,8 +13,22 @@ import type {
   ResponseLicenseDTO,
   ResponseStackDTO,
   ResponseProjectDTO,
+  RequestLicensesDTO,
+  LicensesReqDTO,
+  CareerReqDTO,
+  RequestCareerDTO,
+  RequestStackDTO,
+  StackReqDTO,
 } from '@/types/Career/Career';
-import { getCareer, getLicense, getStack, getProject } from '@/apis/Career/Career';
+import {
+  getCareer,
+  getLicense,
+  getStack,
+  getProject,
+  uploadLicense,
+  uploadCareer,
+  uploadStack,
+} from '@/apis/Career/Career';
 
 const CareerPage = () => {
   const navigate = useNavigate();
@@ -126,6 +140,83 @@ const CareerPage = () => {
     };
     getCareerData();
   }, []);
+
+  const handleLicense = async () => {
+    try {
+      const licensesToSend: LicensesReqDTO[] = qualifications
+        .filter((q) => q.field1 || q.field2 || q.field3)
+        .map((q) => ({
+          name: q.field1,
+          gotDate: q.field2,
+          endDate: q.field3 || null,
+        }));
+
+      const requestData: RequestLicensesDTO = {
+        licenses: licensesToSend,
+      };
+
+      const response = await uploadLicense(requestData);
+
+      setLicense(response.data);
+      setQualificationsModal(false);
+
+      console.log('자격증 업로드 성공', response);
+    } catch (error) {
+      console.error('자격증 업로드 실패', error);
+      alert('자격증 업데이트에 실패했습니다.');
+    }
+  };
+
+  const handleStack = async () => {
+    try {
+      const StacksToSend: StackReqDTO[] = skills
+        .filter((q) => q.field1 || q.field2)
+        .map((q) => ({
+          name: q.field1,
+          level: q.field2,
+        }));
+
+      const requestData: RequestStackDTO = {
+        stacks: StacksToSend,
+      };
+
+      const response = await uploadStack(requestData);
+
+      setStack(response.data);
+      setQualificationsModal(false);
+
+      console.log('기술 스택 업로드 성공', response);
+    } catch (error) {
+      console.error('기술 스택 업로드 실패', error);
+      alert('기술 스택 업데이트에 실패했습니다.');
+    }
+  };
+
+  const handleCareer = async () => {
+    try {
+      const CareersToSend: CareerReqDTO[] = experiences
+        .filter((q) => q.field1 || q.field2 || q.field3)
+        .map((q) => ({
+          content: q.field1,
+          startDate: q.field2,
+          endDate: q.field3 || null,
+        }));
+
+      const requestData: RequestCareerDTO = {
+        careers: CareersToSend,
+      };
+
+      const response = await uploadCareer(requestData);
+
+      setCareer(response.data);
+      setQualificationsModal(false);
+
+      console.log('경력 업로드 성공', response);
+    } catch (error) {
+      console.error('경력 업로드 실패', error);
+      alert('경력 업데이트에 실패했습니다.');
+    }
+  };
 
   return (
     <>
@@ -282,7 +373,7 @@ const CareerPage = () => {
             </C.ModalContent>
           }
           onClickSave={() => {
-            console.log('저장');
+            handleCareer();
           }}
         />
       )}
@@ -327,7 +418,7 @@ const CareerPage = () => {
             </C.ModalContent>
           }
           onClickSave={() => {
-            console.log('저장');
+            handleStack();
           }}
         />
       )}
@@ -381,7 +472,7 @@ const CareerPage = () => {
             </C.ModalContent>
           }
           onClickSave={() => {
-            console.log('저장');
+            handleLicense();
           }}
         />
       )}
