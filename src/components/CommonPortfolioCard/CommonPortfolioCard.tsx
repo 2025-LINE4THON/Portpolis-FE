@@ -15,7 +15,9 @@ interface PortfolioCardProps {
   onClick?: () => void;
   hasHeart?: boolean;
   onClickHeart: () => void;
+  onClickDeleteHeart: () => void;
   likesCount: number;
+  isLiked: boolean;
 }
 
 const CommonPortfolioCard = ({
@@ -29,14 +31,26 @@ const CommonPortfolioCard = ({
   onClick,
   hasHeart,
   onClickHeart,
+  onClickDeleteHeart,
   likesCount,
+  isLiked,
 }: PortfolioCardProps) => {
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(isLiked);
 
   const handleClickHeart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setLiked((prev) => !prev);
-    onClickHeart();
+
+    setLiked((prev) => {
+      const next = !prev;
+
+      if (next) {
+        onClickHeart();
+      } else {
+        onClickDeleteHeart();
+      }
+
+      return next;
+    });
   };
 
   return (
@@ -47,7 +61,7 @@ const CommonPortfolioCard = ({
           <P.HeartWrapper className="child">
             {liked && <HeartFull className="child" onClick={handleClickHeart} />}
             {!liked && <Heart className="child" onClick={handleClickHeart} />}
-            <p>{liked ? likesCount + 1 : likesCount}</p>
+            <p>{likesCount}</p>
           </P.HeartWrapper>
         )}
 

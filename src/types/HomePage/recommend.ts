@@ -18,6 +18,7 @@ export type RecommendPortfolio = {
   updatedAt: string;
   likesCount: number;
   userName: string | null;
+  isLiked: boolean;
 };
 
 export type ResponseGetRecommendDto = CommonResponse<RecommendPortfolio[]>;
