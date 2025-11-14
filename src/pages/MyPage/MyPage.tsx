@@ -252,7 +252,7 @@ const MyPage = () => {
                   width="100%"
                   name="github"
                   value={links.github}
-                  placeholder="https:// 주소를 입려해주세요."
+                  placeholder="https:// 주소를 입력해주세요."
                   onChange={handleLinkChange}
                 />
               </M.LinkContainer>
@@ -262,7 +262,7 @@ const MyPage = () => {
                   width="100%"
                   name="brunch"
                   value={links.brunch}
-                  placeholder="https:// 주소를 입려해주세요."
+                  placeholder="https:// 주소를 입력해주세요."
                   onChange={handleLinkChange}
                 />
               </M.LinkContainer>
@@ -272,7 +272,7 @@ const MyPage = () => {
                   width="100%"
                   name="notion"
                   value={links.notion}
-                  placeholder="https:// 주소를 입려해주세요."
+                  placeholder="https:// 주소를 입력해주세요."
                   onChange={handleLinkChange}
                 />
               </M.LinkContainer>
@@ -282,7 +282,7 @@ const MyPage = () => {
                   width="100%"
                   value={links.insta}
                   name="insta"
-                  placeholder="https:// 주소를 입려해주세요."
+                  placeholder="https:// 주소를 입력해주세요."
                   onChange={handleLinkChange}
                 />
               </M.LinkContainer>
@@ -292,7 +292,7 @@ const MyPage = () => {
                   width="100%"
                   name="youtube"
                   value={links.youtube}
-                  placeholder="https:// 주소를 입려해주세요."
+                  placeholder="https:// 주소를 입력해주세요."
                   onChange={handleLinkChange}
                 />
               </M.LinkContainer>
@@ -304,7 +304,7 @@ const MyPage = () => {
                   width="100%"
                   name="extra"
                   value={links.extra}
-                  placeholder="https:// 주소를 입려해주세요."
+                  placeholder="https:// 주소를 입력해주세요."
                   onChange={handleLinkChange}
                 />
               </M.LinkContainer>
