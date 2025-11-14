@@ -65,6 +65,8 @@ export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
         return prev.filter((c) => c.careerId !== item.careerId);
       }
 
+      if (prev.length >= 4) return prev;
+
       return [...prev, item];
     });
   };

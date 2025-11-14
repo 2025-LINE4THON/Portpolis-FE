@@ -83,7 +83,7 @@ const HomeTrending = () => {
                 title={slide.title}
                 date={slide.createdAt}
                 views={slide.views}
-                name={'작성자 이름 연결 예정'}
+                name={slide.userName ?? ''}
                 isLiked={slide.isLiked}
                 likeCount={slide.likesCount}
                 onClick={() => navigate(`/portfolio/${slide.portfolioId}`)}
