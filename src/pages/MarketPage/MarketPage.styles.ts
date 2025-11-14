@@ -128,28 +128,62 @@ export const CardGrid = styled.div<{ top: number }>`
   gap: 24px;
 `;
 
-export const TemplateCard = styled.div`
+export const TemplateCard = styled.div<{ bgImage: string }>`
   flex: 1;
   height: 256px;
-  background: ${palette.neutral.neutral100};
   border-radius: 24px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
+  position: relative;
+  cursor: pointer;
+
+  background-image: url(${(props) => props.bgImage});
+  background-size: cover;
+  background-position: center;
+
+  /* hover 상태에서 CardInner 스타일 변경 */
+  &:hover .card-inner {
+    background: transparent;
+  }
+
+  /* hover 시 Coming Soon 텍스트 보이기 */
+  &:hover .coming-soon-overlay {
+    opacity: 1;
+  }
 `;
 
 export const CardInner = styled.div`
   flex: 1;
   height: 100%;
   padding: 24px 40px;
-  background: #a8a29e;
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 24px;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
   gap: 10px;
+  transition: background 0.3s ease;
+
+  /* hover에서 접근하기 위해 class 부여 */
+`;
+
+export const ComingSoonOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 `;
 
 export const CardContent = styled.div`
