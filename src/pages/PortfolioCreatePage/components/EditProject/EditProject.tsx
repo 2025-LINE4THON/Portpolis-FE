@@ -20,11 +20,11 @@ const EditProject = ({ data, editable }: EditProjectProps) => {
   const projectTemplate = editable
     ? selectedTemplate === 1
       ? TEMPLATE.STANDARD
-      : TEMPLATE.VISUAL
+      : TEMPLATE.IMAGE
     : (data?.data.template ?? TEMPLATE.STANDARD);
 
   const isStandard = projectTemplate === TEMPLATE.STANDARD;
-  const isVisual = projectTemplate === TEMPLATE.VISUAL;
+  const isVisual = projectTemplate === TEMPLATE.IMAGE;
 
   const projectList = (editable ? selectedProjects : (data?.data.projects ?? [])) as Project[];
 
