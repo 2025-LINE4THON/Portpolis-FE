@@ -23,6 +23,7 @@ const ActivityDetailPage = () => {
       try {
         const response = await getActivity(Number(id));
         setData(response.data);
+        console.log(response);
       } catch (err) {
         console.error(err);
       }
@@ -122,18 +123,6 @@ const ActivityDetailPage = () => {
                       />
                     ))}
                   </A.RowContainer>
-                }
-              />
-              <PageBlock
-                gap="11px"
-                padding="15px 27px"
-                text="태그"
-                content={
-                  <A.TagWrapper>
-                    {data.projectTags.map((tag) => (
-                      <B.Tag key={tag.tagId}>{tag.content}</B.Tag>
-                    ))}
-                  </A.TagWrapper>
                 }
               />
             </A.InfomationBlocks>

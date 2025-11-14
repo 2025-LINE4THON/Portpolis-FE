@@ -40,7 +40,6 @@ const ActivityCreatePage = () => {
     role: '',
     thumbnail: '',
     tags: [],
-    stacks: [],
     contents: [
       { title: '프로젝트 핵심 요약', content: '' },
       { title: '프로젝트 소개', content: '' },
@@ -61,7 +60,6 @@ const ActivityCreatePage = () => {
   };
 
   const [tagInputValue, setTagInputValue] = useState('');
-  const [stackInputValue, setStackInputValue] = useState('');
   const [linkTitle, setLinkTitle] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
   const handleTagKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -80,33 +78,10 @@ const ActivityCreatePage = () => {
     }
   };
 
-  const handleStackKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      const value = e.currentTarget.value.trim();
-      if (!value) return;
-
-      if (project.stacks.length >= 8) return;
-
-      setProject((prev) => ({
-        ...prev,
-        stacks: [...prev.stacks, { stackname: value }],
-      }));
-
-      setStackInputValue('');
-    }
-  };
-
   const removeTag = (tag: string) => {
     setProject((prev) => ({
       ...prev,
       tags: prev.tags.filter((t) => t !== tag),
-    }));
-  };
-
-  const removeStack = (stackName: string) => {
-    setProject((prev) => ({
-      ...prev,
-      stacks: prev.stacks.filter((s) => s.stackname !== stackName),
     }));
   };
 
@@ -378,32 +353,6 @@ const ActivityCreatePage = () => {
               />
             </A.InfomationBlocks>
             <A.InfomationBlocks style={{ width: '30%', minWidth: '312px' }}>
-              <PageBlock
-                gap="15px"
-                padding="15px 27px"
-                text="기술 스택"
-                content={
-                  <>
-                    <A.RoundedContent>
-                      <A.InvisibleInput
-                        width="100%"
-                        placeholder="#스택입력 (최대 8개)"
-                        value={stackInputValue}
-                        onChange={(e) => setStackInputValue(e.target.value)}
-                        onKeyUp={handleStackKeyUp}
-                      />
-                    </A.RoundedContent>
-                    <A.TagWrapper>
-                      {project.stacks.map((stack) => (
-                        <A.RowContainer key={stack.stackname} style={{ gap: '5px' }}>
-                          <A.Stack>{stack.stackname}</A.Stack>
-                          <img src={x} onClick={() => removeStack(stack.stackname)} />
-                        </A.RowContainer>
-                      ))}
-                    </A.TagWrapper>
-                  </>
-                }
-              />
               <PageBlock
                 gap="11px"
                 padding="15px 27px"
