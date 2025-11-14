@@ -183,7 +183,7 @@ const CareerPage = () => {
       const response = await uploadStack(requestData);
 
       setStack(response.data);
-      setQualificationsModal(false);
+      setStackModal(false);
 
       console.log('기술 스택 업로드 성공', response);
     } catch (error) {
@@ -209,7 +209,7 @@ const CareerPage = () => {
       const response = await uploadCareer(requestData);
 
       setCareer(response.data);
-      setQualificationsModal(false);
+      setExperienceModal(false);
 
       console.log('경력 업로드 성공', response);
     } catch (error) {
