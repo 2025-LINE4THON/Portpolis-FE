@@ -1,0 +1,42 @@
+import type { CommonResponse } from '../common';
+
+export type ResponseCareerDTO = CommonResponse<CareerDTO[]>;
+
+export type CareerDTO = {
+  careerId: number;
+  userId: number;
+  content: string;
+  startDate: string;
+  endDate: string;
+};
+
+export type ResponseLicenseDTO = CommonResponse<LicenseDTO[]>;
+
+export type LicenseDTO = {
+  LicenseId: number;
+  userId: number;
+  name: string;
+  gotDate: string;
+  endDate: string;
+};
+
+export type ResponseStackDTO = CommonResponse<StackDTO[]>;
+
+export type StackDTO = {
+  stackId: number;
+  userId: number;
+  name: string;
+  level: string;
+};
+
+export type ResponseProjectDTO = CommonResponse<ProjectDTO[]>;
+
+export type ProjectDTO = {
+  projectId: number;
+  userId: number;
+  title: string;
+  startDate: string;
+  endDate: string;
+  role: string;
+  thumbnail: string;
+};
