@@ -14,10 +14,10 @@ interface PortfolioCardProps {
   $height?: number;
   onClick?: () => void;
   hasHeart?: boolean;
-  onClickHeart: () => void;
-  onClickDeleteHeart: () => void;
-  likesCount: number;
-  isLiked: boolean;
+  onClickHeart?: () => void;
+  onClickDeleteHeart?: () => void;
+  likesCount?: number;
+  isLiked?: boolean;
 }
 
 const CommonPortfolioCard = ({
@@ -44,9 +44,9 @@ const CommonPortfolioCard = ({
       const next = !prev;
 
       if (next) {
-        onClickHeart();
+        onClickHeart?.();
       } else {
-        onClickDeleteHeart();
+        onClickDeleteHeart?.();
       }
 
       return next;
