@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useLikePortfolio, useUnlikePortfolio } from '@/hooks/mutations/useLikePortfolio';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useNavigate } from 'react-router-dom';
 
 interface LikesProps {
   portfolioId: number;
@@ -10,6 +12,9 @@ interface LikesProps {
 }
 
 const Likes: React.FC<LikesProps> = ({ portfolioId, initialIsLiked, initialLikesCount, externalHovered }) => {
+  const { getItem: accessToken } = useLocalStorage('accessToken');
+  const navigate = useNavigate();
+
   const [isLiked, setIsLiked] = useState(initialIsLiked);
   const [likesCount, setLikesCount] = useState(initialLikesCount);
   const [isHovered, setIsHovered] = useState(false);
@@ -20,26 +25,32 @@ const Likes: React.FC<LikesProps> = ({ portfolioId, initialIsLiked, initialLikes
   const unlikeMutation = useUnlikePortfolio();
 
   const handleLikeToggle = async () => {
-    if (isLiked) {
-      unlikeMutation.mutate(portfolioId, {
-        onSuccess: () => {
-          setIsLiked(false);
-          setLikesCount((prev) => prev - 1);
-        },
-        onError: (error) => {
-          console.error('좋아요 취소 실패:', error);
-        },
-      });
+    if (!accessToken()) {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+      return;
     } else {
-      likeMutation.mutate(portfolioId, {
-        onSuccess: () => {
-          setIsLiked(true);
-          setLikesCount((prev) => prev + 1);
-        },
-        onError: (error) => {
-          console.error('좋아요 실패:', error);
-        },
-      });
+      if (isLiked) {
+        unlikeMutation.mutate(portfolioId, {
+          onSuccess: () => {
+            setIsLiked(false);
+            setLikesCount((prev) => prev - 1);
+          },
+          onError: (error) => {
+            console.error('좋아요 취소 실패:', error);
+          },
+        });
+      } else {
+        likeMutation.mutate(portfolioId, {
+          onSuccess: () => {
+            setIsLiked(true);
+            setLikesCount((prev) => prev + 1);
+          },
+          onError: (error) => {
+            console.error('좋아요 실패:', error);
+          },
+        });
+      }
     }
   };
 
