@@ -1,4 +1,9 @@
-import type { RequestEditUserInfoDTO, ResponseUserInfoDTO, ResponseLogoutDTO } from '@/types/Mypage/Mypage';
+import type {
+  RequestEditUserInfoDTO,
+  ResponseUserInfoDTO,
+  ResponseLogoutDTO,
+  ResponsePortfoliosDTO,
+} from '@/types/Mypage/Mypage';
 import { axiosInstance } from '../axios';
 
 export const getUserInfo = async (): Promise<ResponseUserInfoDTO> => {
@@ -13,5 +18,10 @@ export const patchUserInfo = async (body: RequestEditUserInfoDTO): Promise<Respo
 
 export const Logout = async (): Promise<ResponseLogoutDTO> => {
   const { data } = await axiosInstance.post('./api/auth/logout');
+  return data;
+};
+
+export const getPortfolio = async (): Promise<ResponsePortfoliosDTO> => {
+  const { data } = await axiosInstance.get('./api/users/me/portfolios');
   return data;
 };

@@ -12,7 +12,7 @@ import youtube from '@assets/mypage/icon-youtube.svg';
 import extraLink from '@assets/mypage/icon-extra-link.svg';
 import PortfolioSlider from '@components/ProjectSlider/ProjectSlider';
 import type { ResponseUserInfoDTO, RequestEditUserInfoDTO } from '@/types/Mypage/Mypage';
-import { getUserInfo, patchUserInfo, Logout } from '@apis/Mypage/Mypage';
+import { getUserInfo, patchUserInfo, Logout, getPortfolio } from '@apis/Mypage/Mypage';
 
 const MyPage = () => {
   const [profileModal, setProfileModal] = useState(false);
@@ -47,55 +47,25 @@ const MyPage = () => {
     setLinks((prev) => ({ ...prev, [name]: value }));
   };
 
-  const dummyData = [
-    {
-      id: 1,
-      image: 'edit',
-      type: 'portfolio',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는1',
-      isPrivate: false,
-    },
-    {
-      id: 2,
-      image: 'edit',
-      type: 'portfolio',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는2',
-      isPrivate: false,
-    },
-    {
-      id: 3,
-      image: 'edit',
-      type: 'portfolio',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는3',
-      isPrivate: false,
-    },
-    {
-      id: 5,
-      image: 'edit',
-      type: 'portfolio',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는4',
-      isPrivate: false,
-    },
-    {
-      id: 6,
-      image: 'edit',
-      type: 'portfolio',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드5 1',
-      isPrivate: false,
-    },
-  ];
+  const [portfolio, setPortfolio] = useState<{ id: number; type: 'portfolio'; title: string; image: string | null }[]>(
+    [],
+  );
 
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const response = await getUserInfo();
-        console.log(response);
-        setProfile(response.data);
+        const [UserRes, PortfolioRes] = await Promise.all([getUserInfo(), getPortfolio()]);
+
+        console.log(UserRes.data, PortfolioRes.data);
+        setProfile(UserRes.data);
+        setPortfolio(
+          PortfolioRes.data.map((item) => ({
+            id: item.portfolioId,
+            type: 'portfolio',
+            title: item.title,
+            image: item.thumbnail ?? '',
+          })),
+        );
       } catch (error) {
         console.error('마이페이지 조회 실패', error);
       }
@@ -190,7 +160,7 @@ const MyPage = () => {
           <M.B1>발행된 포트폴리오와 임시 저장본을 확인하세요.</M.B1>
         </M.Header>
 
-        <PortfolioSlider items={dummyData} />
+        <PortfolioSlider items={portfolio} />
       </M.MyPage>
       {profileModal && (
         <EditModal

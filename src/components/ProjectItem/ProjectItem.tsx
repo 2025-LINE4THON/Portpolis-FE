@@ -5,8 +5,8 @@ import palette from '@/styles/theme';
 
 interface ProjectItemProps {
   type: string;
-  image: string;
-  period: string;
+  image: string | null;
+  period?: string;
   title: string;
   onClick: () => void;
   isPrivate?: boolean;
@@ -17,7 +17,7 @@ interface ProjectItemProps {
 const ProjectItem = ({ type, image, period, title, onClick, isPrivate, tags, role }: ProjectItemProps) => {
   return (
     <P.ProjectItem>
-      <img src={image} style={{ width: '246px', height: '160px' }} />
+      <img src={image || ''} style={{ width: '246px', height: '160px' }} />
       <P.InfoContainer>
         <P.Info>
           <P.Period>{period}</P.Period>

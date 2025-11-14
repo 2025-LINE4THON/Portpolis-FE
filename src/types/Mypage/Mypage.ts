@@ -19,3 +19,12 @@ export type RequestEditUserInfoDTO = {
 };
 
 export type ResponseLogoutDTO = CommonResponse<null>;
+
+export type ResponsePortfoliosDTO = CommonResponse<PortfolioDTO[]>;
+
+export type PortfolioDTO = {
+  portfolioId: number;
+  title: string;
+  isPublic: string;
+  thumbnail: string | null;
+};
