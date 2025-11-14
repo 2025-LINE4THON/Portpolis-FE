@@ -61,7 +61,7 @@ const Element = ({ setLevel }: ElementProps) => {
         <ElementBox
           number={2}
           title="내 경력"
-          subTitle="최대 4개까지 선택해주세요."
+          subTitle="최소 1개, 최대 4개까지 선택해주세요."
           ElementCard={
             <ElementCard
               content={
