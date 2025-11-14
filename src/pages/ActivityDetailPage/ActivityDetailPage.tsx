@@ -4,7 +4,6 @@ import PageBlock from '@/components/PageBlock/PageBlock';
 import trash from '@assets/activity/icon-trash.svg';
 import save from '@assets/activity/icon-edit-save.svg';
 import palette from '@/styles/theme';
-import file from '@assets/activity/icon-trash.svg';
 import goback from '@assets/activity/icon-green-goback.svg';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getActivity } from '@/apis/Activity/Activity';
@@ -38,7 +37,7 @@ const ActivityDetailPage = () => {
     <>
       <A.Background />
       <B.ActivityDetailPage>
-        <A.Header bgimg={file}>
+        <A.Header bgimg={data.thumbnail}>
           <A.Nav>
             <A.GoBack src={goback} onClick={() => navigate(-1)} />
           </A.Nav>
@@ -70,13 +69,15 @@ const ActivityDetailPage = () => {
         <A.ExtraInfo>
           <A.RowContainer>
             <A.InfomationBlocks>
-              {data.projectContents.map((section) => (
-                <PageBlock
-                  key={section.projectContentId}
-                  text={section.title}
-                  content={<A.InvisibleTextarea value={section.content} readOnly />}
-                />
-              ))}
+              {data.projectContents
+                .filter((section) => section.content.trim() !== '')
+                .map((section) => (
+                  <PageBlock
+                    key={section.projectContentId}
+                    text={section.title}
+                    content={<A.InvisibleTextarea value={section.content} readOnly />}
+                  />
+                ))}
             </A.InfomationBlocks>
 
             <A.InfomationBlocks style={{ width: '30%', minWidth: '312px' }}>
@@ -93,12 +94,10 @@ const ActivityDetailPage = () => {
                         href={l.url}
                         target="_blank"
                         style={{
-                          wordBreak: 'break-all',
-                          color: palette.primary.primary500,
-                          textDecoration: 'underline',
+                          color: palette.neutral.neutral300,
                           fontSize: '14px',
                         }}>
-                        {l.url}
+                        {l.name}
                       </a>
                     ))}
                   </>
@@ -112,15 +111,7 @@ const ActivityDetailPage = () => {
                   <A.RowContainer style={{ flexWrap: 'wrap', gap: '10px' }}>
                     {data.projectImages.length === 0 && <A.B2>이미지가 없습니다.</A.B2>}
                     {data.projectImages.map((img) => (
-                      <img
-                        key={img.projectImageId}
-                        src={img.url}
-                        style={{
-                          width: '100%',
-                          borderRadius: '10px',
-                          objectFit: 'cover',
-                        }}
-                      />
+                      <A.ImageBox key={img.projectImageId} src={img.imageURL} />
                     ))}
                   </A.RowContainer>
                 }
