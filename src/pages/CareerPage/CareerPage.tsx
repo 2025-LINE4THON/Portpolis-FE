@@ -339,9 +339,7 @@ const CareerPage = () => {
                 <C.InputContent>
                   시작일<span style={{ color: palette.danger.default }}>*</span>
                 </C.InputContent>
-                <C.InputContent>
-                  종료일<span style={{ color: palette.danger.default }}>*</span>
-                </C.InputContent>
+                <C.InputContent>종료일</C.InputContent>
               </C.ModalHeader>
               {experiences.map((exp, index) => (
                 <C.Row key={index}>
@@ -438,9 +436,7 @@ const CareerPage = () => {
                 <C.InputContent>
                   취득일<span style={{ color: palette.danger.default }}>*</span>
                 </C.InputContent>
-                <C.InputContent style={{ marginLeft: '5px' }}>
-                  종료일<span style={{ color: palette.danger.default }}>*</span>
-                </C.InputContent>
+                <C.InputContent style={{ marginLeft: '5px' }}>종료일</C.InputContent>
               </C.ModalHeader>
               {qualifications.map((cert, index) => (
                 <C.Row key={index}>

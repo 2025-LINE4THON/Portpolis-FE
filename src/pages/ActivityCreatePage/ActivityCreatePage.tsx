@@ -1,7 +1,7 @@
 import * as A from './ActivityCreatePage.styles';
 import goback from '@assets/activity/icon-goback.svg';
 import Upload from '@assets/activity/icon-upload.svg?react';
-import trash from '@assets/activity/icon-trash.svg';
+// import trash from '@assets/activity/icon-trash.svg';
 import save from '@assets/activity/icon-edit-save.svg';
 import palette from '@/styles/theme';
 import { useState, useRef } from 'react';
@@ -165,7 +165,11 @@ const ActivityCreatePage = () => {
       navigate(`/activity/${response.data.projectId}`);
     } catch (error) {
       console.error('프로젝트 등록 실패:', error);
-      alert('프로젝트 등록에 실패했습니다.');
+      if (!project.title || !project.thumbnail || !project.role || !project.startDate || !project.contents[0]) {
+        alert('누락된 필수 입력 항목이 있습니다.');
+      } else {
+        alert('프로젝트 등록에 실패했습니다.');
+      }
     }
   };
 
@@ -197,9 +201,9 @@ const ActivityCreatePage = () => {
             <A.Btn onClick={handleRegister}>
               저장하기 <img src={save} />
             </A.Btn>
-            <A.Btn style={{ color: palette.danger.default }}>
+            {/* <A.Btn style={{ color: palette.danger.default }}>
               삭제 <img src={trash} />
-            </A.Btn>
+            </A.Btn> */}
           </A.FileHandleBtns>
         </A.Header>
 
@@ -297,6 +301,7 @@ const ActivityCreatePage = () => {
           <A.RowContainer>
             <A.InfomationBlocks>
               <PageBlock
+                isRequired={true}
                 text="프로젝트 핵심 요약"
                 content={
                   <A.InvisibleTextarea
