@@ -2,7 +2,7 @@ import * as M from './MyPage.styles';
 import PageBlock from '@components/PageBlock/PageBlock';
 import EditModal from '@components/EditModal/EditModal';
 import palette from '@/styles/theme';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EditInputBox from '@/components/EditInputBox/EditInputBox';
 import github from '@assets/mypage/icon-github.svg';
 import brunch from '@assets/mypage/icon-brunch.svg';
@@ -11,20 +11,26 @@ import insta from '@assets/mypage/icon-instagram.svg';
 import youtube from '@assets/mypage/icon-youtube.svg';
 import extraLink from '@assets/mypage/icon-extra-link.svg';
 import PortfolioSlider from '@components/ProjectSlider/ProjectSlider';
+import type { ResponseUserInfoDTO, RequestEditUserInfoDTO, RequestLinkDTO, LinkDTO } from '@/types/Mypage/Mypage';
+import { getUserInfo, patchUserInfo, Logout, getPortfolio, uploadLink, getLink } from '@apis/Mypage/Mypage';
 
 const MyPage = () => {
   const [profileModal, setProfileModal] = useState(false);
   const [linkModal, setLinkModal] = useState(false);
 
-  const [profile, setProfile] = useState({
+  const [profile, setProfile] = useState<ResponseUserInfoDTO['data']>({
+    userId: 0,
+    username: '',
     name: '',
-    job: '',
-    phoneNum: '',
     email: '',
+    phoneNumber: '',
     introduction: '',
+    job: '',
+    projectCount: 0,
   });
 
-  const [links, setLinks] = useState({
+  const [links, setLinks] = useState<LinkDTO[]>([]);
+  const [linkForm, setLinkForm] = useState<{ [key: string]: string }>({
     github: '',
     brunch: '',
     notion: '',
@@ -33,62 +39,109 @@ const MyPage = () => {
     extra: '',
   });
 
+  const iconMap: Record<string, string> = {
+    github,
+    brunch,
+    notion,
+    insta,
+    youtube,
+    extra: extraLink,
+  };
+
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleLinkChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setLinks((prev) => ({ ...prev, [name]: value }));
+  const [portfolio, setPortfolio] = useState<{ id: number; type: 'portfolio'; title: string; image: string | null }[]>(
+    [],
+  );
+
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const [UserRes, PortfolioRes, LinkRes] = await Promise.all([getUserInfo(), getPortfolio(), getLink()]);
+
+        console.log(UserRes.data, PortfolioRes.data, LinkRes.data);
+        setProfile(UserRes.data);
+        setPortfolio(
+          PortfolioRes.data.map((item) => ({
+            id: item.portfolioId,
+            type: 'portfolio',
+            title: item.title,
+            image: item.thumbnail ?? '',
+          })),
+        );
+
+        setLinks(LinkRes.data);
+
+        const form: { [key: string]: string } = {
+          github: '',
+          brunch: '',
+          notion: '',
+          insta: '',
+          youtube: '',
+          extra: '',
+        };
+
+        LinkRes.data.forEach((item) => {
+          form[item.linkType] = item.url;
+        });
+        setLinkForm(form);
+      } catch (error) {
+        console.error('마이페이지 조회 실패', error);
+      }
+    };
+    getProfile();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const response = await Logout();
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const dummyData = [
-    {
-      id: 1,
-      image: 'edit',
-      type: 'portfolio',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는1',
-      isPrivate: false,
-    },
-    {
-      id: 2,
-      image: 'edit',
-      type: 'portfolio',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는2',
-      isPrivate: false,
-    },
-    {
-      id: 3,
-      image: 'edit',
-      type: 'portfolio',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는3',
-      isPrivate: false,
-    },
-    {
-      id: 5,
-      image: 'edit',
-      type: 'portfolio',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는4',
-      isPrivate: false,
-    },
-    {
-      id: 6,
-      image: 'edit',
-      type: 'portfolio',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드5 1',
-      isPrivate: false,
-    },
-  ];
+  const patchProfile = async () => {
+    try {
+      const requestData: RequestEditUserInfoDTO = {
+        name: profile.name ?? '',
+        email: profile.email ?? '',
+        phoneNumber: profile.phoneNumber ?? '',
+        introduction: profile.introduction ?? '',
+        job: profile.job ?? '',
+      };
+
+      const response = await patchUserInfo(requestData);
+      setProfileModal(false);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleLink = async () => {
+    const requestData: RequestLinkDTO = {
+      links: Object.entries(linkForm)
+        .filter(([_, url]) => url.trim() !== '')
+        .map(([type, url]) => ({
+          linkType: type,
+          url,
+        })),
+    };
+
+    await uploadLink(requestData);
+
+    const updated = await getLink();
+    setLinks(updated.data);
+
+    setLinkModal(false);
+  };
 
   return (
     <>
-      {' '}
       <M.Background />
       <M.MyPage>
         <M.Header>
@@ -98,17 +151,19 @@ const MyPage = () => {
         <M.MyInfoContainer>
           <PageBlock
             width="100%"
-            text="아기사자"
-            middleContent={<M.Job>UI/UX 디자이너</M.Job>}
+            text={profile.name || ''}
+            middleContent={profile.job && <M.Job>{profile.job}</M.Job>}
             content={
               <M.MyInfo>
                 <div>
-                  <div>010-1234-1234 / soye853@gmail.com</div>
-                  <div>총 프로젝트 개수 / 8개</div>
+                  <div style={{ display: 'flex' }}>
+                    {profile.phoneNumber} {profile.email && <div> / {profile.email}</div>}
+                  </div>
+                  <div>총 프로젝트 개수 | {profile.projectCount}개</div>
                 </div>
                 <button
                   onClick={() => {
-                    console.log('로그아웃');
+                    handleLogout();
                   }}
                   style={{ color: palette.neutral.neutral200 }}>
                   로그아웃
@@ -120,9 +175,16 @@ const MyPage = () => {
             }}
           />
           <PageBlock
-            width="320px"
             text="내 링크"
-            content={<M.MyInfo></M.MyInfo>}
+            content={
+              <M.MyLink>
+                {links.map((link) => (
+                  <a key={link.userLinkId} href={link.url} target="_blank">
+                    <img src={iconMap[link.linkType]} alt={link.linkType} />
+                  </a>
+                ))}
+              </M.MyLink>
+            }
             onClick={() => {
               setLinkModal(true);
             }}
@@ -130,14 +192,7 @@ const MyPage = () => {
         </M.MyInfoContainer>
 
         <div style={{ padding: '0 144px' }}>
-          <PageBlock
-            width="100%"
-            content={
-              <M.MyInfo>
-                사용자 중심의 디자인을 지향하며, 실용적이고 아름다운 인터페이스를 만드는 것을 좋아합니다.
-              </M.MyInfo>
-            }
-          />
+          <PageBlock width="100%" content={<M.MyInfo>{profile.introduction}</M.MyInfo>} />
         </div>
         <hr
           style={{
@@ -152,7 +207,7 @@ const MyPage = () => {
           <M.B1>발행된 포트폴리오와 임시 저장본을 확인하세요.</M.B1>
         </M.Header>
 
-        <PortfolioSlider items={dummyData} />
+        <PortfolioSlider items={portfolio} />
       </M.MyPage>
       {profileModal && (
         <EditModal
@@ -167,7 +222,7 @@ const MyPage = () => {
                   width="200px"
                   title="이름"
                   name="name"
-                  value={profile.name}
+                  value={profile.name ?? ''}
                   placeholder="이름을 입력해주세요"
                   onChange={handleProfileChange}
                 />
@@ -175,7 +230,7 @@ const MyPage = () => {
                   width="100%"
                   title="직무 / 직군"
                   name="job"
-                  value={profile.job}
+                  value={profile.job ?? ''}
                   placeholder="직무 또는 직군을 입력해주세요"
                   onChange={handleProfileChange}
                 />
@@ -184,8 +239,8 @@ const MyPage = () => {
                 <EditInputBox
                   width="100%"
                   title="연락처"
-                  name="phoneNum"
-                  value={profile.phoneNum}
+                  name="phoneNumber"
+                  value={String(profile.phoneNumber ?? '')}
                   placeholder="010-1234-1234"
                   onChange={handleProfileChange}
                 />
@@ -193,21 +248,21 @@ const MyPage = () => {
                   width="100%"
                   title="이메일"
                   name="email"
-                  value={profile.email}
+                  value={profile.email ?? ''}
                   placeholder="example@email.com"
                   onChange={handleProfileChange}
                 />
               </M.ProfileRowContainer>
               <M.Textarea
                 name="introduction"
-                value={profile.introduction}
+                value={profile.introduction ?? ''}
                 placeholder="간단한 자기소개를 입력해주세요."
                 onChange={handleProfileChange}
               />
             </M.ProfileModal>
           }
           onClickSave={() => {
-            console.log('저장');
+            patchProfile();
           }}
         />
       )}
@@ -219,72 +274,36 @@ const MyPage = () => {
           }}
           content={
             <M.ProfileModal>
-              <M.LinkContainer>
-                <img src={github} />
-                <EditInputBox
-                  width="100%"
-                  name="github"
-                  value={links.github}
-                  placeholder="https:// 주소를 입려해주세요."
-                  onChange={handleLinkChange}
-                />
-              </M.LinkContainer>
-              <M.LinkContainer>
-                <img src={brunch} />
-                <EditInputBox
-                  width="100%"
-                  name="brunch"
-                  value={links.brunch}
-                  placeholder="https:// 주소를 입려해주세요."
-                  onChange={handleLinkChange}
-                />
-              </M.LinkContainer>
-              <M.LinkContainer>
-                <img src={notion} />
-                <EditInputBox
-                  width="100%"
-                  name="notion"
-                  value={links.notion}
-                  placeholder="https:// 주소를 입려해주세요."
-                  onChange={handleLinkChange}
-                />
-              </M.LinkContainer>
-              <M.LinkContainer>
-                <img src={insta} />
-                <EditInputBox
-                  width="100%"
-                  value={links.insta}
-                  name="insta"
-                  placeholder="https:// 주소를 입려해주세요."
-                  onChange={handleLinkChange}
-                />
-              </M.LinkContainer>
-              <M.LinkContainer>
-                <img src={youtube} />
-                <EditInputBox
-                  width="100%"
-                  name="youtube"
-                  value={links.youtube}
-                  placeholder="https:// 주소를 입려해주세요."
-                  onChange={handleLinkChange}
-                />
-              </M.LinkContainer>
-              <M.LinkContainer>
-                <div style={{ width: '60px', height: '50px', display: 'flex', justifyContent: 'center' }}>
-                  <img src={extraLink} style={{ width: '34px' }} />
-                </div>
-                <EditInputBox
-                  width="100%"
-                  name="extra"
-                  value={links.extra}
-                  placeholder="https:// 주소를 입려해주세요."
-                  onChange={handleLinkChange}
-                />
-              </M.LinkContainer>
+              {Object.keys(linkForm).map((type) => (
+                <M.LinkContainer key={type}>
+                  {type === 'extra' ? (
+                    <div
+                      style={{
+                        width: '60px',
+                        height: '50px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <img src={iconMap[type]} style={{ width: '34px' }} />
+                    </div>
+                  ) : (
+                    <img src={iconMap[type]} alt={type} />
+                  )}
+
+                  <EditInputBox
+                    width="100%"
+                    name={type}
+                    value={linkForm[type]}
+                    placeholder="https:// 주소를 입력해주세요."
+                    onChange={(e) => setLinkForm((prev) => ({ ...prev, [type]: e.target.value }))}
+                  />
+                </M.LinkContainer>
+              ))}
             </M.ProfileModal>
           }
           onClickSave={() => {
-            console.log('저장');
+            handleLink();
           }}
         />
       )}

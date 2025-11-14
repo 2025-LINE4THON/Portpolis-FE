@@ -7,8 +7,8 @@ import ProjectItem from '@components/ProjectItem/ProjectItem';
 interface PortfolioItem {
   id: number;
   type: string;
-  image: string;
-  period: string;
+  image: string | null;
+  period?: string;
   title: string;
   onClick?: () => void;
   isPrivate?: boolean;

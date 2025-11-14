@@ -1,10 +1,10 @@
+import Likes from '../likes';
 import * as P from './CommonPortfolioCard.styles';
 import EyeIcon from '@assets/PortfolioCreatePage/icon-visibility.svg?react';
-import Heart from '@assets/common/icon-heart.svg?react';
-import HeartFull from '@assets/common/icon-heart-full.svg?react';
 import { useState } from 'react';
 
 interface PortfolioCardProps {
+  portfolioId: number;
   img?: string;
   title: string;
   name: string;
@@ -12,15 +12,13 @@ interface PortfolioCardProps {
   date?: string;
   $width?: number;
   $height?: number;
-  onClick?: () => void;
-  hasHeart?: boolean;
-  onClickHeart?: () => void;
-  onClickDeleteHeart?: () => void;
-  likesCount?: number;
   isLiked?: boolean;
+  likeCount?: number;
+  onClick?: () => void;
 }
 
 const CommonPortfolioCard = ({
+  portfolioId,
   img,
   title,
   name,
@@ -28,43 +26,36 @@ const CommonPortfolioCard = ({
   date,
   $width,
   $height,
-  onClick,
-  hasHeart,
-  onClickHeart,
-  onClickDeleteHeart,
-  likesCount,
   isLiked,
+  likeCount,
+  onClick,
 }: PortfolioCardProps) => {
-  const [liked, setLiked] = useState(isLiked);
+  const [isCardHovered, setIsCardHovered] = useState(false);
 
-  const handleClickHeart = (e: React.MouseEvent) => {
+  const handleCardClick = () => {
+    onClick?.();
+  };
+
+  const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-
-    setLiked((prev) => {
-      const next = !prev;
-
-      if (next) {
-        onClickHeart?.();
-      } else {
-        onClickDeleteHeart?.();
-      }
-
-      return next;
-    });
   };
 
   return (
-    <P.CommonPortfolioCard $width={$width || 441} $height={$height || 291} onClick={onClick}>
-      <P.Card>
-        {img && <img src={img} />}
-        {hasHeart && (
-          <P.HeartWrapper className="child">
-            {liked && <HeartFull className="child" onClick={handleClickHeart} />}
-            {!liked && <Heart className="child" onClick={handleClickHeart} />}
-            <p>{likesCount}</p>
-          </P.HeartWrapper>
-        )}
-
+    <P.CommonPortfolioCard
+      $width={$width || 441}
+      $height={$height || 291}
+      onMouseEnter={() => setIsCardHovered(true)}
+      onMouseLeave={() => setIsCardHovered(false)}>
+      <P.LikesWrapper onClick={handleLikeClick}>
+        <Likes
+          portfolioId={portfolioId}
+          initialIsLiked={isLiked || false}
+          initialLikesCount={likeCount || 0}
+          externalHovered={isCardHovered}
+        />
+      </P.LikesWrapper>
+      <P.Card onClick={handleCardClick}>
+        {img && <img src={img} alt={title} />}
         <P.InfoWrapper>
           <P.Title>{title}</P.Title>
 
