@@ -7,6 +7,7 @@ import useGetUsers from '@/hooks/queries/PortfolioCreatePage/useGetUsers';
 import type { RequestPortfolios } from '@/types/PortfolioCreatePage/edit';
 import usePostPortfolios from '@/hooks/mutations/PortfolioCreatePage/usePostPortfolios';
 import { TEMPLATE, VISIBILITY } from '@/constants/key';
+import { uploadImage } from '@/apis/upload';
 
 import * as P from './Publish.styles';
 import CheckedIcon from '@assets/PortfolioCreatePage/icon-checked.svg?react';
@@ -25,25 +26,42 @@ const Publish = () => {
 
   const { mutate } = usePostPortfolios();
 
-  const handlePublish = () => {
-    const payload: RequestPortfolios = {
-      template: selectedTemplate === 1 ? TEMPLATE.STANDARD : TEMPLATE.VISUAL,
-      skills: selectedStacks.map((s, idx) => ({ id: s.stackId, rank: idx + 1 })),
-      careers: selectedCareers.map((c) => ({ id: c.careerId, description: c.description })),
-      projectIds: selectedProjects.map((p) => p.projectId),
-      title: title,
-      greeting: '',
-      introduction: userData?.data.introduction,
-      aboutMe: aboutMe,
-      thumbnail: thumbnail?.thumbnail,
-      isPublic: selected === 'all' ? VISIBILITY.PUBLIC : selected === 'link' ? VISIBILITY.LINK : VISIBILITY.PRIVATE,
-    };
+  const handlePublish = async () => {
+    try {
+      // 1. 썸네일 이미지가 있으면 먼저 업로드
+      let thumbnailUrl: string | undefined;
+      if (thumbnail?.file) {
+        thumbnailUrl = await uploadImage(thumbnail.file);
+      }
 
-    mutate(payload, {
-      onSuccess: (res) => {
-        navigate(`/portfolio/${res.data.portpolioId}`);
-      },
-    });
+      // 2. 포트폴리오 데이터 생성
+      const payload: RequestPortfolios = {
+        template: selectedTemplate === 1 ? TEMPLATE.STANDARD : TEMPLATE.VISUAL,
+        skills: selectedStacks.map((s, idx) => ({ id: s.stackId, rank: idx + 1 })),
+        careers: selectedCareers.map((c) => ({ id: c.careerId, description: c.description })),
+        projectIds: selectedProjects.map((p) => p.projectId),
+        title: title,
+        greeting: '',
+        introduction: userData?.data.introduction,
+        aboutMe: aboutMe,
+        thumbnail: thumbnailUrl, // 업로드된 이미지 URL
+        isPublic: selected === 'all' ? VISIBILITY.PUBLIC : selected === 'link' ? VISIBILITY.LINK : VISIBILITY.PRIVATE,
+      };
+
+      // 3. 포트폴리오 생성
+      mutate(payload, {
+        onSuccess: (res) => {
+          console.log('포트폴리오 생성 성공:', res);
+          navigate(`/portfolio/${res.data.portpolioId}`);
+        },
+        onError: (error) => {
+          console.error('포트폴리오 생성 실패:', error);
+        },
+      });
+    } catch (error) {
+      console.error('이미지 업로드 실패:', error);
+      alert('이미지 업로드에 실패했습니다.');
+    }
   };
 
   return (
