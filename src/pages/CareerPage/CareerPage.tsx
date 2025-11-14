@@ -237,7 +237,7 @@ const CareerPage = () => {
               <>
                 {career.map((item) => (
                   <div>
-                    {item.startDate.slice(0, 7)} ~ {item.endDate.slice(0, 7)} | {item.content}
+                    {item.startDate.slice(0, 7)} ~ {item.endDate?.slice(0, 7) || ''} | {item.content}
                   </div>
                 ))}
               </>
@@ -317,7 +317,7 @@ const CareerPage = () => {
             image: item.thumbnail,
             type: 'project',
             startDate: item.startDate,
-            endDate: item.endDate,
+            endDate: item.endDate || '',
             title: item.title,
             role: item.role,
           }))}
