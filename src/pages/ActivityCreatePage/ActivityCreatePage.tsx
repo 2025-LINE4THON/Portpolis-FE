@@ -11,8 +11,10 @@ import x from '@assets/activity/icon-x.svg';
 import type { RequestRegisterDTO } from '@/types/Activity/Activity';
 import { RegisterProject } from '@/apis/Activity/Activity';
 import { uploadImage, uploadImages } from '@/apis/upload';
+import { useNavigate } from 'react-router-dom';
 
 const ActivityCreatePage = () => {
+  const navigate = useNavigate();
   const [onGoing, setOnGoing] = useState(false);
   const [file, setFile] = useState<string | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
@@ -77,6 +79,7 @@ const ActivityCreatePage = () => {
       setTagInputValue('');
     }
   };
+
   const handleStackKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const value = e.currentTarget.value.trim();
@@ -86,12 +89,13 @@ const ActivityCreatePage = () => {
 
       setProject((prev) => ({
         ...prev,
-        stacks: [...prev.stacks, { stackId: Date.now(), stackName: value }],
+        stacks: [...prev.stacks, { stackname: value }],
       }));
 
       setStackInputValue('');
     }
   };
+
   const removeTag = (tag: string) => {
     setProject((prev) => ({
       ...prev,
@@ -99,10 +103,10 @@ const ActivityCreatePage = () => {
     }));
   };
 
-  const removeStack = (stackId: number) => {
+  const removeStack = (stackName: string) => {
     setProject((prev) => ({
       ...prev,
-      stacks: prev.stacks.filter((s) => s.stackId !== stackId),
+      stacks: prev.stacks.filter((s) => s.stackname !== stackName),
     }));
   };
 
@@ -183,6 +187,7 @@ const ActivityCreatePage = () => {
       const response = await RegisterProject(requestData);
       console.log('프로젝트 등록 성공:', response);
       alert('프로젝트가 성공적으로 등록되었습니다!');
+      navigate(`/activity/${response.data.projectId}`);
     } catch (error) {
       console.error('프로젝트 등록 실패:', error);
       alert('프로젝트 등록에 실패했습니다.');
@@ -390,10 +395,10 @@ const ActivityCreatePage = () => {
                     </A.RoundedContent>
                     <A.TagWrapper>
                       {project.stacks.map((stack) => (
-                        <>
-                          <A.Stack>{stack.stackName}</A.Stack>
-                          <img src={x} onClick={() => removeStack(stack.stackId)} />
-                        </>
+                        <A.RowContainer key={stack.stackname} style={{ gap: '5px' }}>
+                          <A.Stack>{stack.stackname}</A.Stack>
+                          <img src={x} onClick={() => removeStack(stack.stackname)} />
+                        </A.RowContainer>
                       ))}
                     </A.TagWrapper>
                   </>
