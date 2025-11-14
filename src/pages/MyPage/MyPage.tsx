@@ -12,7 +12,7 @@ import youtube from '@assets/mypage/icon-youtube.svg';
 import extraLink from '@assets/mypage/icon-extra-link.svg';
 import PortfolioSlider from '@components/ProjectSlider/ProjectSlider';
 import type { ResponseUserInfoDTO, RequestEditUserInfoDTO } from '@/types/Mypage/Mypage';
-import { getUserInfo, patchUserInfo } from '@apis/Mypage/Mypage';
+import { getUserInfo, patchUserInfo, Logout } from '@apis/Mypage/Mypage';
 
 const MyPage = () => {
   const [profileModal, setProfileModal] = useState(false);
@@ -103,6 +103,15 @@ const MyPage = () => {
     getProfile();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      const response = await Logout();
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const patchProfile = async () => {
     try {
       const requestData: RequestEditUserInfoDTO = {
@@ -144,7 +153,7 @@ const MyPage = () => {
                 </div>
                 <button
                   onClick={() => {
-                    console.log('로그아웃');
+                    handleLogout();
                   }}
                   style={{ color: palette.neutral.neutral200 }}>
                   로그아웃

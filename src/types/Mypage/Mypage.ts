@@ -17,3 +17,5 @@ export type RequestEditUserInfoDTO = {
   introduction: string;
   job: string;
 };
+
+export type ResponseLogoutDTO = CommonResponse<null>;
