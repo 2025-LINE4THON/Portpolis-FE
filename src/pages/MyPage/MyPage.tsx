@@ -174,16 +174,15 @@ const MyPage = () => {
             }}
           />
           <PageBlock
-            width="320px"
             text="내 링크"
             content={
-              <M.MyInfo>
+              <M.MyLink>
                 {links.map((link) => (
                   <a key={link.userLinkId} href={link.url} target="_blank">
                     <img src={iconMap[link.linkType]} alt={link.linkType} />
                   </a>
                 ))}
-              </M.MyInfo>
+              </M.MyLink>
             }
             onClick={() => {
               setLinkModal(true);
