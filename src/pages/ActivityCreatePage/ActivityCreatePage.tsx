@@ -79,6 +79,7 @@ const ActivityCreatePage = () => {
       setTagInputValue('');
     }
   };
+
   const handleStackKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const value = e.currentTarget.value.trim();
@@ -88,7 +89,7 @@ const ActivityCreatePage = () => {
 
       setProject((prev) => ({
         ...prev,
-        stacks: [...prev.stacks, value],
+        stacks: [...prev.stacks, { stackname: value }],
       }));
 
       setStackInputValue('');
@@ -105,7 +106,7 @@ const ActivityCreatePage = () => {
   const removeStack = (stackName: string) => {
     setProject((prev) => ({
       ...prev,
-      stacks: prev.stacks.filter((s) => s !== stackName),
+      stacks: prev.stacks.filter((s) => s.stackname !== stackName),
     }));
   };
 
@@ -394,10 +395,10 @@ const ActivityCreatePage = () => {
                     </A.RoundedContent>
                     <A.TagWrapper>
                       {project.stacks.map((stack) => (
-                        <>
-                          <A.Stack>{stack}</A.Stack>
-                          <img src={x} onClick={() => removeStack(stack)} />
-                        </>
+                        <A.RowContainer key={stack.stackname} style={{ gap: '5px' }}>
+                          <A.Stack>{stack.stackname}</A.Stack>
+                          <img src={x} onClick={() => removeStack(stack.stackname)} />
+                        </A.RowContainer>
                       ))}
                     </A.TagWrapper>
                   </>
