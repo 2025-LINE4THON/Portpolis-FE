@@ -8,6 +8,7 @@ export type ResponseUserInfoDTO = CommonResponse<{
   phoneNumber: string | null;
   introduction: string | null;
   job: string | null;
+  projectCount: number;
 }>;
 
 export type RequestEditUserInfoDTO = {
