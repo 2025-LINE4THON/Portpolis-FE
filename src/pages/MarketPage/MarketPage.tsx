@@ -1,4 +1,3 @@
-import React from 'react';
 import * as M from './MarketPage.styles';
 import palette from '@/styles/theme';
 

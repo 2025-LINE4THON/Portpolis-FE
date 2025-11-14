@@ -1,8 +1,6 @@
 import Likes from '../likes';
 import * as P from './CommonPortfolioCard.styles';
 import EyeIcon from '@assets/PortfolioCreatePage/icon-visibility.svg?react';
-import Heart from '@assets/common/icon-heart.svg?react';
-import HeartFull from '@assets/common/icon-heart-full.svg?react';
 import { useState } from 'react';
 
 interface PortfolioCardProps {
@@ -17,11 +15,6 @@ interface PortfolioCardProps {
   isLiked?: boolean;
   likeCount?: number;
   onClick?: () => void;
-  hasHeart?: boolean;
-  onClickHeart?: () => void;
-  onClickDeleteHeart?: () => void;
-  likesCount?: number;
-  isLiked?: boolean;
 }
 
 const CommonPortfolioCard = ({

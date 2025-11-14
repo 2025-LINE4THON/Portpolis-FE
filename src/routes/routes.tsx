@@ -1,4 +1,3 @@
-import MarketPage from '@/pages/MarketPage/MarketPage';
 import React from 'react';
 
 export const lazyRoutes = {

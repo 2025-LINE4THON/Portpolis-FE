@@ -101,7 +101,7 @@ export const LogoButton = styled.div`
     .bar {
       width: 10px;
       height: 16px;
-      background: ${palette.neutral.neutral50};
+      background: ${palette.neutral.neutral050};
     }
   }
 `;
