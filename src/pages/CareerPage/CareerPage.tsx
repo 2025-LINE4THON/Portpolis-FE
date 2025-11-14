@@ -183,7 +183,7 @@ const CareerPage = () => {
       const response = await uploadStack(requestData);
 
       setStack(response.data);
-      setQualificationsModal(false);
+      setStackModal(false);
 
       console.log('기술 스택 업로드 성공', response);
     } catch (error) {
@@ -209,7 +209,7 @@ const CareerPage = () => {
       const response = await uploadCareer(requestData);
 
       setCareer(response.data);
-      setQualificationsModal(false);
+      setExperienceModal(false);
 
       console.log('경력 업로드 성공', response);
     } catch (error) {
@@ -237,7 +237,7 @@ const CareerPage = () => {
               <>
                 {career.map((item) => (
                   <div>
-                    {item.startDate.slice(0, 7)} ~ {item.endDate.slice(0, 7)} | {item.content}
+                    {item.startDate.slice(0, 7)} ~ {item.endDate?.slice(0, 7) || ''} | {item.content}
                   </div>
                 ))}
               </>
@@ -317,7 +317,7 @@ const CareerPage = () => {
             image: item.thumbnail,
             type: 'project',
             startDate: item.startDate,
-            endDate: item.endDate,
+            endDate: item.endDate || '',
             title: item.title,
             role: item.role,
           }))}
