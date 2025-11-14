@@ -87,6 +87,7 @@ const Publish = () => {
           <CommonPortfolioCard
             $width={345}
             $height={228}
+            portfolioId={0}
             img={thumbnail?.thumbnail}
             title={title}
             name={userData?.data.username || ''}

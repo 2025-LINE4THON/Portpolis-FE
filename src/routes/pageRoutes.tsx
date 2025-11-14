@@ -44,6 +44,10 @@ export const routes: RouteObject[] = [
         path: 'signup',
         element: <lazyRoutes.SignupPage />,
       },
+      {
+        path: 'marketplace',
+        element: <lazyRoutes.MarketPage />,
+      }
     ],
   },
 ];
