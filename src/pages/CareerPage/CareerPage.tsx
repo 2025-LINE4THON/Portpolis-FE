@@ -319,6 +319,7 @@ const CareerPage = () => {
             startDate: item.startDate,
             endDate: item.endDate || '',
             title: item.title,
+            tags: item.projectTags.map((tag) => tag.content),
             role: item.role,
           }))}
         />

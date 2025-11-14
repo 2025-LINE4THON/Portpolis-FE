@@ -68,4 +68,10 @@ export type ProjectDTO = {
   endDate: string;
   role: string;
   thumbnail: string;
+  projectTags: Tags[];
+};
+
+export type Tags = {
+  tagId: number;
+  content: string;
 };

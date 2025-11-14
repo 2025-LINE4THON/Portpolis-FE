@@ -7,9 +7,6 @@ export type RequestRegisterDTO = {
   role: string;
   thumbnail: string;
   tags: string[];
-  stacks: {
-    stackname: string;
-  }[];
   contents: {
     title: string;
     content: string;
@@ -29,9 +26,6 @@ export type ResponseRegisterDTO = CommonResponse<{
   role: string;
   thumbnail: string;
   tags: string[];
-  stacks: {
-    stackname: string;
-  }[];
   contents: {
     title: string;
     content: string;
@@ -52,7 +46,6 @@ export type ResponseProjectDetailDTO = CommonResponse<{
   role: string;
   thumbnail: string;
   projectTags: ProjectTag[];
-  // projectStacks: any[];
   projectContents: ProjectContent[];
   projectImages: ProjectImage[];
   links: ProjectLink[];
@@ -77,7 +70,7 @@ export type ProjectImage = {
   projectImageId: number;
   projectId: number;
   userId: number;
-  url: string;
+  imageURL: string;
 };
 
 export type ProjectLink = {
@@ -85,4 +78,5 @@ export type ProjectLink = {
   projectId: number;
   userId: number;
   url: string;
+  name: string;
 };
