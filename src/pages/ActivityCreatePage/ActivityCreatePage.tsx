@@ -10,10 +10,13 @@ import PageBlock from '@/components/PageBlock/PageBlock';
 import x from '@assets/activity/icon-x.svg';
 import type { RequestRegisterDTO } from '@/types/Activity/Activity';
 import { RegisterProject } from '@/apis/Activity/Activity';
+import { uploadImage, uploadImages } from '@/apis/upload';
 
 const ActivityCreatePage = () => {
   const [onGoing, setOnGoing] = useState(false);
   const [file, setFile] = useState<string | null>(null);
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileUploadClick = () => {
@@ -25,11 +28,7 @@ const ActivityCreatePage = () => {
     if (!selectedFile) return;
 
     setFile(URL.createObjectURL(selectedFile));
-
-    setProject((prev) => ({
-      ...prev,
-      thumbnail: file ?? '',
-    }));
+    setThumbnailFile(selectedFile);
   };
 
   const [project, setProject] = useState<RequestRegisterDTO>({
@@ -128,12 +127,15 @@ const ActivityCreatePage = () => {
     const files = e.target.files;
     if (!files) return;
 
-    const newImages = Array.from(files).map((file) => URL.createObjectURL(file));
+    const filesArray = Array.from(files);
+    const newImageUrls = filesArray.map((file) => URL.createObjectURL(file));
 
     setProject((prev) => ({
       ...prev,
-      images: [...prev.images, ...newImages].slice(0, 4),
+      images: [...prev.images, ...newImageUrls].slice(0, 4),
     }));
+
+    setImageFiles((prev) => [...prev, ...filesArray].slice(0, 4));
 
     e.target.value = '';
   };
@@ -143,6 +145,7 @@ const ActivityCreatePage = () => {
       ...prev,
       images: prev.images.filter((_, i) => i !== index),
     }));
+    setImageFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleContentChange = (index: number, value: string) => {
@@ -155,12 +158,34 @@ const ActivityCreatePage = () => {
 
   const handleRegister = async () => {
     try {
-      const requestData: RequestRegisterDTO = { ...project };
+      // 1. 대표 이미지 업로드
+      let thumbnailUrl = '';
+      if (thumbnailFile) {
+        thumbnailUrl = await uploadImage(thumbnailFile);
+        console.log('대표이미지 업로드 성공:', thumbnailUrl);
+      }
 
+      // 2. 관련 이미지들 업로드
+      let imageUrls: string[] = [];
+      if (imageFiles.length > 0) {
+        imageUrls = await uploadImages(imageFiles);
+        console.log('이미지 업로드 성공:', imageUrls);
+      }
+
+      // 3. 프로젝트 데이터 생성
+      const requestData: RequestRegisterDTO = {
+        ...project,
+        thumbnail: thumbnailUrl,
+        images: imageUrls,
+      };
+
+      // 4. 프로젝트 등록
       const response = await RegisterProject(requestData);
-      console.log(response);
+      console.log('프로젝트 등록 성공:', response);
+      alert('프로젝트가 성공적으로 등록되었습니다!');
     } catch (error) {
-      console.error(error);
+      console.error('프로젝트 등록 실패:', error);
+      alert('프로젝트 등록에 실패했습니다.');
     }
   };
 
