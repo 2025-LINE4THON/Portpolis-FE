@@ -19,7 +19,7 @@ const ListPage = () => {
   const [searchRes, setSearchRes] = useState('');
   const [sort, setSort] = useState<'recent' | 'likes' | 'views'>('recent');
 
-  const { data } = useGetSearchPortfolio({ keyword: searchRes, sort });
+  const { data } = useGetSearchPortfolio({ keyword: searchRes || undefined, sort });
   const { mutate } = usePostLike();
   const { mutate: mutateDeleteLike } = useDeleteLike();
 
