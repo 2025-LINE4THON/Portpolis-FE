@@ -3,7 +3,6 @@ import * as E from './EditProject.styles';
 import EditIndexButton from '../EditIndexButton/EditIndexButton';
 import EditProjectStandardCard from '../EditProjectStandardCard/EditProjectStandardCard';
 import Image from '@assets/PortfolioCreatePage/ex-card-image.png';
-import Imgae2 from '@assets/PortfolioCreatePage/ex-card-visual-image.png';
 import EditProjectVisualCard from '../EditProjectVisualCard/EditProjectVisualCard';
 import type { ResponseGetPortfolio } from '@/types/PortfolioCreatePage/edit';
 import type { Project } from '@/types/PortfolioCreatePage/element';
