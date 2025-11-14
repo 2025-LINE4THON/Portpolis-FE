@@ -4,8 +4,15 @@ import NotionIcon from '@assets/PortfolioCreatePage/icon-notion.svg?react';
 import GithubIcon from '@assets/PortfolioCreatePage/icon-github.svg?react';
 import InstaIcon from '@assets/PortfolioCreatePage/icon-instagram.svg?react';
 import YoutubeIcon from '@assets/PortfolioCreatePage/icon-youtube.svg?react';
+import useGetUsers from '@/hooks/queries/PortfolioCreatePage/useGetUsers';
+import type { ResponseGetPortfolio } from '@/types/PortfolioCreatePage/edit';
 
-export const EditIntroduce = () => {
+interface EditIntroduceProps {
+  data?: ResponseGetPortfolio;
+  editable?: boolean;
+}
+
+export const EditIntroduce = ({ data, editable }: EditIntroduceProps) => {
   const ACCOUNTS = [
     { id: 1, icon: <BrunchIcon /> },
     { id: 2, icon: <NotionIcon /> },
@@ -14,22 +21,46 @@ export const EditIntroduce = () => {
     { id: 5, icon: <YoutubeIcon /> },
   ];
 
+  // 내 정보 조회
+  const { data: userData } = useGetUsers();
+
   return (
     <E.EditIntroduce>
-      <E.Title>
-        <p>안녕하세요</p>
-        <p>
-          <span>프론트엔드</span> 개발자
-        </p>
-        <p>아기사자입니다.</p>
-      </E.Title>
+      {editable && (
+        <>
+          <E.Title>
+            <p>안녕하세요</p>
+            <p>
+              <span>{userData?.data.job}</span>
+            </p>
+            <p>{userData?.data.username}입니다.</p>
+          </E.Title>
 
-      <E.DividerIcon />
+          <E.DividerIcon />
 
-      <E.Intro>
-        <p>React를 중심으로 웹 프론트엔드를 개발합니다.</p>
-        <p>함께 제품을 만들고 성장시킬 곳을 찾고 있습니다.</p>
-      </E.Intro>
+          <E.Intro>
+            <p>{userData?.data.introduction}</p>
+          </E.Intro>
+        </>
+      )}
+
+      {!editable && (
+        <>
+          <E.Title>
+            <p>안녕하세요</p>
+            <p>
+              <span>{data?.data.job}</span>
+            </p>
+            <p>{data?.data.userName}입니다.</p>
+          </E.Title>
+
+          <E.DividerIcon />
+
+          <E.Intro>
+            <p>{data?.data.introduction}</p>
+          </E.Intro>
+        </>
+      )}
 
       <E.Account>
         {ACCOUNTS.map((account) => (

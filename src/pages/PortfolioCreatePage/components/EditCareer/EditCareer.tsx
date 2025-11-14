@@ -9,6 +9,7 @@ import NextIcon from '@assets/PortfolioCreatePage/icon-next.svg';
 import { useEffect, useState } from 'react';
 import type { Settings } from 'react-slick';
 import { usePortfolio } from '@/context/PortfolioContext';
+import type { ResponseGetPortfolio } from '@/types/PortfolioCreatePage/edit';
 
 interface CustomArrowProps {
   onClick?: () => void;
@@ -30,7 +31,12 @@ const NextArrow = ({ onClick }: CustomArrowProps) => {
   );
 };
 
-const EditCareer = () => {
+interface EditCareerProps {
+  data?: ResponseGetPortfolio;
+  editable?: boolean;
+}
+
+const EditCareer = ({ data, editable }: EditCareerProps) => {
   const { selectedCareers } = usePortfolio();
   const [centerPadding, setCenterPadding] = useState<number>(0);
 
@@ -61,9 +67,31 @@ const EditCareer = () => {
       <E.CircleBg />
 
       <E.StyledSlider {...settings} prevArrow={<PrevArrow />} nextArrow={<NextArrow />}>
-        {selectedCareers.map((slide) => (
-          <EditCareerCard key={slide.id} title={slide.career} date={slide.date} />
-        ))}
+        {editable &&
+          selectedCareers.map((slide) => (
+            <EditCareerCard
+              key={slide.careerId}
+              id={slide.careerId}
+              title={slide.content}
+              startDate={slide.startDate}
+              endDate={slide.endDate ?? ''}
+              description={slide.description ?? ''}
+              editable={editable}
+            />
+          ))}
+
+        {!editable &&
+          data?.data.careers.map((slide) => (
+            <EditCareerCard
+              key={slide.careerId}
+              id={slide.careerId}
+              title={slide.content ?? ''}
+              startDate={slide.startDate ?? ''}
+              endDate={slide.endDate ?? ''}
+              description={slide.description ?? ''}
+              editable={editable}
+            />
+          ))}
       </E.StyledSlider>
     </E.EditCareer>
   );

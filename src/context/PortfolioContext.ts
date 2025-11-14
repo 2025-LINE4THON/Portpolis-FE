@@ -1,10 +1,18 @@
+import type { Career, Project, Stack } from '@/types/PortfolioCreatePage/element';
 import { createContext, useContext, type SetStateAction } from 'react';
 
 export type PortfolioStep = 'template' | 'element' | 'edit' | 'publish';
 
-export type StackItem = { id: number; stack: string; level: number; percent?: number };
-export type CareerItem = { id: number; date: string; career: string };
-export type ProjectItem = { id: number; date: string; project: string };
+export type StackItem = Stack & { percent?: number };
+export type CareerItem = Career & { description?: string };
+export type ProjectItem = Pick<Project, 'projectId' | 'title' | 'startDate' | 'endDate' | 'role' | 'stacks'>;
+export type AboutMeItem = { title: string; content: string };
+
+export interface ImageData {
+  file: File;
+  thumbnail: string;
+  type: string;
+}
 
 interface IPortfolio {
   level: PortfolioStep;
@@ -22,9 +30,18 @@ interface IPortfolio {
   selectedProjects: ProjectItem[];
   setSelectedProjects: React.Dispatch<SetStateAction<ProjectItem[]>>;
 
+  aboutMe: AboutMeItem[];
+  setAboutMe: React.Dispatch<SetStateAction<AboutMeItem[]>>;
+
   toggleStack: (item: StackItem) => void;
   toggleCareer: (item: CareerItem) => void;
   toggleProject: (item: ProjectItem) => void;
+
+  selectedImage: ImageData | null;
+  setSelectedImage: React.Dispatch<SetStateAction<ImageData | null>>;
+
+  thumbnail: ImageData | null;
+  setThumbnail: React.Dispatch<SetStateAction<ImageData | null>>;
 }
 
 export const PortfolioContext = createContext<IPortfolio | undefined>(undefined);

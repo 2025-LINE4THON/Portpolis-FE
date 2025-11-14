@@ -1,9 +1,9 @@
 [
-  { "id": 1, "stack": "JAVA", "level": 0 },
-  { "id": 2, "stack": "C", "level": 3 },
-  { "id": 3, "stack": "PHP", "level": 1 },
-  { "id": 4, "stack": "Android", "level": 3 },
-  { "id": 5, "stack": "Android", "level": 4 },
-  { "id": 6, "stack": "Android", "level": 5 },
-  { "id": 7, "stack": "Android", "level": 0 }
+  { "stackId": 1, "name": "JAVA", "level": 0 },
+  { "stackId": 2, "name": "C", "level": 3 },
+  { "stackId": 3, "name": "PHP", "level": 1 },
+  { "stackId": 4, "name": "Android", "level": 3 },
+  { "stackId": 5, "name": "Android", "level": 4 },
+  { "stackId": 6, "name": "Android", "level": 5 },
+  { "stackId": 7, "name": "Android", "level": 0 }
 ]

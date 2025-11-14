@@ -8,9 +8,15 @@ import { useState, useRef } from 'react';
 import ActivityInputBox from './components/ActivityInputBox/ActivityInputBox';
 import PageBlock from '@/components/PageBlock/PageBlock';
 import x from '@assets/activity/icon-x.svg';
+import type { RequestRegisterDTO } from '@/types/Activity/Activity';
+import { RegisterProject } from '@/apis/Activity/Activity';
+import { uploadImage, uploadImages } from '@/apis/upload';
 
 const ActivityCreatePage = () => {
+  const [onGoing, setOnGoing] = useState(false);
   const [file, setFile] = useState<string | null>(null);
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileUploadClick = () => {
@@ -22,23 +28,26 @@ const ActivityCreatePage = () => {
     if (!selectedFile) return;
 
     setFile(URL.createObjectURL(selectedFile));
+    setThumbnailFile(selectedFile);
   };
 
-  const [project, setProject] = useState({
-    name: '',
+  const [project, setProject] = useState<RequestRegisterDTO>({
+    title: '',
     startDate: '',
-    endDate: '',
-    onGoing: false,
+    endDate: null,
     role: '',
-    tags: [] as string[],
-    introduction: '',
-    teamwork: '',
-    trouble: '',
-    solution: '',
-    result: '',
-    stacks: [] as string[],
-    images: [] as string[],
-    links: [] as { title: string; url: string }[],
+    thumbnail: '',
+    tags: [],
+    stacks: [],
+    contents: [
+      { title: '프로젝트 핵심 요약', content: '' },
+      { title: '프로젝트 소개', content: '' },
+      { title: '핵심 이슈와 해결 전략', content: '' },
+      { title: '협업 경험 및 역할', content: '' },
+      { title: '결과 및 성장점', content: '' },
+    ],
+    images: [],
+    links: [],
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -53,44 +62,59 @@ const ActivityCreatePage = () => {
   const [stackInputValue, setStackInputValue] = useState('');
   const [linkTitle, setLinkTitle] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
-
-  const handleTagKeyUp = (e: React.KeyboardEvent<HTMLInputElement>, type: 'tags' | 'stacks') => {
+  const handleTagKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      e.preventDefault();
       const value = e.currentTarget.value.trim();
-      if (value === '') return;
-      const currentList = project[type];
-      const max = type === 'tags' ? 6 : 8;
-      if (currentList.length >= max) return;
-      if (currentList.includes(value)) return;
-      setProject((prev) => ({ ...prev, [type]: [...prev[type], value] }));
-      if (type === 'tags') setTagInputValue('');
-      else setStackInputValue('');
+      if (!value) return;
+
+      if (project.tags.length >= 6) return;
+
+      setProject((prev) => ({
+        ...prev,
+        tags: [...prev.tags, value],
+      }));
+
+      setTagInputValue('');
     }
   };
+  const handleStackKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const value = e.currentTarget.value.trim();
+      if (!value) return;
 
-  const removeItem = (type: 'tags' | 'stacks' | 'links', item: string | { title: string; url: string }) => {
-    setProject((prev) => {
-      if (type === 'links') {
-        return {
-          ...prev,
-          links: prev.links.filter((link) => link.title !== (item as { title: string }).title),
-        };
-      }
+      if (project.stacks.length >= 8) return;
 
-      return {
+      setProject((prev) => ({
         ...prev,
-        [type]: prev[type].filter((el) => el !== item),
-      };
-    });
-  };
-  const addLink = (title: string, url: string) => {
-    if (!title.trim() || !url.trim()) return;
+        stacks: [...prev.stacks, { stackId: Date.now(), stackName: value }],
+      }));
 
+      setStackInputValue('');
+    }
+  };
+  const removeTag = (tag: string) => {
     setProject((prev) => ({
       ...prev,
-      links: [...prev.links, { title, url }],
+      tags: prev.tags.filter((t) => t !== tag),
     }));
+  };
+
+  const removeStack = (stackId: number) => {
+    setProject((prev) => ({
+      ...prev,
+      stacks: prev.stacks.filter((s) => s.stackId !== stackId),
+    }));
+  };
+
+  const removeLink = (title: string) => {
+    setProject((prev) => ({
+      ...prev,
+      links: prev.links.filter((l) => l.name !== title),
+    }));
+  };
+
+  const addLink = (link: { name: string; url: string }) => {
+    setProject((prev) => ({ ...prev, links: [...prev.links, link] }));
   };
 
   const imageInputRef = useRef<HTMLInputElement | null>(null);
@@ -103,12 +127,15 @@ const ActivityCreatePage = () => {
     const files = e.target.files;
     if (!files) return;
 
-    const newImages = Array.from(files).map((file) => URL.createObjectURL(file));
+    const filesArray = Array.from(files);
+    const newImageUrls = filesArray.map((file) => URL.createObjectURL(file));
 
     setProject((prev) => ({
       ...prev,
-      images: [...prev.images, ...newImages].slice(0, 4),
+      images: [...prev.images, ...newImageUrls].slice(0, 4),
     }));
+
+    setImageFiles((prev) => [...prev, ...filesArray].slice(0, 4));
 
     e.target.value = '';
   };
@@ -118,6 +145,48 @@ const ActivityCreatePage = () => {
       ...prev,
       images: prev.images.filter((_, i) => i !== index),
     }));
+    setImageFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleContentChange = (index: number, value: string) => {
+    setProject((prev) => {
+      const updated = [...prev.contents];
+      updated[index].content = value;
+      return { ...prev, contents: updated };
+    });
+  };
+
+  const handleRegister = async () => {
+    try {
+      // 1. 대표 이미지 업로드
+      let thumbnailUrl = '';
+      if (thumbnailFile) {
+        thumbnailUrl = await uploadImage(thumbnailFile);
+        console.log('대표이미지 업로드 성공:', thumbnailUrl);
+      }
+
+      // 2. 관련 이미지들 업로드
+      let imageUrls: string[] = [];
+      if (imageFiles.length > 0) {
+        imageUrls = await uploadImages(imageFiles);
+        console.log('이미지 업로드 성공:', imageUrls);
+      }
+
+      // 3. 프로젝트 데이터 생성
+      const requestData: RequestRegisterDTO = {
+        ...project,
+        thumbnail: thumbnailUrl,
+        images: imageUrls,
+      };
+
+      // 4. 프로젝트 등록
+      const response = await RegisterProject(requestData);
+      console.log('프로젝트 등록 성공:', response);
+      alert('프로젝트가 성공적으로 등록되었습니다!');
+    } catch (error) {
+      console.error('프로젝트 등록 실패:', error);
+      alert('프로젝트 등록에 실패했습니다.');
+    }
   };
 
   return (
@@ -145,7 +214,7 @@ const ActivityCreatePage = () => {
           />
 
           <A.FileHandleBtns>
-            <A.Btn>
+            <A.Btn onClick={handleRegister}>
               저장하기 <img src={save} />
             </A.Btn>
             <A.Btn style={{ color: palette.danger.default }}>
@@ -160,8 +229,8 @@ const ActivityCreatePage = () => {
               width="60%"
               text="활동명"
               isRequired={true}
-              name="name"
-              value={project.name}
+              name="title"
+              value={project.title}
               placeholder="프로젝트 이름을 입력하세요"
               onChange={handleChange}
             />
@@ -179,12 +248,12 @@ const ActivityCreatePage = () => {
                     onChange={handleChange}
                   />
                   ~
-                  {project.onGoing ? (
+                  {onGoing ? (
                     <A.B2 style={{ width: '100%', whiteSpace: 'nowrap' }}>현재 진행 중</A.B2>
                   ) : (
                     <A.InvisibleInput
                       name="endDate"
-                      value={project.endDate}
+                      value={project.endDate ?? ''}
                       placeholder="YYYY-MM-DD"
                       onChange={handleChange}
                     />
@@ -198,7 +267,13 @@ const ActivityCreatePage = () => {
               content={
                 <A.Checkbox>
                   <A.B2 style={{ minWidth: '30px', whiteSpace: 'nowrap' }}>진행중</A.B2>
-                  <A.InvisibleInput type="checkbox" name="onGoing" onChange={handleChange} style={{ width: '15px' }} />
+                  <A.InvisibleInput
+                    type="checkbox"
+                    onChange={() => {
+                      setOnGoing((prev) => !prev);
+                    }}
+                    style={{ width: '15px' }}
+                  />
                 </A.Checkbox>
               }
             />
@@ -220,7 +295,7 @@ const ActivityCreatePage = () => {
               content={
                 <A.RowContainer style={{ gap: '5px', alignItems: 'center' }}>
                   {project.tags.map((tag) => (
-                    <A.Tag key={tag} onClick={() => removeItem('tags', tag)}>
+                    <A.Tag key={tag} onClick={() => removeTag(tag)}>
                       #{tag}
                     </A.Tag>
                   ))}
@@ -229,7 +304,7 @@ const ActivityCreatePage = () => {
                     placeholder="#태그입력 (최대 6개)"
                     value={tagInputValue}
                     onChange={(e) => setTagInputValue(e.target.value)}
-                    onKeyUp={(e) => handleTagKeyUp(e, 'tags')}
+                    onKeyUp={handleTagKeyUp}
                     style={{ marginTop: project.tags && '5px' }}
                   />
                 </A.RowContainer>
@@ -242,46 +317,45 @@ const ActivityCreatePage = () => {
           <A.RowContainer>
             <A.InfomationBlocks>
               <PageBlock
-                text="활동 소개"
+                text="프로젝트 핵심 요약"
                 content={
                   <A.InvisibleTextarea
-                    name="introduction"
-                    value={project.introduction}
-                    placeholder="내용을 입력하세요."
-                    onChange={handleChange}
+                    value={project.contents[0].content}
+                    placeholder="프로젝트에 대한 소개, 문제 해결 과정, 활동에서 한 일 등등 이 프로젝트에서 강조하고 싶은 내용을 적어주세요."
+                    onChange={(e) => handleContentChange(0, e.target.value)}
                   />
                 }
               />
               <PageBlock
-                text="팀워크"
+                text="프로젝트 소개"
                 content={
                   <A.InvisibleTextarea
-                    name="teamwork"
-                    value={project.teamwork}
-                    placeholder="내용을 입력하세요."
-                    onChange={handleChange}
+                    value={project.contents[1].content}
+                    placeholder="우리 프로젝트는 이것인데, N명이 참여해서 N개월 동안 작업했어요.
+이 프로젝트는 이렇게 시작되었고, 대략 이런 것이라고 할 수 있어요."
+                    onChange={(e) => handleContentChange(1, e.target.value)}
                   />
                 }
               />
               <PageBlock
-                text="어려웠던 점"
+                text="핵심 이슈와 해결 전략"
                 content={
                   <A.InvisibleTextarea
-                    name="trouble"
-                    value={project.trouble}
-                    placeholder="내용을 입력하세요."
-                    onChange={handleChange}
+                    value={project.contents[2].content}
+                    placeholder="여기서 나는 이런 일을 했고, 이런 아이디어를 냈어요.
+특히 이러한 이슈들이 발생했는데, 이것을 해결하는 데 기여를 했어요."
+                    onChange={(e) => handleContentChange(2, e.target.value)}
                   />
                 }
               />
               <PageBlock
-                text="해결 방법"
+                text="협업 경헙 및 역할"
                 content={
                   <A.InvisibleTextarea
-                    name="solution"
-                    value={project.solution}
-                    placeholder="내용을 입력하세요."
-                    onChange={handleChange}
+                    value={project.contents[3].content}
+                    placeholder="팀 내에서 이런 방식으로 협업했고 이런 역할을 맡았어요.
+협업 과정에서 이러한 이슈가 생겼고, 이렇게 해결했어요."
+                    onChange={(e) => handleContentChange(3, e.target.value)}
                   />
                 }
               />
@@ -290,9 +364,10 @@ const ActivityCreatePage = () => {
                 content={
                   <A.InvisibleTextarea
                     name="result"
-                    value={project.result}
-                    placeholder="내용을 입력하세요."
-                    onChange={handleChange}
+                    value={project.contents[4].content}
+                    placeholder="성과가 있는 경우 : 이런 결과를 냈어요.
+성과가 없는 경우 : 이런 걸 배웠어요."
+                    onChange={(e) => handleContentChange(4, e.target.value)}
                   />
                 }
               />
@@ -310,14 +385,14 @@ const ActivityCreatePage = () => {
                         placeholder="#스택입력 (최대 8개)"
                         value={stackInputValue}
                         onChange={(e) => setStackInputValue(e.target.value)}
-                        onKeyUp={(e) => handleTagKeyUp(e, 'stacks')}
+                        onKeyUp={handleStackKeyUp}
                       />
                     </A.RoundedContent>
                     <A.TagWrapper>
                       {project.stacks.map((stack) => (
                         <>
-                          <A.Stack key={stack}>{stack}</A.Stack>
-                          <img src={x} onClick={() => removeItem('stacks', stack)} />
+                          <A.Stack>{stack.stackName}</A.Stack>
+                          <img src={x} onClick={() => removeStack(stack.stackId)} />
                         </>
                       ))}
                     </A.TagWrapper>
@@ -371,11 +446,13 @@ const ActivityCreatePage = () => {
                         onChange={(e) => setLinkUrl(e.target.value)}
                       />
                     </A.RoundedContent>
-                    <A.RoundedContent onClick={() => addLink(linkTitle, linkUrl)}>링크 추가</A.RoundedContent>
+                    <A.RoundedContent onClick={() => addLink({ name: linkTitle, url: linkUrl })}>
+                      링크 추가
+                    </A.RoundedContent>
                     {project.links.map((link) => (
                       <A.RowContainer style={{ gap: '5px' }}>
-                        <A.Stack key={link.title}>{link.title}</A.Stack>
-                        <img src={x} onClick={() => removeItem('links', link)} style={{ width: '8px' }} />
+                        <A.Stack key={link.name}>{link.name}</A.Stack>
+                        <img src={x} onClick={() => removeLink(link.name)} style={{ width: '8px' }} />
                       </A.RowContainer>
                     ))}
                   </>

@@ -1,24 +1,15 @@
-import { useEffect, useState } from 'react';
-
-interface ImageData {
-  file: File;
-  thumbnail: string;
-  type: string;
-}
+import { usePortfolio } from '@/context/PortfolioContext';
+import { useEffect } from 'react';
 
 const useImageUpload = () => {
-  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (selectedImage) {
-        URL.revokeObjectURL(selectedImage.thumbnail);
-      }
-    };
-  }, [selectedImage]);
+  const { selectedImage, setSelectedImage } = usePortfolio(); // 커버 이미지
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
+
+    if (selectedImage) {
+      URL.revokeObjectURL(selectedImage.thumbnail);
+    }
 
     if (fileList && fileList[0]) {
       const url = URL.createObjectURL(fileList[0]);
@@ -29,6 +20,14 @@ const useImageUpload = () => {
       });
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (selectedImage) {
+        URL.revokeObjectURL(selectedImage.thumbnail);
+      }
+    };
+  }, [selectedImage]);
 
   return { selectedImage, setSelectedImage, handleUpload };
 };

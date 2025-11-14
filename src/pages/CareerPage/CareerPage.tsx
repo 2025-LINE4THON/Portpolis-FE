@@ -223,7 +223,7 @@ const CareerPage = () => {
         <PortfolioSlider
           items={project.map((item) => ({
             id: item.projectId,
-            thumbnail: item.thumbnail,
+            image: item.thumbnail,
             type: 'project',
             startDate: item.startDate,
             endDate: item.endDate,

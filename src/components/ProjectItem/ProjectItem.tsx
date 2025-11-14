@@ -4,37 +4,23 @@ import link from '@assets/mypage/icon-link.svg';
 import palette from '@/styles/theme';
 
 interface ProjectItemProps {
-  id: number;
-  type?: string;
-  thumbnail: string;
-  startDate: string;
-  endDate: string;
+  type: string;
+  image: string | null;
+  period?: string;
   title: string;
-  onClick?: () => void;
+  onClick: () => void;
   isPrivate?: boolean;
   tags?: string[];
   role?: string;
 }
 
-const ProjectItem = ({
-  type,
-  thumbnail,
-  startDate,
-  endDate,
-  title,
-  onClick,
-  isPrivate,
-  tags,
-  role,
-}: ProjectItemProps) => {
+const ProjectItem = ({ type, image, period, title, onClick, isPrivate, tags, role }: ProjectItemProps) => {
   return (
     <P.ProjectItem>
-      <img src={thumbnail} style={{ width: '246px', height: '160px' }} />
+      <img src={image || ''} style={{ width: '246px', height: '160px' }} />
       <P.InfoContainer>
         <P.Info>
-          <P.Period>
-            {startDate} ~ {endDate}
-          </P.Period>
+          <P.Period>{period}</P.Period>
           <P.Title>{title}</P.Title>
         </P.Info>
         <img src={type == 'project' ? edit : link} onClick={onClick} />
