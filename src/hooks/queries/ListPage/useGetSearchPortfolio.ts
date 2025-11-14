@@ -7,6 +7,7 @@ const useGetSearchPortfolio = ({ keyword, sort, template, isPublic }: order) => 
     queryKey: ['search', keyword, sort],
     queryFn: () => getSearched({ keyword, sort, template, isPublic }),
     staleTime: 0,
+    enabled: keyword !== '',
   });
 };
 

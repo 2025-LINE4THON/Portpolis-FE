@@ -6,22 +6,17 @@ import Button from './components/Button/Button';
 import Input from './components/Input/Input';
 import CommonPortfolioCard from '@/components/CommonPortfolioCard/CommonPortfolioCard';
 
-import ExBg from '@assets/HomePage/slide-img-1.jpg';
 import ResultIcon from '@assets/ListPage/icon-no-result.svg?react';
 import useGetSearchPortfolio from '@/hooks/queries/ListPage/useGetSearchPortfolio';
 import type { RecommendPortfolio } from '@/types/HomePage/recommend';
 import { useNavigate } from 'react-router-dom';
-import usePostLike from '@/hooks/mutations/ListPage/usePostLike';
-import useDeleteLike from '@/hooks/mutations/ListPage/useDeleteLike';
 
 const ListPage = () => {
   const [search, setSearch] = useState('');
   const [searchRes, setSearchRes] = useState('');
   const [sort, setSort] = useState<'recent' | 'likes' | 'views'>('recent');
 
-  const { data } = useGetSearchPortfolio({ keyword: searchRes, sort });
-  const { mutate } = usePostLike();
-  const { mutate: mutateDeleteLike } = useDeleteLike();
+  const { data } = useGetSearchPortfolio({ keyword: searchRes || undefined, sort });
 
   const searchedData: RecommendPortfolio[] = data?.data || [];
 
@@ -55,21 +50,19 @@ const ListPage = () => {
               {searchedData.map((data) => (
                 <CommonPortfolioCard
                   key={data.portfolioId}
-                  img={ExBg}
+                  portfolioId={data.portfolioId}
+                  img={data.thumbnail ?? ''}
                   title={data.title}
                   name={data.userName ?? ''}
                   $width={346}
                   $height={229}
-                  hasHeart={true}
                   views={data.views}
                   date={data.createdAt}
-                  likesCount={data.likesCount}
+                  likeCount={data.likesCount}
+                  isLiked={data.isLiked}
                   onClick={() => {
                     navigate(`/portfolio/${data.portfolioId}`);
                   }}
-                  onClickHeart={() => mutate(data.portfolioId)}
-                  onClickDeleteHeart={() => mutateDeleteLike(data.portfolioId)}
-                  isLiked={data.isLiked}
                 />
               ))}
             </L.Flex>

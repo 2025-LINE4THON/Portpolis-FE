@@ -36,3 +36,11 @@ export type Project = {
 };
 
 export type ResponseGetMeProjectsDto = CommonResponse<Project[]>;
+
+// 포트폴리오 필수 요소 확인
+export type ResponseGetCheckDto = CommonResponse<{
+  career: boolean;
+  stack: boolean;
+  project: boolean;
+  job: boolean;
+}>;

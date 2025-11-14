@@ -4,12 +4,20 @@ import styled from '@emotion/styled';
 export const CommonPortfolioCard = styled.div<{ $width: number; $height: number }>`
   display: flex;
   flex-direction: column;
+  position: relative;
 
   border-radius: 18px;
   overflow: hidden;
 
   width: ${({ $width }) => (`${$width}` ? `${$width}px` : '441px')};
   height: ${({ $height }) => (`${$height}` ? `${$height}px` : '291px')};
+`;
+
+export const LikesWrapper = styled.div`
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  z-index: 30;
 `;
 
 export const Card = styled.div`

@@ -1,4 +1,4 @@
-import { type SetStateAction } from 'react';
+import { useEffect, useState, type SetStateAction } from 'react';
 import { usePortfolio, type PortfolioStep } from '@/context/PortfolioContext';
 
 import * as T from './Template.styles';
@@ -6,6 +6,9 @@ import PortfolioButton from '../PortfolioButton/PortfolioButton';
 import PortfolioCard from '../PortfolioCard/PortfolioCard';
 import Template1 from '@assets/PortfolioCreatePage/template1.png';
 import Template2 from '@assets/PortfolioCreatePage/template2.png';
+import useGetCheck from '@/hooks/queries/PortfolioCreatePage/useGetCheck';
+import Modal from '@/components/Modal/Modal';
+import { useNavigate } from 'react-router-dom';
 
 interface TemplateProps {
   setLevel: React.Dispatch<SetStateAction<PortfolioStep>>;
@@ -38,6 +41,47 @@ const Template = ({ setLevel }: TemplateProps) => {
   ];
 
   const { selectedTemplate, setSelectedTemplate } = usePortfolio();
+  const { data } = useGetCheck();
+  const [content, setContent] = useState('');
+  const [buttonText, setButtonText] = useState('');
+  const [link, setLink] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!data?.data) return;
+
+    const firstFalse = Object.entries(data.data).find(([_, value]) => value === false);
+
+    if (firstFalse) {
+      const [key] = firstFalse;
+
+      switch (key) {
+        case 'job':
+          setContent('내 프로필 정보를 먼저 입력해주세요.');
+          setButtonText('프로필 등록하기');
+          setLink('/mypage');
+          break;
+        case 'career':
+          setContent('내 커리어 정보를 먼저 완성시켜주세요.');
+          setButtonText('커리어 등록하기');
+          setLink('/career');
+          break;
+        case 'stack':
+          setContent('기술 스택을 최소 1개 이상 등록해주세요.');
+          setButtonText('기술 스택 등록하기');
+          setLink('/career');
+          break;
+        case 'project':
+          setContent('프로젝트를 최소 1개 이상 등록해주세요.');
+          setButtonText('프로젝트 등록하기');
+          setLink('/career');
+          break;
+      }
+    } else {
+      setContent('');
+    }
+  }, [data]);
 
   return (
     <T.Template>
@@ -63,11 +107,26 @@ const Template = ({ setLevel }: TemplateProps) => {
         <PortfolioButton
           text="다음 단계로"
           disabled={selectedTemplate === null}
-          onClick={() => setLevel('element')}
+          onClick={() => {
+            if (content) {
+              setShowModal(true);
+            } else {
+              setLevel('element');
+            }
+          }}
           maxWidth={379}
           fontSize={20}
         />
       </T.ButtonWrapper>
+
+      {showModal && (
+        <Modal
+          content={content}
+          buttonText={buttonText}
+          onclickBtn={() => navigate(link)}
+          setShowModal={setShowModal}
+        />
+      )}
     </T.Template>
   );
 };

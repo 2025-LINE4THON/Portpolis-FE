@@ -32,6 +32,7 @@ export type RequestPortfolios = {
   aboutMe: AboutMe[];
   thumbnail: string | undefined;
   isPublic: (typeof VISIBILITY)[keyof typeof VISIBILITY];
+  coverImage: string | undefined;
 };
 
 export type ResponsePortfolios = CommonResponse<{

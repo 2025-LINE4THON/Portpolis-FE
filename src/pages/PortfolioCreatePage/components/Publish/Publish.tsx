@@ -17,7 +17,8 @@ import CommonPortfolioCard from '@/components/CommonPortfolioCard/CommonPortfoli
 import EditHeader from '../EditHeader/EditHeader';
 
 const Publish = () => {
-  const { setLevel, selectedTemplate, selectedStacks, selectedCareers, selectedProjects, aboutMe } = usePortfolio();
+  const { setLevel, selectedTemplate, selectedStacks, selectedCareers, selectedProjects, aboutMe, selectedImage } =
+    usePortfolio();
   const { thumbnail, handleUpload } = useLocalImageUpload();
   const [title, setTitle] = useState('');
   const [selected, setSelected] = useState<'all' | 'link' | 'secret' | null>(null);
@@ -28,10 +29,16 @@ const Publish = () => {
 
   const handlePublish = async () => {
     try {
-      // 1. 썸네일 이미지가 있으면 먼저 업로드
+      // 1. 썸네일 이미지가 있으면 먼저 업로드 (->대표 이미지)
       let thumbnailUrl: string | undefined;
       if (thumbnail?.file) {
         thumbnailUrl = await uploadImage(thumbnail.file);
+      }
+
+      // 썸네일
+      let selectUrl: string | undefined;
+      if (selectedImage?.file) {
+        selectUrl = await uploadImage(selectedImage.file);
       }
 
       // 2. 포트폴리오 데이터 생성
@@ -46,6 +53,7 @@ const Publish = () => {
         aboutMe: aboutMe,
         thumbnail: thumbnailUrl, // 업로드된 이미지 URL
         isPublic: selected === 'all' ? VISIBILITY.PUBLIC : selected === 'link' ? VISIBILITY.LINK : VISIBILITY.PRIVATE,
+        coverImage: selectUrl,
       };
 
       // 3. 포트폴리오 생성
@@ -87,6 +95,7 @@ const Publish = () => {
           <CommonPortfolioCard
             $width={345}
             $height={228}
+            portfolioId={0}
             img={thumbnail?.thumbnail}
             title={title}
             name={userData?.data.username || ''}

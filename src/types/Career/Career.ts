@@ -10,6 +10,16 @@ export type CareerDTO = {
   endDate: string;
 };
 
+export type RequestCareerDTO = {
+  careers: CareerReqDTO[];
+};
+
+export type CareerReqDTO = {
+  content: string;
+  startDate: string;
+  endDate: string | null;
+};
+
 export type ResponseLicenseDTO = CommonResponse<LicenseDTO[]>;
 
 export type LicenseDTO = {
@@ -20,11 +30,30 @@ export type LicenseDTO = {
   endDate: string;
 };
 
+export type RequestLicensesDTO = {
+  licenses: LicensesReqDTO[];
+};
+
+export type LicensesReqDTO = {
+  name: string;
+  gotDate: string;
+  endDate: string | null;
+};
+
 export type ResponseStackDTO = CommonResponse<StackDTO[]>;
 
 export type StackDTO = {
   stackId: number;
   userId: number;
+  name: string;
+  level: string;
+};
+
+export type RequestStackDTO = {
+  stacks: StackReqDTO[];
+};
+
+export type StackReqDTO = {
   name: string;
   level: string;
 };
