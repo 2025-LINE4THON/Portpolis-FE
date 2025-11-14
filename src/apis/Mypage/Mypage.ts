@@ -3,6 +3,8 @@ import type {
   ResponseUserInfoDTO,
   ResponseLogoutDTO,
   ResponsePortfoliosDTO,
+  RequestLinkDTO,
+  LinkDTO,
 } from '@/types/Mypage/Mypage';
 import { axiosInstance } from '../axios';
 
@@ -23,5 +25,10 @@ export const Logout = async (): Promise<ResponseLogoutDTO> => {
 
 export const getPortfolio = async (): Promise<ResponsePortfoliosDTO> => {
   const { data } = await axiosInstance.get('./api/users/me/portfolios');
+  return data;
+};
+
+export const uploadLink = async (body: RequestLinkDTO): Promise<LinkDTO> => {
+  const { data } = await axiosInstance.post('./api/users/me/links', body);
   return data;
 };

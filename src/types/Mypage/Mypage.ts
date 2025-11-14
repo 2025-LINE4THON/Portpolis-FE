@@ -28,3 +28,20 @@ export type PortfolioDTO = {
   isPublic: string;
   thumbnail: string | null;
 };
+
+export type RequestLinkDTO = {
+  links: {
+    linkType: string;
+    url: string;
+  }[];
+};
+
+export type ResponseLinkDTO = CommonResponse<LinkDTO[]>;
+
+export type LinkDTO = {
+  userLinkId: number;
+  userId: number;
+  linkType: string;
+  url: string;
+  createdAt: string;
+};

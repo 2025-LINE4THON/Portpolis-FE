@@ -11,8 +11,8 @@ import insta from '@assets/mypage/icon-instagram.svg';
 import youtube from '@assets/mypage/icon-youtube.svg';
 import extraLink from '@assets/mypage/icon-extra-link.svg';
 import PortfolioSlider from '@components/ProjectSlider/ProjectSlider';
-import type { ResponseUserInfoDTO, RequestEditUserInfoDTO } from '@/types/Mypage/Mypage';
-import { getUserInfo, patchUserInfo, Logout, getPortfolio } from '@apis/Mypage/Mypage';
+import type { ResponseUserInfoDTO, RequestEditUserInfoDTO, RequestLinkDTO } from '@/types/Mypage/Mypage';
+import { getUserInfo, patchUserInfo, Logout, getPortfolio, uploadLink } from '@apis/Mypage/Mypage';
 
 const MyPage = () => {
   const [profileModal, setProfileModal] = useState(false);
@@ -94,6 +94,25 @@ const MyPage = () => {
 
       const response = await patchUserInfo(requestData);
       setProfileModal(false);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleLink = async () => {
+    try {
+      const requestData: RequestLinkDTO = {
+        links: Object.entries(links)
+          .filter(([_, url]) => url.trim() !== '') // 비어 있는 값은 제외
+          .map(([key, url]) => ({
+            linkType: key,
+            url: url,
+          })),
+      };
+
+      const response = await uploadLink(requestData);
+      setLinkModal(false);
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -292,7 +311,7 @@ const MyPage = () => {
             </M.ProfileModal>
           }
           onClickSave={() => {
-            console.log('저장');
+            handleLink();
           }}
         />
       )}
