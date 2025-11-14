@@ -7,11 +7,14 @@ import EditModal from '@components/EditModal/EditModal';
 import EditInputBox from '@/components/EditInputBox/EditInputBox';
 import trash from '@assets/mypage/icon-trash.svg';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CareerPage = () => {
   const [experienceModal, setExperienceModal] = useState(false);
   const [stackModal, setStackModal] = useState(false);
   const [qualificationsModal, setQualificationsModal] = useState(false);
+
+  const navigate = useNavigate();
 
   const dummyData = [
     {
@@ -237,7 +240,7 @@ const CareerPage = () => {
           <C.AddButton
             style={{ cursor: 'pointer' }}
             onClick={() => {
-              console.log('프로젝트 추가');
+              navigate('/activity');
             }}>
             프로젝트 추가
           </C.AddButton>
