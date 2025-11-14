@@ -3,6 +3,7 @@ import * as P from './ProjectSlider.styles';
 import prev from '@assets/mypage/icon-prev.svg';
 import next from '@assets/mypage/icon-next.svg';
 import ProjectItem from '@components/ProjectItem/ProjectItem';
+import { useNavigate } from 'react-router-dom';
 
 interface PortfolioItem {
   id: number;
@@ -21,6 +22,7 @@ interface PortfolioSliderProps {
 }
 
 const PortfolioSlider = ({ items }: PortfolioSliderProps) => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
 
@@ -62,7 +64,10 @@ const PortfolioSlider = ({ items }: PortfolioSliderProps) => {
             image={item.image}
             period={item.period}
             title={item.title}
-            onClick={item.onClick ?? (() => console.log(item.title))}
+            onClick={() => {
+              const path = item.type === 'project' ? `/activity/${item.id}` : `/${item.type}/${item.id}`;
+              navigate(path);
+            }}
             isPrivate={item.isPrivate}
             tags={item.tags}
             role={item.role}

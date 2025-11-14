@@ -22,7 +22,8 @@ export type RequestRegisterDTO = {
   }[];
 };
 
-export type ResponseRegisterpDTO = CommonResponse<{
+export type ResponseRegisterDTO = CommonResponse<{
+  projectId: number;
   title: string;
   startDate: string;
   endDate: string | null;
@@ -43,3 +44,47 @@ export type ResponseRegisterpDTO = CommonResponse<{
     url: string;
   }[];
 }>;
+
+export type ResponseProjectDetailDTO = CommonResponse<{
+  projectId: number;
+  userId: number;
+  title: string;
+  startDate: string;
+  endDate: string;
+  role: string;
+  thumbnail: string;
+  projectTags: ProjectTag[];
+  // projectStacks: any[];
+  projectContents: ProjectContent[];
+  projectImages: ProjectImage[];
+  links: ProjectLink[];
+}>;
+
+export type ProjectTag = {
+  tagId: number;
+  projectId: number;
+  userId: number;
+  content: string;
+};
+
+export type ProjectContent = {
+  projectContentId: number;
+  projectId: number;
+  userId: number;
+  title: string;
+  content: string;
+};
+
+export type ProjectImage = {
+  projectImageId: number;
+  projectId: number;
+  userId: number;
+  url: string;
+};
+
+export type ProjectLink = {
+  userLinkId: number;
+  projectId: number;
+  userId: number;
+  url: string;
+};

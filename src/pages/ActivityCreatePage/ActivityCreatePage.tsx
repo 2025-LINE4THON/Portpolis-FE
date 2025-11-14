@@ -11,8 +11,10 @@ import x from '@assets/activity/icon-x.svg';
 import type { RequestRegisterDTO } from '@/types/Activity/Activity';
 import { RegisterProject } from '@/apis/Activity/Activity';
 import { uploadImage, uploadImages } from '@/apis/upload';
+import { useNavigate } from 'react-router-dom';
 
 const ActivityCreatePage = () => {
+  const navigate = useNavigate();
   const [onGoing, setOnGoing] = useState(false);
   const [file, setFile] = useState<string | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
@@ -183,6 +185,7 @@ const ActivityCreatePage = () => {
       const response = await RegisterProject(requestData);
       console.log('프로젝트 등록 성공:', response);
       alert('프로젝트가 성공적으로 등록되었습니다!');
+      navigate(`/activity/${response.data.projectId}`);
     } catch (error) {
       console.error('프로젝트 등록 실패:', error);
       alert('프로젝트 등록에 실패했습니다.');
