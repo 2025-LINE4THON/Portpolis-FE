@@ -3,7 +3,6 @@ import * as E from './EditProject.styles';
 import EditIndexButton from '../EditIndexButton/EditIndexButton';
 import EditProjectStandardCard from '../EditProjectStandardCard/EditProjectStandardCard';
 import Image from '@assets/PortfolioCreatePage/ex-card-image.png';
-import Imgae2 from '@assets/PortfolioCreatePage/ex-card-visual-image.png';
 import EditProjectVisualCard from '../EditProjectVisualCard/EditProjectVisualCard';
 import type { ResponseGetPortfolio } from '@/types/PortfolioCreatePage/edit';
 import type { Project } from '@/types/PortfolioCreatePage/element';
@@ -20,11 +19,11 @@ const EditProject = ({ data, editable }: EditProjectProps) => {
   const projectTemplate = editable
     ? selectedTemplate === 1
       ? TEMPLATE.STANDARD
-      : TEMPLATE.VISUAL
+      : TEMPLATE.IMAGE
     : (data?.data.template ?? TEMPLATE.STANDARD);
 
   const isStandard = projectTemplate === TEMPLATE.STANDARD;
-  const isVisual = projectTemplate === TEMPLATE.VISUAL;
+  const isVisual = projectTemplate === TEMPLATE.IMAGE;
 
   const projectList = (editable ? selectedProjects : (data?.data.projects ?? [])) as Project[];
 
@@ -62,7 +61,7 @@ const EditProject = ({ data, editable }: EditProjectProps) => {
             <EditProjectVisualCard
               key={project.projectId}
               idx={idx}
-              img={Imgae2}
+              img={project.thumbnail}
               startDate={project.startDate}
               endDate={project.endDate ?? ''}
               title={project.title}

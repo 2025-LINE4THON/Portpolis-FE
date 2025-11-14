@@ -5,7 +5,7 @@ export const LOCAL_STORAGE_KEY = {
 
 export const TEMPLATE = {
   STANDARD: 'STANDARD',
-  VISUAL: 'VISUAL',
+  IMAGE: 'IMAGE',
 };
 
 export const VISIBILITY = {

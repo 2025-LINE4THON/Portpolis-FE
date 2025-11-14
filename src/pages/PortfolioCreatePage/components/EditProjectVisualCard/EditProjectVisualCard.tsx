@@ -13,9 +13,13 @@ interface EditProjectVisualCardProps {
 const EditProjectVisualCard = ({ idx, img, startDate, endDate, title, stack }: EditProjectVisualCardProps) => {
   return (
     <E.EditProjectVisualCard $isImgLeft={idx % 2 === 0}>
-      <E.ImgWrapper $isImgLeft={idx % 2 === 0}>
-        <img src={img} alt={`${title}이미지`} />
-        <img src={img} alt={`${title}이미지`} />
+      <E.ImgWrapper $isImgLeft={idx % 2 === 0} $img={!!img}>
+        {img && (
+          <>
+            <img src={img} alt={`${title}이미지`} />
+            <img src={img} alt={`${title}이미지`} />
+          </>
+        )}
       </E.ImgWrapper>
 
       <E.InfoWrapper $isImgLeft={idx % 2 === 0}>

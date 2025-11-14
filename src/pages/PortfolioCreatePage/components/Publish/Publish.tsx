@@ -43,7 +43,7 @@ const Publish = () => {
 
       // 2. 포트폴리오 데이터 생성
       const payload: RequestPortfolios = {
-        template: selectedTemplate === 1 ? TEMPLATE.STANDARD : TEMPLATE.VISUAL,
+        template: selectedTemplate === 1 ? TEMPLATE.STANDARD : TEMPLATE.IMAGE,
         skills: selectedStacks.map((s, idx) => ({ id: s.stackId, rank: idx + 1 })),
         careers: selectedCareers.map((c) => ({ id: c.careerId, description: c.description })),
         projectIds: selectedProjects.map((p) => p.projectId),
