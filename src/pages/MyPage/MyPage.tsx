@@ -11,8 +11,8 @@ import insta from '@assets/mypage/icon-instagram.svg';
 import youtube from '@assets/mypage/icon-youtube.svg';
 import extraLink from '@assets/mypage/icon-extra-link.svg';
 import PortfolioSlider from '@components/ProjectSlider/ProjectSlider';
-import type { ResponseUserInfoDTO, RequestEditUserInfoDTO, RequestLinkDTO } from '@/types/Mypage/Mypage';
-import { getUserInfo, patchUserInfo, Logout, getPortfolio, uploadLink } from '@apis/Mypage/Mypage';
+import type { ResponseUserInfoDTO, RequestEditUserInfoDTO, RequestLinkDTO, LinkDTO } from '@/types/Mypage/Mypage';
+import { getUserInfo, patchUserInfo, Logout, getPortfolio, uploadLink, getLink } from '@apis/Mypage/Mypage';
 
 const MyPage = () => {
   const [profileModal, setProfileModal] = useState(false);
@@ -28,7 +28,8 @@ const MyPage = () => {
     job: '',
   });
 
-  const [links, setLinks] = useState({
+  const [links, setLinks] = useState<LinkDTO[]>([]);
+  const [linkForm, setLinkForm] = useState<{ [key: string]: string }>({
     github: '',
     brunch: '',
     notion: '',
@@ -37,14 +38,18 @@ const MyPage = () => {
     extra: '',
   });
 
+  const iconMap: Record<string, string> = {
+    github,
+    brunch,
+    notion,
+    insta,
+    youtube,
+    extra: extraLink,
+  };
+
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleLinkChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setLinks((prev) => ({ ...prev, [name]: value }));
   };
 
   const [portfolio, setPortfolio] = useState<{ id: number; type: 'portfolio'; title: string; image: string | null }[]>(
@@ -54,9 +59,9 @@ const MyPage = () => {
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const [UserRes, PortfolioRes] = await Promise.all([getUserInfo(), getPortfolio()]);
+        const [UserRes, PortfolioRes, LinkRes] = await Promise.all([getUserInfo(), getPortfolio(), getLink()]);
 
-        console.log(UserRes.data, PortfolioRes.data);
+        console.log(UserRes.data, PortfolioRes.data, LinkRes.data);
         setProfile(UserRes.data);
         setPortfolio(
           PortfolioRes.data.map((item) => ({
@@ -66,6 +71,22 @@ const MyPage = () => {
             image: item.thumbnail ?? '',
           })),
         );
+
+        setLinks(LinkRes.data);
+
+        const form: { [key: string]: string } = {
+          github: '',
+          brunch: '',
+          notion: '',
+          insta: '',
+          youtube: '',
+          extra: '',
+        };
+
+        LinkRes.data.forEach((item) => {
+          form[item.linkType] = item.url;
+        });
+        setLinkForm(form);
       } catch (error) {
         console.error('마이페이지 조회 실패', error);
       }
@@ -101,22 +122,21 @@ const MyPage = () => {
   };
 
   const handleLink = async () => {
-    try {
-      const requestData: RequestLinkDTO = {
-        links: Object.entries(links)
-          .filter(([_, url]) => url.trim() !== '') // 비어 있는 값은 제외
-          .map(([key, url]) => ({
-            linkType: key,
-            url: url,
-          })),
-      };
+    const requestData: RequestLinkDTO = {
+      links: Object.entries(linkForm)
+        .filter(([_, url]) => url.trim() !== '')
+        .map(([type, url]) => ({
+          linkType: type,
+          url,
+        })),
+    };
 
-      const response = await uploadLink(requestData);
-      setLinkModal(false);
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
+    await uploadLink(requestData);
+
+    const updated = await getLink();
+    setLinks(updated.data);
+
+    setLinkModal(false);
   };
 
   return (
@@ -156,7 +176,15 @@ const MyPage = () => {
           <PageBlock
             width="320px"
             text="내 링크"
-            content={<M.MyInfo></M.MyInfo>}
+            content={
+              <M.MyInfo>
+                {links.map((link) => (
+                  <a key={link.userLinkId} href={link.url} target="_blank">
+                    <img src={iconMap[link.linkType]} alt={link.linkType} />
+                  </a>
+                ))}
+              </M.MyInfo>
+            }
             onClick={() => {
               setLinkModal(true);
             }}
@@ -246,68 +274,32 @@ const MyPage = () => {
           }}
           content={
             <M.ProfileModal>
-              <M.LinkContainer>
-                <img src={github} />
-                <EditInputBox
-                  width="100%"
-                  name="github"
-                  value={links.github}
-                  placeholder="https:// 주소를 입력해주세요."
-                  onChange={handleLinkChange}
-                />
-              </M.LinkContainer>
-              <M.LinkContainer>
-                <img src={brunch} />
-                <EditInputBox
-                  width="100%"
-                  name="brunch"
-                  value={links.brunch}
-                  placeholder="https:// 주소를 입력해주세요."
-                  onChange={handleLinkChange}
-                />
-              </M.LinkContainer>
-              <M.LinkContainer>
-                <img src={notion} />
-                <EditInputBox
-                  width="100%"
-                  name="notion"
-                  value={links.notion}
-                  placeholder="https:// 주소를 입력해주세요."
-                  onChange={handleLinkChange}
-                />
-              </M.LinkContainer>
-              <M.LinkContainer>
-                <img src={insta} />
-                <EditInputBox
-                  width="100%"
-                  value={links.insta}
-                  name="insta"
-                  placeholder="https:// 주소를 입력해주세요."
-                  onChange={handleLinkChange}
-                />
-              </M.LinkContainer>
-              <M.LinkContainer>
-                <img src={youtube} />
-                <EditInputBox
-                  width="100%"
-                  name="youtube"
-                  value={links.youtube}
-                  placeholder="https:// 주소를 입력해주세요."
-                  onChange={handleLinkChange}
-                />
-              </M.LinkContainer>
-              <M.LinkContainer>
-                <div style={{ width: '60px', height: '50px', display: 'flex', justifyContent: 'center' }}>
-                  <img src={extraLink} style={{ width: '34px' }} />
-                </div>
-                <EditInputBox
-                  width="100%"
-                  name="extra"
-                  value={links.extra}
-                  placeholder="https:// 주소를 입력해주세요."
-                  onChange={handleLinkChange}
-                />
-              </M.LinkContainer>
+              {Object.keys(linkForm).map((type) => (
+                <M.LinkContainer key={type}>
+                  {type === 'extra' ? (
+                    <div
+                      style={{
+                        width: '60px',
+                        height: '50px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <img src={iconMap[type]} style={{ width: '34px' }} />
+                    </div>
+                  ) : (
+                    <img src={iconMap[type]} alt={type} />
+                  )}
+
+                  <EditInputBox
+                    width="100%"
+                    name={type}
+                    value={linkForm[type]}
+                    placeholder="https:// 주소를 입력해주세요."
+                    onChange={(e) => setLinkForm((prev) => ({ ...prev, [type]: e.target.value }))}
+                  />
+                </M.LinkContainer>
+              ))}
             </M.ProfileModal>
           }
           onClickSave={() => {

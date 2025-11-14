@@ -5,6 +5,7 @@ import type {
   ResponsePortfoliosDTO,
   RequestLinkDTO,
   LinkDTO,
+  ResponseLinkDTO,
 } from '@/types/Mypage/Mypage';
 import { axiosInstance } from '../axios';
 
@@ -30,5 +31,10 @@ export const getPortfolio = async (): Promise<ResponsePortfoliosDTO> => {
 
 export const uploadLink = async (body: RequestLinkDTO): Promise<LinkDTO> => {
   const { data } = await axiosInstance.post('./api/users/me/links', body);
+  return data;
+};
+
+export const getLink = async (): Promise<ResponseLinkDTO> => {
+  const { data } = await axiosInstance.get('./api/users/me/links');
   return data;
 };
