@@ -1,7 +1,7 @@
 import * as A from './ActivityCreatePage.styles';
 import goback from '@assets/activity/icon-goback.svg';
 import Upload from '@assets/activity/icon-upload.svg?react';
-import trash from '@assets/activity/icon-trash.svg';
+// import trash from '@assets/activity/icon-trash.svg';
 import save from '@assets/activity/icon-edit-save.svg';
 import palette from '@/styles/theme';
 import { useState, useRef } from 'react';
@@ -201,9 +201,9 @@ const ActivityCreatePage = () => {
             <A.Btn onClick={handleRegister}>
               저장하기 <img src={save} />
             </A.Btn>
-            <A.Btn style={{ color: palette.danger.default }}>
+            {/* <A.Btn style={{ color: palette.danger.default }}>
               삭제 <img src={trash} />
-            </A.Btn>
+            </A.Btn> */}
           </A.FileHandleBtns>
         </A.Header>
 
