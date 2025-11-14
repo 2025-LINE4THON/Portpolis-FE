@@ -5,13 +5,15 @@ export const EditProjectVisualCard = styled.div<{ $isImgLeft: boolean }>`
   display: flex;
   flex-direction: ${({ $isImgLeft }) => ($isImgLeft ? 'row' : 'row-reverse')};
   align-items: ${({ $isImgLeft }) => ($isImgLeft ? 'start' : 'center')};
+
   justify-content: center;
 
   padding: 0 121px;
 `;
 
 export const ImgWrapper = styled.div<{ $isImgLeft: boolean; $img: boolean }>`
-  width: 661px;
+  min-width: 300px;
+  width: 50%;
   height: ${({ $isImgLeft }) => ($isImgLeft ? '480px' : '751px')};
 
   border-radius: 22px;
@@ -33,11 +35,14 @@ export const ImgWrapper = styled.div<{ $isImgLeft: boolean; $img: boolean }>`
     object-fit: cover;
 
     display: ${({ $isImgLeft }) => ($isImgLeft ? 'block' : 'none')};
+    border-radius: 22px;
+    filter: brightness(0.6);
   }
 
   img {
     width: 100%;
     height: 100%;
+    border-radius: 22px;
     object-fit: cover;
   }
 `;
@@ -45,7 +50,7 @@ export const ImgWrapper = styled.div<{ $isImgLeft: boolean; $img: boolean }>`
 export const InfoWrapper = styled.div<{ $isImgLeft: boolean }>`
   display: flex;
   flex-direction: column;
-  align-items: ${({ $isImgLeft }) => ($isImgLeft ? 'flex-end' : 'start')};
+  align-items: ${({ $isImgLeft }) => ($isImgLeft ? 'end' : 'start')};
   gap: 16px;
 
   position: relative;
@@ -61,10 +66,11 @@ export const ProjectName = styled.div`
   line-height: 175%;
 `;
 
-export const Link = styled.div`
+export const Link = styled.div<{ $isImgLeft: boolean }>`
   display: flex;
   gap: 19px;
   align-items: flex-end;
+  flex-direction: ${({ $isImgLeft }) => ($isImgLeft ? 'row' : 'row-reverse')};
 `;
 
 export const Date = styled.div`
