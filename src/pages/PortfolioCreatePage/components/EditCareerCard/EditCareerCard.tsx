@@ -62,7 +62,7 @@ const EditCareerCard = ({ id, title, startDate, endDate, description, editable }
           ref={textRef}
           value={input}
           onChange={handleChange}
-          placeholder="경력을 입력해주세요."
+          placeholder="경력에 대해 소개해주세요."
           onKeyDown={handleKeyDown}
           readOnly={!editable}
         />
