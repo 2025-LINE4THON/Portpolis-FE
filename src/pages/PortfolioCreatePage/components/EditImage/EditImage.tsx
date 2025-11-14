@@ -39,7 +39,7 @@ const EditImage = ({ data, editable }: EditImageProps) => {
 
       {!editable && (
         <div>
-          <img src={data?.data.thumbnail || DefaultImage} alt={selectedImage?.file.name || '대표이미지'} />
+          <img src={data?.data.coverImage || DefaultImage} alt={selectedImage?.file.name || '대표이미지'} />
         </div>
       )}
 

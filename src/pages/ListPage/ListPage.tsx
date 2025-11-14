@@ -6,7 +6,6 @@ import Button from './components/Button/Button';
 import Input from './components/Input/Input';
 import CommonPortfolioCard from '@/components/CommonPortfolioCard/CommonPortfolioCard';
 
-import ExBg from '@assets/HomePage/slide-img-1.jpg';
 import ResultIcon from '@assets/ListPage/icon-no-result.svg?react';
 import useGetSearchPortfolio from '@/hooks/queries/ListPage/useGetSearchPortfolio';
 import type { RecommendPortfolio } from '@/types/HomePage/recommend';
@@ -52,7 +51,7 @@ const ListPage = () => {
                 <CommonPortfolioCard
                   key={data.portfolioId}
                   portfolioId={data.portfolioId}
-                  img={ExBg}
+                  img={data.thumbnail ?? ''}
                   title={data.title}
                   name={data.userName ?? ''}
                   $width={346}
