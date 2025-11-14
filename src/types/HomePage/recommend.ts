@@ -16,6 +16,8 @@ export type RecommendPortfolio = {
   aboutMe: { title: string; content: string }[];
   createdAt: string;
   updatedAt: string;
+  likesCount: number;
+  userName: string | null;
 };
 
 export type ResponseGetRecommendDto = CommonResponse<RecommendPortfolio[]>;

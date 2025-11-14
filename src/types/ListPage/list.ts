@@ -21,3 +21,6 @@ export type order = {
 };
 
 export type ResponseGetSearchDto = CommonResponse<RecommendPortfolio[]>;
+
+// 포트폴리오 좋아요
+export type ResponsePostLike = CommonResponse<null>;

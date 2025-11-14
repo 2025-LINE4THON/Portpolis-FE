@@ -1,6 +1,5 @@
 import palette from '@/styles/theme';
 import styled from '@emotion/styled';
-import Heart from '@assets/common/icon-heart.svg?react';
 
 export const CommonPortfolioCard = styled.div<{ $width: number; $height: number }>`
   display: flex;
@@ -44,6 +43,7 @@ export const Card = styled.div`
 
   &:hover .child {
     fill: ${palette.neutral.neutral950};
+    color: ${palette.neutral.neutral950};
   }
 `;
 
@@ -85,9 +85,20 @@ export const FlexBox = styled.div<{ $justify: string }>`
   color: ${palette.white};
 `;
 
-export const HeartIcon = styled(Heart)`
+export const HeartWrapper = styled.div`
   position: absolute;
   top: 20px;
   right: 28px;
   z-index: 20;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: ${palette.primary.primaryMain};
+
+  :hover {
+    color: ${palette.neutral.neutral950};
+  }
 `;

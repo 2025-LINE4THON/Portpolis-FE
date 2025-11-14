@@ -11,6 +11,7 @@ import ResultIcon from '@assets/ListPage/icon-no-result.svg?react';
 import useGetSearchPortfolio from '@/hooks/queries/ListPage/useGetSearchPortfolio';
 import type { RecommendPortfolio } from '@/types/HomePage/recommend';
 import { useNavigate } from 'react-router-dom';
+import usePostLike from '@/hooks/mutations/ListPage/usePostLike';
 
 const ListPage = () => {
   const [search, setSearch] = useState('');
@@ -18,6 +19,7 @@ const ListPage = () => {
   const [sort, setSort] = useState<'recent' | 'likes' | 'views'>('recent');
 
   const { data } = useGetSearchPortfolio({ keyword: searchRes, sort });
+  const { mutate } = usePostLike();
 
   const searchedData: RecommendPortfolio[] = data?.data || [];
 
@@ -50,16 +52,20 @@ const ListPage = () => {
             <L.Flex>
               {searchedData.map((data) => (
                 <CommonPortfolioCard
-                  key={data.userId}
+                  key={data.portfolioId}
                   img={ExBg}
                   title={data.title}
-                  name={'이름 연결'}
+                  name={data.userName ?? ''}
                   $width={346}
                   $height={229}
                   hasHeart={true}
                   views={data.views}
                   date={data.createdAt}
-                  onClick={() => navigate(`/portfolio/${data.portfolioId}`)}
+                  likesCount={data.likesCount}
+                  onClick={() => {
+                    navigate(`/portfolio/${data.portfolioId}`);
+                  }}
+                  onClickHeart={() => mutate(data.portfolioId)}
                 />
               ))}
             </L.Flex>
