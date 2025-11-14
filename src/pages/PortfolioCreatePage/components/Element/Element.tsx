@@ -36,7 +36,7 @@ const Element = ({ setLevel }: ElementProps) => {
           onClick={() => setLevel('edit')}
           maxWidth={214}
           fontSize={14}
-          // disabled={selectedStacks.length === 0 || selectedCareers.length === 0 || selectedProjects.length === 0}
+          disabled={selectedStacks.length === 0 || selectedCareers.length === 0 || selectedProjects.length === 0}
         />
       </E.Section>
 
@@ -61,7 +61,7 @@ const Element = ({ setLevel }: ElementProps) => {
         <ElementBox
           number={2}
           title="내 경력"
-          subTitle="최대 4개까지 선택해주세요."
+          subTitle="최소 1개, 최대 4개까지 선택해주세요."
           ElementCard={
             <ElementCard
               content={
