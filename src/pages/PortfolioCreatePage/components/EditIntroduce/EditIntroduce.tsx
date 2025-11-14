@@ -14,11 +14,11 @@ interface EditIntroduceProps {
 
 export const EditIntroduce = ({ data, editable }: EditIntroduceProps) => {
   const ACCOUNTS = [
-    { id: 1, icon: <BrunchIcon /> },
-    { id: 2, icon: <NotionIcon /> },
-    { id: 3, icon: <GithubIcon /> },
-    { id: 4, icon: <InstaIcon /> },
-    { id: 5, icon: <YoutubeIcon /> },
+    { id: 1, icon: <BrunchIcon />, url: 'https://brunch.co.kr/' },
+    { id: 2, icon: <NotionIcon />, url: 'https://www.notion.com/ko' },
+    { id: 3, icon: <GithubIcon />, url: 'https://github.com/' },
+    { id: 4, icon: <InstaIcon />, url: 'https://www.instagram.com/' },
+    { id: 5, icon: <YoutubeIcon />, url: 'https://www.youtube.com/' },
   ];
 
   // 내 정보 조회
@@ -64,7 +64,9 @@ export const EditIntroduce = ({ data, editable }: EditIntroduceProps) => {
 
       <E.Account>
         {ACCOUNTS.map((account) => (
-          <div key={account.id}>{account.icon}</div>
+          <a href={account.url} key={account.id} target="_blank">
+            {account.icon}
+          </a>
         ))}
       </E.Account>
     </E.EditIntroduce>
