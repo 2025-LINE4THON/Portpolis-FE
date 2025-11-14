@@ -40,6 +40,11 @@ export const Card = styled.div`
   transition: background-color 500ms ease-in-out;
 
   cursor: pointer;
+
+  &:hover .child {
+    fill: ${palette.neutral.neutral950};
+    color: ${palette.neutral.neutral950};
+  }
 `;
 
 export const Title = styled.p`
@@ -78,4 +83,22 @@ export const FlexBox = styled.div<{ $justify: string }>`
   align-items: center;
   gap: 6px;
   color: ${palette.white};
+`;
+
+export const HeartWrapper = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  z-index: 20;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: ${palette.primary.primaryMain};
+
+  :hover {
+    color: ${palette.neutral.neutral950};
+  }
 `;
