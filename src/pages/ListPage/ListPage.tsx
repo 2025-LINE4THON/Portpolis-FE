@@ -5,30 +5,31 @@ import palette from '@/styles/theme';
 import Button from './components/Button/Button';
 import Input from './components/Input/Input';
 import CommonPortfolioCard from '@/components/CommonPortfolioCard/CommonPortfolioCard';
-import DATALIST from '@data/portfolio/portfolio.json';
 
 import ExBg from '@assets/HomePage/slide-img-1.jpg';
 import ResultIcon from '@assets/ListPage/icon-no-result.svg?react';
+import useGetSearchPortfolio from '@/hooks/queries/ListPage/useGetSearchPortfolio';
+import type { RecommendPortfolio } from '@/types/HomePage/recommend';
+import { useNavigate } from 'react-router-dom';
+import usePostLike from '@/hooks/mutations/ListPage/usePostLike';
+import useDeleteLike from '@/hooks/mutations/ListPage/useDeleteLike';
 
 const ListPage = () => {
   const [search, setSearch] = useState('');
   const [searchRes, setSearchRes] = useState('');
-  const [searchedData, setSearchedData] = useState<{ id: number; title: string }[]>(() => DATALIST);
+  const [sort, setSort] = useState<'recent' | 'likes' | 'views'>('recent');
 
-  const handleSearch = () => {
-    const trimmedSearch = search.trim().toLowerCase();
+  const { data } = useGetSearchPortfolio({ keyword: searchRes, sort });
+  const { mutate } = usePostLike();
+  const { mutate: mutateDeleteLike } = useDeleteLike();
 
-    if (trimmedSearch === '') {
-      setSearchedData(DATALIST);
-    } else {
-      setSearchedData(DATALIST.filter((data) => data.title.toLowerCase().includes(trimmedSearch)));
-    }
-  };
+  const searchedData: RecommendPortfolio[] = data?.data || [];
+
+  const navigate = useNavigate();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       setSearchRes(search);
-      handleSearch();
     }
   };
 
@@ -46,13 +47,31 @@ const ListPage = () => {
                 <p className="b1">총 {searchedData.length}건의 작업물을 발견했어요!</p>
               </div>
             )}
-            <Button />
+            <Button sort={sort} setSort={setSort} />
           </L.Result>
 
           {searchedData.length !== 0 && (
             <L.Flex>
               {searchedData.map((data) => (
-                <CommonPortfolioCard key={data.id} img={ExBg} title={data.title} name="" $width={346} $height={229} />
+                <CommonPortfolioCard
+                  key={data.portfolioId}
+                  portfolioId={data.portfolioId}
+                  img={ExBg}
+                  title={data.title}
+                  name={data.userName ?? ''}
+                  $width={346}
+                  $height={229}
+                  hasHeart={true}
+                  views={data.views}
+                  date={data.createdAt}
+                  likeCount={data.likesCount}
+                  onClick={() => {
+                    navigate(`/portfolio/${data.portfolioId}`);
+                  }}
+                  onClickHeart={() => mutate(data.portfolioId)}
+                  onClickDeleteHeart={() => mutateDeleteLike(data.portfolioId)}
+                  isLiked={data.isLiked}
+                />
               ))}
             </L.Flex>
           )}

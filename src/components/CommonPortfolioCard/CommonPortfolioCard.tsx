@@ -1,6 +1,9 @@
 import Likes from '../likes';
 import * as P from './CommonPortfolioCard.styles';
 import EyeIcon from '@assets/PortfolioCreatePage/icon-visibility.svg?react';
+import Heart from '@assets/common/icon-heart.svg?react';
+import HeartFull from '@assets/common/icon-heart-full.svg?react';
+import { useState } from 'react';
 
 interface PortfolioCardProps {
   portfolioId: number;
@@ -14,6 +17,11 @@ interface PortfolioCardProps {
   isLiked?: boolean;
   likeCount?: number;
   onClick?: () => void;
+  hasHeart?: boolean;
+  onClickHeart?: () => void;
+  onClickDeleteHeart?: () => void;
+  likesCount?: number;
+  isLiked?: boolean;
 }
 
 const CommonPortfolioCard = ({
@@ -29,11 +37,32 @@ const CommonPortfolioCard = ({
   likeCount,
   onClick,
 }: PortfolioCardProps) => {
-  return (
-    <P.CommonPortfolioCard $width={$width || 441} $height={$height || 291} onClick={onClick}>
-      <P.Card>
-        {img && <img src={img} />}
+  const [isCardHovered, setIsCardHovered] = useState(false);
 
+  const handleCardClick = () => {
+    onClick?.();
+  };
+
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  return (
+    <P.CommonPortfolioCard
+      $width={$width || 441}
+      $height={$height || 291}
+      onMouseEnter={() => setIsCardHovered(true)}
+      onMouseLeave={() => setIsCardHovered(false)}>
+      <P.LikesWrapper onClick={handleLikeClick}>
+        <Likes
+          portfolioId={portfolioId}
+          initialIsLiked={isLiked || false}
+          initialLikesCount={likeCount || 0}
+          externalHovered={isCardHovered}
+        />
+      </P.LikesWrapper>
+      <P.Card onClick={handleCardClick}>
+        {img && <img src={img} alt={title} />}
         <P.InfoWrapper>
           <P.Title>{title}</P.Title>
 
@@ -49,7 +78,6 @@ const CommonPortfolioCard = ({
             </P.FlexBox>
           </P.FlexBox>
         </P.InfoWrapper>
-        <Likes portfolioId={portfolioId} initialIsLiked={isLiked || false} initialLikesCount={likeCount || 0} />
       </P.Card>
     </P.CommonPortfolioCard>
   );

@@ -78,11 +78,14 @@ const HomeTrending = () => {
             {recommendData?.data.map((slide) => (
               <CommonPortfolioCard
                 key={slide.portfolioId}
+                portfolioId={slide.portfolioId}
                 img={slide.thumbnail ?? ''}
                 title={slide.title}
                 date={slide.createdAt}
                 views={slide.views}
                 name={'작성자 이름 연결 예정'}
+                isLiked={slide.isLiked}
+                likeCount={slide.likesCount}
                 onClick={() => navigate(`/portfolio/${slide.portfolioId}`)}
               />
             ))}
