@@ -14,6 +14,7 @@ interface LikesProps {
 const Likes: React.FC<LikesProps> = ({ portfolioId, initialIsLiked, initialLikesCount, externalHovered }) => {
   const { getItem: accessToken } = useLocalStorage('accessToken');
   const navigate = useNavigate();
+
   const [isLiked, setIsLiked] = useState(initialIsLiked);
   const [likesCount, setLikesCount] = useState(initialLikesCount);
   const [isHovered, setIsHovered] = useState(false);
