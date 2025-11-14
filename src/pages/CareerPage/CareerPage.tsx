@@ -6,113 +6,41 @@ import PortfolioSlider from '@components/ProjectSlider/ProjectSlider';
 import EditModal from '@components/EditModal/EditModal';
 import EditInputBox from '@/components/EditInputBox/EditInputBox';
 import trash from '@assets/mypage/icon-trash.svg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import type {
+  ResponseCareerDTO,
+  ResponseLicenseDTO,
+  ResponseStackDTO,
+  ResponseProjectDTO,
+  RequestLicensesDTO,
+  LicensesReqDTO,
+  CareerReqDTO,
+  RequestCareerDTO,
+  RequestStackDTO,
+  StackReqDTO,
+} from '@/types/Career/Career';
+import {
+  getCareer,
+  getLicense,
+  getStack,
+  getProject,
+  uploadLicense,
+  uploadCareer,
+  uploadStack,
+} from '@/apis/Career/Career';
 
 const CareerPage = () => {
+  const navigate = useNavigate();
   const [experienceModal, setExperienceModal] = useState(false);
   const [stackModal, setStackModal] = useState(false);
   const [qualificationsModal, setQualificationsModal] = useState(false);
 
-  const navigate = useNavigate();
+  const [career, setCareer] = useState<ResponseCareerDTO['data']>([]);
+  const [license, setLicense] = useState<ResponseLicenseDTO['data']>([]);
+  const [stack, setStack] = useState<ResponseStackDTO['data']>([]);
+  const [project, setProject] = useState<ResponseProjectDTO['data']>([]);
 
-  const dummyData = [
-    {
-      id: 1,
-      image: 'edit',
-      type: 'project',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는1',
-      tags: ['프론트', 'AI'],
-      role: 'PM',
-    },
-    {
-      id: 2,
-      image: 'edit',
-      type: 'project',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는2',
-      tags: ['프론트', 'AI'],
-      role: 'PM',
-    },
-    {
-      id: 3,
-      image: 'edit',
-      type: 'project',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는3',
-      tags: ['프론트', 'AI'],
-      role: 'PM',
-    },
-    {
-      id: 5,
-      image: 'edit',
-      type: 'project',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드는4',
-      tags: ['프론트', 'AI'],
-      role: 'PM',
-    },
-    {
-      id: 6,
-      image: 'edit',
-      type: 'project',
-      period: '25.09-25.12',
-      title: '감각적인 브랜드를 만드5 1',
-      tags: ['프론트', 'AI'],
-      role: 'PM',
-    },
-  ];
-
-  const careerdumData = [
-    {
-      date: '2024.09',
-      content: '컴퓨터그래픽스 운용 기능사',
-    },
-    {
-      date: '2024.09',
-      content: '컴퓨터그래픽스 운용 기능사',
-    },
-    {
-      date: '2024.09',
-      content: '컴퓨터그래픽스 운용 기능사',
-    },
-    {
-      date: '2024.09',
-      content: '컴퓨터그래픽스 운용 기능사',
-    },
-    {
-      date: '2024.09',
-      content: '컴퓨터그래픽스 운용 기능사',
-    },
-    {
-      date: '2024.09',
-      content: '컴퓨터그래픽스 운용 기능사',
-    },
-  ];
-
-  const stackdata = [
-    {
-      skill: 'java',
-      degree: 49,
-    },
-    {
-      skill: 'java',
-      degree: 19,
-    },
-    {
-      skill: 'java',
-      degree: 39,
-    },
-    {
-      skill: 'java',
-      degree: 79,
-    },
-    {
-      skill: 'java',
-      degree: 99,
-    },
-  ];
   interface InputItem {
     [key: string]: string;
     field1: string;
@@ -153,6 +81,143 @@ const CareerPage = () => {
     setter(updated);
   };
 
+  useEffect(() => {
+    const getCareerData = async () => {
+      try {
+        const [careerRes, licenseRes, stackRes, projectRes] = await Promise.all([
+          getCareer(),
+          getLicense(),
+          getStack(),
+          getProject(),
+        ]);
+
+        setCareer(careerRes.data);
+        setLicense(licenseRes.data);
+        setStack(stackRes.data);
+        setProject(projectRes.data);
+
+        setExperiences([
+          ...careerRes.data.map((item) => ({
+            field1: item.content || '',
+            field2: item.startDate?.slice(0, 10) || '',
+            field3: item.endDate?.slice(0, 10) || '',
+          })),
+          ...Array.from({ length: Math.max(0, 5 - careerRes.data.length) }, () => ({
+            field1: '',
+            field2: '',
+            field3: '',
+          })),
+        ]);
+
+        setSkills([
+          ...stackRes.data.map((item) => ({
+            field1: item.name || '',
+            field2: item.level?.toString() || '',
+          })),
+          ...Array.from({ length: Math.max(0, 5 - stackRes.data.length) }, () => ({
+            field1: '',
+            field2: '',
+          })),
+        ]);
+
+        setQualifications([
+          ...licenseRes.data.map((item) => ({
+            field1: item.name || '',
+            field2: item.gotDate?.slice(0, 10) || '',
+            field3: item.endDate?.slice(0, 10) || '',
+          })),
+          ...Array.from({ length: Math.max(0, 5 - licenseRes.data.length) }, () => ({
+            field1: '',
+            field2: '',
+            field3: '',
+          })),
+        ]);
+
+        console.log(careerRes, licenseRes, stackRes, projectRes);
+      } catch (error) {
+        console.error('데이터 조회 실패', error);
+      }
+    };
+    getCareerData();
+  }, []);
+
+  const handleLicense = async () => {
+    try {
+      const licensesToSend: LicensesReqDTO[] = qualifications
+        .filter((q) => q.field1 || q.field2 || q.field3)
+        .map((q) => ({
+          name: q.field1,
+          gotDate: q.field2,
+          endDate: q.field3 || null,
+        }));
+
+      const requestData: RequestLicensesDTO = {
+        licenses: licensesToSend,
+      };
+
+      const response = await uploadLicense(requestData);
+
+      setLicense(response.data);
+      setQualificationsModal(false);
+
+      console.log('자격증 업로드 성공', response);
+    } catch (error) {
+      console.error('자격증 업로드 실패', error);
+      alert('자격증 업데이트에 실패했습니다.');
+    }
+  };
+
+  const handleStack = async () => {
+    try {
+      const StacksToSend: StackReqDTO[] = skills
+        .filter((q) => q.field1 || q.field2)
+        .map((q) => ({
+          name: q.field1,
+          level: q.field2,
+        }));
+
+      const requestData: RequestStackDTO = {
+        stacks: StacksToSend,
+      };
+
+      const response = await uploadStack(requestData);
+
+      setStack(response.data);
+      setQualificationsModal(false);
+
+      console.log('기술 스택 업로드 성공', response);
+    } catch (error) {
+      console.error('기술 스택 업로드 실패', error);
+      alert('기술 스택 업데이트에 실패했습니다.');
+    }
+  };
+
+  const handleCareer = async () => {
+    try {
+      const CareersToSend: CareerReqDTO[] = experiences
+        .filter((q) => q.field1 || q.field2 || q.field3)
+        .map((q) => ({
+          content: q.field1,
+          startDate: q.field2,
+          endDate: q.field3 || null,
+        }));
+
+      const requestData: RequestCareerDTO = {
+        careers: CareersToSend,
+      };
+
+      const response = await uploadCareer(requestData);
+
+      setCareer(response.data);
+      setQualificationsModal(false);
+
+      console.log('경력 업로드 성공', response);
+    } catch (error) {
+      console.error('경력 업로드 실패', error);
+      alert('경력 업데이트에 실패했습니다.');
+    }
+  };
+
   return (
     <>
       <C.Background />
@@ -170,9 +235,9 @@ const CareerPage = () => {
             text="내 경력"
             content={
               <>
-                {careerdumData.map((item) => (
+                {career.map((item) => (
                   <div>
-                    {item.date} | {item.content}
+                    {item.startDate.slice(0, 7)} ~ {item.endDate.slice(0, 7)} | {item.content}
                   </div>
                 ))}
               </>
@@ -186,13 +251,14 @@ const CareerPage = () => {
             text="내 기술스택"
             content={
               <>
-                {stackdata.map((item, idx) => {
-                  const filledCount = Math.min(5, Math.ceil(item.degree / 20));
+                {stack.map((item, idx) => {
+                  const levelNum = Number(item.level);
+                  const filledCount = Math.min(5, Math.ceil(levelNum / 20));
                   const totalDots = 5;
 
                   return (
                     <C.StackRow key={idx}>
-                      <C.AddButton>{item.skill}</C.AddButton>
+                      <C.AddButton>{item.name}</C.AddButton>
                       <C.DotWrapper>
                         {Array.from({ length: totalDots }).map((_, i) => (
                           <C.Dot key={i} filled={i < filledCount} />
@@ -214,9 +280,9 @@ const CareerPage = () => {
             text="내 자격증"
             content={
               <>
-                {careerdumData.map((item) => (
+                {license.map((item) => (
                   <div>
-                    {item.date} | {item.content}
+                    {item.gotDate.slice(0, 7)} | {item.name}
                   </div>
                 ))}
               </>
@@ -236,7 +302,7 @@ const CareerPage = () => {
         />
 
         <C.SecondHeader>
-          <C.BoldText>당신만의 포트폴리오</C.BoldText>
+          <C.BoldText>내 프로젝트</C.BoldText>
           <C.AddButton
             style={{ cursor: 'pointer' }}
             onClick={() => {
@@ -245,7 +311,17 @@ const CareerPage = () => {
             프로젝트 추가
           </C.AddButton>
         </C.SecondHeader>
-        <PortfolioSlider items={dummyData} />
+        <PortfolioSlider
+          items={project.map((item) => ({
+            id: item.projectId,
+            image: item.thumbnail,
+            type: 'project',
+            startDate: item.startDate,
+            endDate: item.endDate,
+            title: item.title,
+            role: item.role,
+          }))}
+        />
       </C.CareerPage>
       {experienceModal && (
         <EditModal
@@ -297,7 +373,7 @@ const CareerPage = () => {
             </C.ModalContent>
           }
           onClickSave={() => {
-            console.log('저장');
+            handleCareer();
           }}
         />
       )}
@@ -342,7 +418,7 @@ const CareerPage = () => {
             </C.ModalContent>
           }
           onClickSave={() => {
-            console.log('저장');
+            handleStack();
           }}
         />
       )}
@@ -396,7 +472,7 @@ const CareerPage = () => {
             </C.ModalContent>
           }
           onClickSave={() => {
-            console.log('저장');
+            handleLicense();
           }}
         />
       )}
