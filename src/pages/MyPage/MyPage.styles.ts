@@ -113,3 +113,16 @@ export const LinkContainer = styled.div`
   justify-content: space-evenly;
   gap: 35px;
 `;
+
+export const MyLink = styled.div`
+  width: 220px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  a {
+    width: calc(25% - 12px);
+    display: flex;
+    justify-content: center;
+  }
+`;
