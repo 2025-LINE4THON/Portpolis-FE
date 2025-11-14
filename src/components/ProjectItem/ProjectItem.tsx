@@ -23,7 +23,7 @@ const ProjectItem = ({ type, image, period, title, onClick, isPrivate, tags, rol
           <P.Period>{period}</P.Period>
           <P.Title>{title}</P.Title>
         </P.Info>
-        <img src={type == 'project' ? edit : link} onClick={onClick} />
+        <img src={type == 'project' ? edit : link} onClick={onClick} style={{ cursor: 'pointer' }} />
       </P.InfoContainer>
       {type == 'portfolio' ? (
         <>
