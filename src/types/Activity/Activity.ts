@@ -7,10 +7,7 @@ export type RequestRegisterDTO = {
   role: string;
   thumbnail: string;
   tags: string[];
-  stacks: {
-    stackId: number;
-    stackName: string;
-  }[];
+  stacks: string[];
   contents: {
     title: string;
     content: string;
@@ -30,10 +27,7 @@ export type ResponseRegisterDTO = CommonResponse<{
   role: string;
   thumbnail: string;
   tags: string[];
-  stacks: {
-    stackId: number;
-    stackName: string;
-  }[];
+  stacks: string[];
   contents: {
     title: string;
     content: string;

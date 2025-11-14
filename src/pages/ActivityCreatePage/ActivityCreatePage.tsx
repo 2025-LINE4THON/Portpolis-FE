@@ -88,12 +88,13 @@ const ActivityCreatePage = () => {
 
       setProject((prev) => ({
         ...prev,
-        stacks: [...prev.stacks, { stackId: Date.now(), stackName: value }],
+        stacks: [...prev.stacks, value],
       }));
 
       setStackInputValue('');
     }
   };
+
   const removeTag = (tag: string) => {
     setProject((prev) => ({
       ...prev,
@@ -101,10 +102,10 @@ const ActivityCreatePage = () => {
     }));
   };
 
-  const removeStack = (stackId: number) => {
+  const removeStack = (stackName: string) => {
     setProject((prev) => ({
       ...prev,
-      stacks: prev.stacks.filter((s) => s.stackId !== stackId),
+      stacks: prev.stacks.filter((s) => s !== stackName),
     }));
   };
 
@@ -394,8 +395,8 @@ const ActivityCreatePage = () => {
                     <A.TagWrapper>
                       {project.stacks.map((stack) => (
                         <>
-                          <A.Stack>{stack.stackName}</A.Stack>
-                          <img src={x} onClick={() => removeStack(stack.stackId)} />
+                          <A.Stack>{stack}</A.Stack>
+                          <img src={x} onClick={() => removeStack(stack)} />
                         </>
                       ))}
                     </A.TagWrapper>
