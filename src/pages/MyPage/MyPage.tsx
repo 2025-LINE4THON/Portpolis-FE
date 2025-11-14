@@ -26,6 +26,7 @@ const MyPage = () => {
     phoneNumber: '',
     introduction: '',
     job: '',
+    projectCount: 0,
   });
 
   const [links, setLinks] = useState<LinkDTO[]>([]);
@@ -158,7 +159,7 @@ const MyPage = () => {
                   <div style={{ display: 'flex' }}>
                     {profile.phoneNumber} {profile.email && <div> / {profile.email}</div>}
                   </div>
-                  <div>총 프로젝트 개수 / 8개</div>
+                  <div>총 프로젝트 개수 | {profile.projectCount}개</div>
                 </div>
                 <button
                   onClick={() => {
