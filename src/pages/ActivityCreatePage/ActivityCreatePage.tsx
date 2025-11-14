@@ -165,7 +165,11 @@ const ActivityCreatePage = () => {
       navigate(`/activity/${response.data.projectId}`);
     } catch (error) {
       console.error('프로젝트 등록 실패:', error);
-      alert('프로젝트 등록에 실패했습니다.');
+      if (!project.title || !project.thumbnail || !project.role || !project.startDate || !project.contents[0]) {
+        alert('누락된 필수 입력 항목이 있습니다.');
+      } else {
+        alert('프로젝트 등록에 실패했습니다.');
+      }
     }
   };
 
@@ -297,6 +301,7 @@ const ActivityCreatePage = () => {
           <A.RowContainer>
             <A.InfomationBlocks>
               <PageBlock
+                isRequired={true}
                 text="프로젝트 핵심 요약"
                 content={
                   <A.InvisibleTextarea
