@@ -18,7 +18,7 @@ const Navbar = () => {
     { id: 4, label: '마이페이지', to: '/mypage' },
   ];
 
-  if (pathname === '/login' || pathname === '/signup' || pathname.startsWith('/Activity') || level === 'edit')
+  if (pathname === '/login' || pathname === '/signup' || pathname.startsWith('/activity') || level === 'edit')
     return null;
 
   return (
