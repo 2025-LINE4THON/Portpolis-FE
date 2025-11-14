@@ -15,13 +15,9 @@ export const CommonPortfolioCard = styled.div<{ $width: number; $height: number 
 
 export const LikesWrapper = styled.div`
   position: absolute;
-  top: 21px;
-  right: 28px;
+  top: 16px;
+  right: 20px;
   z-index: 30;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
 `;
 
 export const Card = styled.div`

@@ -51,14 +51,14 @@ const Likes: React.FC<LikesProps> = ({ portfolioId, initialIsLiked, initialLikes
       <HeartIcon isLiked={isLiked} isHovered={isEffectivelyHovered}>
         {isLiked ? (
           isEffectivelyHovered ? (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path
                 d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
                 fill="#000"
               />
             </svg>
           ) : (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path
                 d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
                 fill="#27B999"
@@ -66,7 +66,7 @@ const Likes: React.FC<LikesProps> = ({ portfolioId, initialIsLiked, initialLikes
             </svg>
           )
         ) : isEffectivelyHovered ? (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path
               d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
               stroke="#000"
@@ -75,7 +75,7 @@ const Likes: React.FC<LikesProps> = ({ portfolioId, initialIsLiked, initialLikes
             />
           </svg>
         ) : (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path
               d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
               stroke="#27B999"
@@ -92,16 +92,18 @@ const Likes: React.FC<LikesProps> = ({ portfolioId, initialIsLiked, initialLikes
 
 const LikeButton = styled.button`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 2px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
+  padding: 0;
+  margin: 0;
   transition: transform 0.2s;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 
   &:active {
@@ -113,15 +115,16 @@ const HeartIcon = styled.div<{ isLiked: boolean; isHovered: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   transition: all 0.2s;
 `;
 
 const LikesCount = styled.span`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
-  color: #333;
+  color: #27b999;
+  line-height: 1;
 `;
 
 export default Likes;
