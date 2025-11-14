@@ -62,7 +62,7 @@ const EditProject = ({ data, editable }: EditProjectProps) => {
             <EditProjectVisualCard
               key={project.projectId}
               idx={idx}
-              img={Imgae2}
+              img={project.thumbnail}
               startDate={project.startDate}
               endDate={project.endDate ?? ''}
               title={project.title}

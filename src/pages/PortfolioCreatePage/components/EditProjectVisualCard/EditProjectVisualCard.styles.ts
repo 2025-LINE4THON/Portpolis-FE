@@ -10,7 +10,7 @@ export const EditProjectVisualCard = styled.div<{ $isImgLeft: boolean }>`
   padding: 0 121px;
 `;
 
-export const ImgWrapper = styled.div<{ $isImgLeft: boolean }>`
+export const ImgWrapper = styled.div<{ $isImgLeft: boolean; $img: boolean }>`
   width: 661px;
   height: ${({ $isImgLeft }) => ($isImgLeft ? '480px' : '751px')};
 
@@ -19,6 +19,8 @@ export const ImgWrapper = styled.div<{ $isImgLeft: boolean }>`
   position: relative;
   z-index: 1;
   isolation: isolate;
+
+  background: ${({ $img }) => ($img ? 'none' : 'linear-gradient(180deg, var(--Neutral-100, #E6E6E7) 0%, #FFF 100%)')};
 
   img:nth-of-type(2) {
     position: absolute;
@@ -124,4 +126,5 @@ export const ContentBox = styled.div`
   height: 159px;
 
   margin-top: 18px;
+  left: 70px;
 `;
