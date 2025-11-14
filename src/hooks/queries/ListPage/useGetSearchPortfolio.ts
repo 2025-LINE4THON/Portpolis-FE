@@ -4,8 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 
 const useGetSearchPortfolio = ({ keyword, sort, template, isPublic }: order) => {
   return useQuery({
-    queryKey: [keyword, sort, template, isPublic],
+    queryKey: ['search', keyword, sort],
     queryFn: () => getSearched({ keyword, sort, template, isPublic }),
+    staleTime: 0,
   });
 };
 

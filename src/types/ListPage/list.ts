@@ -15,7 +15,7 @@ export type ResponseAllPortfolioDto = CommonResponse<Portpolio[]>;
 // 포트폴리오 검색
 export type order = {
   keyword?: string;
-  sort?: 'recent' | 'views';
+  sort?: 'likes' | 'views' | 'recent';
   template?: 'STANDARD' | 'VISUAL';
   isPublic?: 'PUBLIC' | 'PRIVATE' | 'LINK';
 };

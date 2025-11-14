@@ -15,8 +15,9 @@ import { useNavigate } from 'react-router-dom';
 const ListPage = () => {
   const [search, setSearch] = useState('');
   const [searchRes, setSearchRes] = useState('');
+  const [sort, setSort] = useState<'recent' | 'likes' | 'views'>('recent');
 
-  const { data } = useGetSearchPortfolio({ keyword: searchRes });
+  const { data } = useGetSearchPortfolio({ keyword: searchRes, sort });
 
   const searchedData: RecommendPortfolio[] = data?.data || [];
 
@@ -42,7 +43,7 @@ const ListPage = () => {
                 <p className="b1">총 {searchedData.length}건의 작업물을 발견했어요!</p>
               </div>
             )}
-            <Button />
+            <Button sort={sort} setSort={setSort} />
           </L.Result>
 
           {searchedData.length !== 0 && (
